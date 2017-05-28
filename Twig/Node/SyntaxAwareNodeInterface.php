@@ -12,10 +12,10 @@ interface SyntaxAwareNodeInterface
     /**
      * @return string[]
      */
-    public function getAllowedParents();
+    public function getAllowedParents(): array;
 
     /**
      * @return bool
      */
-    public function canContainText();
+    public function canContainText(): bool;
 }

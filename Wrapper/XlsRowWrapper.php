@@ -24,6 +24,7 @@ class XlsRowWrapper extends AbstractWrapper
 
     /**
      * XlsRowWrapper constructor.
+     *
      * @param array $context
      * @param \Twig_Environment $environment
      * @param XlsSheetWrapper $sheetWrapper
@@ -39,13 +40,10 @@ class XlsRowWrapper extends AbstractWrapper
      * @param null|int $index
      * @throws \LogicException
      */
-    public function start($index = null)
+    public function start(int $index = null)
     {
         if ($this->sheetWrapper->getObject() === null) {
             throw new \LogicException();
-        }
-        if ($index !== null && !is_int($index)) {
-            throw new \InvalidArgumentException('Invalid index');
         }
 
         if ($index === null) {

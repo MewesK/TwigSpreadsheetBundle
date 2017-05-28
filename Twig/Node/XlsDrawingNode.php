@@ -43,7 +43,7 @@ class XlsDrawingNode extends \Twig_Node implements SyntaxAwareNodeInterface
     /**
      * @return string[]
      */
-    public function getAllowedParents()
+    public function getAllowedParents(): array
     {
         return [
             XlsSheetNode::class,
@@ -56,7 +56,7 @@ class XlsDrawingNode extends \Twig_Node implements SyntaxAwareNodeInterface
     /**
      * @return bool
      */
-    public function canContainText()
+    public function canContainText(): bool
     {
         return false;
     }

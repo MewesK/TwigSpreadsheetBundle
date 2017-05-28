@@ -37,13 +37,13 @@ abstract class AbstractControllerTest extends WebTestCase
     //
 
     /**
-     * @param $uri
-     * @param $format
+     * @param string $uri
+     * @param string $format
      * @return Spreadsheet
      * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
-    protected function getDocument($uri, $format = 'xlsx')
+    protected function getDocument(string $uri, string $format = 'xlsx'): Spreadsheet
     {
         // generate source
         static::$client->request('GET', $uri);

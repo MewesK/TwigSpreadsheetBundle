@@ -25,7 +25,7 @@ class XlsDocumentWrapper extends AbstractWrapper
      */
     protected $environment;
     /**
-     * @var Spreadsheet
+     * @var Spreadsheet|null
      */
     protected $object;
     /**
@@ -117,13 +117,13 @@ class XlsDocumentWrapper extends AbstractWrapper
     }
 
     /**
-     * @param null|array $properties
+     * @param array $properties
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function start(array $properties = null)
+    public function start(array $properties = [])
     {
         // load template
-        if (array_key_exists('template', $properties)) {
+        if (isset($properties['template'])) {
             $templatePath = $this->expandPath($properties['template']);
             $reader = IOFactory::createReaderForFile($templatePath);
             $this->object = $reader->load($templatePath);
@@ -135,11 +135,9 @@ class XlsDocumentWrapper extends AbstractWrapper
             $this->object->removeSheetByIndex(0);
         }
 
-        $this->attributes['properties'] = $properties ?: [];
+        $this->attributes['properties'] = $properties;
 
-        if ($properties !== null) {
-            $this->setProperties($properties, $this->mappings);
-        }
+        $this->setProperties($properties, $this->mappings);
     }
 
     /**
@@ -149,17 +147,17 @@ class XlsDocumentWrapper extends AbstractWrapper
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function end($preCalculateFormulas = true, $diskCachingDirectory = null)
+    public function end(bool $preCalculateFormulas = true, string $diskCachingDirectory = null)
     {
         $format = null;
 
         // try document property
-        if (array_key_exists('format', $this->attributes)) {
+        if (isset($this->attributes['format'])) {
             $format = $this->attributes['format'];
         }
 
          // try Symfony request
-        else if (array_key_exists('app', $this->context)) {
+        elseif (isset($this->context['app'])) {
             /**
              * @var AppVariable $appVariable
              */
@@ -215,20 +213,23 @@ class XlsDocumentWrapper extends AbstractWrapper
     //
 
     /**
-     * Resolves properties containing paths using namespaces.
+     * Resolves paths using Twig namespaces.
+     * The path must start with the namespace.
+     * Namespaces are case sensitive.
      *
      * @param string $path
-     * @return bool
+     * @return string
      */
-    private function expandPath($path)
+    private function expandPath(string $path): string
     {
         $loader = $this->environment->getLoader();
-        if ($loader instanceof \Twig_Loader_Filesystem) {
+
+        if ($loader instanceof \Twig_Loader_Filesystem && mb_strpos($path, '@') === 0) {
             /**
              * @var \Twig_Loader_Filesystem $loader
              */
             foreach ($loader->getNamespaces() as $namespace) {
-                if (strpos($path, $namespace) === 1) {
+                if (mb_strpos($path, $namespace) === 1) {
                     foreach ($loader->getPaths($namespace) as $namespacePath) {
                         $expandedPathAttribute = str_replace('@' . $namespace, $namespacePath, $path);
                         if (file_exists($expandedPathAttribute)) {
@@ -238,6 +239,7 @@ class XlsDocumentWrapper extends AbstractWrapper
                 }
             }
         }
+
         return $path;
     }
 
@@ -246,7 +248,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     //
 
     /**
-     * @return Spreadsheet
+     * @return Spreadsheet|null
      */
     public function getObject()
     {
@@ -254,9 +256,9 @@ class XlsDocumentWrapper extends AbstractWrapper
     }
 
     /**
-     * @param Spreadsheet $object
+     * @param Spreadsheet|null $object
      */
-    public function setObject($object)
+    public function setObject(Spreadsheet $object = null)
     {
         $this->object = $object;
     }
@@ -264,7 +266,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -272,7 +274,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     /**
      * @param array $attributes
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
     }
@@ -280,7 +282,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getMappings()
+    public function getMappings(): array
     {
         return $this->mappings;
     }
@@ -288,7 +290,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     /**
      * @param array $mappings
      */
-    public function setMappings($mappings)
+    public function setMappings(array $mappings)
     {
         $this->mappings = $mappings;
     }

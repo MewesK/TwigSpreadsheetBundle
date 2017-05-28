@@ -10,27 +10,30 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 abstract class AbstractWrapper
 {
     /**
+     * Calls the matching mapping callable for each property.
+     *
      * @param array $properties
      * @param array $mappings
+     * @throws \RuntimeException
      */
     protected function setProperties(array $properties, array $mappings)
     {
         foreach ($properties as $key => $value) {
-            if (array_key_exists($key, $mappings)) {
-                if (is_array($value) && is_array($mappings) && $key !== 'style' && $key !== 'defaultStyle') {
+            if (is_array($value) && is_array($mappings[$key])) {
+                if (isset($mappings[$key]['__multi']) && $mappings[$key]['__multi'] === true) {
                     /**
                      * @var array $value
                      */
-                    if (array_key_exists('__multi', $mappings[$key]) && $mappings[$key]['__multi'] === true) {
-                        foreach ($value as $_key => $_value) {
-                            $this->setPropertiesByKey($_key, $_value, $mappings[$key]);
-                        }
-                    } else {
-                        $this->setProperties($value, $mappings[$key]);
+                    foreach ($value as $_key => $_value) {
+                        $this->setPropertiesByKey($_key, $_value, $mappings[$key]);
                     }
                 } else {
-                    $mappings[$key]($value);
+                    $this->setProperties($value, $mappings[$key]);
                 }
+            } elseif (is_callable($mappings[$key])) {
+                $mappings[$key]($value);
+            } else {
+                throw new \RuntimeException(sprintf('Invalid mapping with key "%s"', $key));
             }
         }
     }
@@ -39,15 +42,18 @@ abstract class AbstractWrapper
      * @param string $key
      * @param array $properties
      * @param array $mappings
+     * @throws \RuntimeException
      */
-    protected function setPropertiesByKey($key, array $properties, array $mappings)
+    private function setPropertiesByKey(string $key, array $properties, array $mappings)
     {
         foreach ($properties as $_key => $value) {
-            if (array_key_exists($_key, $mappings)) {
+            if (isset($mappings[$_key])) {
                 if (is_array($value)) {
                     $this->setPropertiesByKey($key, $value, $mappings[$_key]);
-                } else {
+                } elseif(is_callable($mappings[$_key])) {
                     $mappings[$_key]($key, $value);
+                } else {
+                    throw new \RuntimeException(sprintf('Invalid mapping with key "%s"', $_key));
                 }
             }
         }

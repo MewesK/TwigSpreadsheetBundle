@@ -11,7 +11,7 @@ abstract class AbstractTokenParser extends \Twig_TokenParser
     /**
      * @return \Twig_Node
      */
-    protected function parseBody()
+    protected function parseBody(): \Twig_Node
     {
         $body = $this->parser->subparse(function (\Twig_Token $token) {
                 return $token->test('end' . $this->getTag());
@@ -25,7 +25,7 @@ abstract class AbstractTokenParser extends \Twig_TokenParser
 
     /**
      * @param \Twig_Token $token
-     * @return mixed|\Twig_Node_Expression_Array|\Twig_Node_Expression_Conditional|\Twig_Node_Expression_GetAttr
+     * @return mixed|\Twig_Node_Expression_Array|\Twig_Node_Expression_Conditional|\Twig_Node_Expression_GetAttr|\Twig_Node_Expression_Unary_Not
      */
     protected function parseProperties(\Twig_Token $token)
     {

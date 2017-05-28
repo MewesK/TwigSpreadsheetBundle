@@ -20,7 +20,7 @@ class DefaultController extends Controller
      *
      * @Route("/default/{templateName}.{_format}", name="test_default", defaults={"templateName" = "simple", "_format" = "xlsx"})
      */
-    public function defaultAction($templateName)
+    public function defaultAction($templateName): Response
     {
         return $this->render(
             '@Test/Default/' . $templateName . '.twig',
@@ -59,7 +59,7 @@ class DefaultController extends Controller
      *
      * @Route("/custom-response/{templateName}.{_format}", name="test_custom_response", defaults={"templateName" = "simple", "_format" = "xlsx"})
      */
-    public function customResponseAction($templateName)
+    public function customResponseAction($templateName): Response
     {
         $response = new Response(
             $this->render(

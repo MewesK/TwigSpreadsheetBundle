@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet;
 
 /**
  * Class XlsSheetWrapper
+ *
  * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsSheetWrapper extends AbstractWrapper
@@ -248,11 +249,11 @@ class XlsSheetWrapper extends AbstractWrapper
     }
 
     /**
-     * @param $index
-     * @param array|null $properties
+     * @param int|string|null $index
+     * @param array $properties
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function start($index, array $properties = null)
+    public function start($index, array $properties = [])
     {
         if (is_int($index) && $index <$this->documentWrapper->getObject()->getSheetCount()) {
             $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex($index);
@@ -269,11 +270,9 @@ class XlsSheetWrapper extends AbstractWrapper
         }
 
         $this->attributes['index'] = $index;
-        $this->attributes['properties'] = $properties ?: [];
+        $this->attributes['properties'] = $properties;
 
-        if ($properties !== null) {
-            $this->setProperties($properties, $this->mappings);
-        }
+        $this->setProperties($properties, $this->mappings);
     }
 
     /**
@@ -283,7 +282,7 @@ class XlsSheetWrapper extends AbstractWrapper
     {
         // auto-size columns
         if (
-            true === isset($this->attributes['properties']['columnDimension']) &&
+            isset($this->attributes['properties']['columnDimension']) &&
             is_array($this->attributes['properties']['columnDimension'])
         ) {
             /**
@@ -291,7 +290,7 @@ class XlsSheetWrapper extends AbstractWrapper
              */
             $columnDimension = $this->attributes['properties']['columnDimension'];
             foreach ($columnDimension as $key => $value) {
-                if(true === is_array($value) && true === isset($value['autoSize'])) {
+                if(isset($value['autoSize'])) {
                     if ('default' === $key) {
                         try {
                             $cellIterator = $this->object->getRowIterator()->current()->getCellIterator();
@@ -368,7 +367,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @return Worksheet
      */
-    public function getObject()
+    public function getObject(): Worksheet
     {
         return $this->object;
     }
@@ -376,7 +375,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @param Worksheet $object
      */
-    public function setObject($object)
+    public function setObject(Worksheet $object)
     {
         $this->object = $object;
     }
@@ -384,7 +383,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -392,7 +391,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @param array $attributes
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
     }
@@ -400,7 +399,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getMappings()
+    public function getMappings(): array
     {
         return $this->mappings;
     }
@@ -408,7 +407,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @param array $mappings
      */
-    public function setMappings($mappings)
+    public function setMappings(array $mappings)
     {
         $this->mappings = $mappings;
     }

@@ -25,7 +25,7 @@ class XlsCellWrapper extends AbstractWrapper
     protected $sheetWrapper;
 
     /**
-     * @var Cell
+     * @var Cell|null
      */
     protected $object;
     /**
@@ -119,20 +119,17 @@ class XlsCellWrapper extends AbstractWrapper
     }
 
     /**
-     * @param null|int $index
-     * @param null|mixed $value
-     * @param null|array $properties
+     * @param int|null $index
+     * @param mixed|null $value
+     * @param array $properties
      * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function start($index = null, $value = null, array $properties = null)
+    public function start(int $index = null, $value = null, array $properties = [])
     {
         if ($this->sheetWrapper->getObject() === null) {
             throw new \LogicException();
-        }
-        if ($index !== null && !is_int($index)) {
-            throw new \InvalidArgumentException('Invalid index');
         }
 
         if ($index === null) {
@@ -145,19 +142,17 @@ class XlsCellWrapper extends AbstractWrapper
             $this->sheetWrapper->getRow());
 
         if ($value !== null) {
-            if (array_key_exists('dataType', $properties) && $properties['dataType']) {
+            if (isset($properties['dataType'])) {
                 $this->object->setValueExplicit($value, $properties['dataType']);
             } else {
                 $this->object->setValue($value);
             }
         }
 
-        if ($properties !== null) {
-            $this->setProperties($properties, $this->mappings);
-        }
-
         $this->attributes['value'] = $value;
-        $this->attributes['properties'] = $properties ?: [];
+        $this->attributes['properties'] = $properties;
+
+        $this->setProperties($properties, $this->mappings);
     }
 
     public function end()
@@ -171,7 +166,7 @@ class XlsCellWrapper extends AbstractWrapper
     //
 
     /**
-     * @return Cell
+     * @return Cell|null
      */
     public function getObject()
     {
@@ -179,9 +174,9 @@ class XlsCellWrapper extends AbstractWrapper
     }
 
     /**
-     * @param Cell $object
+     * @param Cell|null $object
      */
-    public function setObject($object)
+    public function setObject(Cell $object = null)
     {
         $this->object = $object;
     }
@@ -189,7 +184,7 @@ class XlsCellWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -197,7 +192,7 @@ class XlsCellWrapper extends AbstractWrapper
     /**
      * @param array $attributes
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
     }
@@ -205,7 +200,7 @@ class XlsCellWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getMappings()
+    public function getMappings(): array
     {
         return $this->mappings;
     }
@@ -213,7 +208,7 @@ class XlsCellWrapper extends AbstractWrapper
     /**
      * @param array $mappings
      */
-    public function setMappings($mappings)
+    public function setMappings(array $mappings)
     {
         $this->mappings = $mappings;
     }

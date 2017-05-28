@@ -1,6 +1,7 @@
 <?php
 
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 
@@ -116,14 +117,14 @@ class XlsDrawingWrapper extends AbstractWrapper
     }
 
     /**
-     * @param $path
-     * @param array|null $properties
+     * @param string $path
+     * @param array $properties
      * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function start($path, array $properties = null)
+    public function start(string $path, array $properties = [])
     {
         if ($this->sheetWrapper->getObject() === null) {
             throw new \LogicException();
@@ -184,9 +185,7 @@ class XlsDrawingWrapper extends AbstractWrapper
             $this->object->setPath($tempPath);
         }
 
-        if ($properties !== null) {
-            $this->setProperties($properties, $this->mappings);
-        }
+        $this->setProperties($properties, $this->mappings);
     }
 
     public function end()
@@ -200,12 +199,12 @@ class XlsDrawingWrapper extends AbstractWrapper
     //
 
     /**
-     * @param $path
+     * @param string $path
      * @return string
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    private function createTempCopy($path)
+    private function createTempCopy(string $path): string
     {
         // create temp path
         $pathExtension = pathinfo($path, PATHINFO_EXTENSION);
@@ -238,7 +237,7 @@ class XlsDrawingWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getMappings()
+    public function getMappings(): array
     {
         return $this->mappings;
     }
@@ -246,23 +245,23 @@ class XlsDrawingWrapper extends AbstractWrapper
     /**
      * @param array $mappings
      */
-    public function setMappings($mappings)
+    public function setMappings(array $mappings)
     {
         $this->mappings = $mappings;
     }
 
     /**
-     * @return Drawing|HeaderFooterDrawing
+     * @return Drawing
      */
-    public function getObject()
+    public function getObject(): Drawing
     {
         return $this->object;
     }
 
     /**
-     * @param Drawing|HeaderFooterDrawing $object
+     * @param Drawing $object
      */
-    public function setObject($object)
+    public function setObject(Drawing $object)
     {
         $this->object = $object;
     }
@@ -270,7 +269,7 @@ class XlsDrawingWrapper extends AbstractWrapper
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
@@ -278,7 +277,7 @@ class XlsDrawingWrapper extends AbstractWrapper
     /**
      * @param array $attributes
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
     }

@@ -39,7 +39,7 @@ class XlsLeftNode extends \Twig_Node implements SyntaxAwareNodeInterface
     /**
      * @return string[]
      */
-    public function getAllowedParents()
+    public function getAllowedParents(): array
     {
         return [
             XlsFooterNode::class,
@@ -50,7 +50,7 @@ class XlsLeftNode extends \Twig_Node implements SyntaxAwareNodeInterface
     /**
      * @return bool
      */
-    public function canContainText()
+    public function canContainText(): bool
     {
         return true;
     }

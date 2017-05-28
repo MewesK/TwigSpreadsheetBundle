@@ -13,10 +13,11 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param array $context
-     * @return mixed
+     * @return array
      */
-    public static function fixContext(array $context) {
-        if (!array_key_exists(self::INSTANCE_KEY, $context) && is_array($context['varargs'])) {
+    public static function fixContext(array $context): array
+    {
+        if (!isset($context[self::INSTANCE_KEY]) && is_array($context['varargs'])) {
             foreach ($context['varargs'] as $arg) {
                 if ($arg instanceof self) {
                     $context[self::INSTANCE_KEY] = $arg;
@@ -53,16 +54,17 @@ class PhpSpreadsheetWrapper
     private $drawingWrapper;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $cellIndex;
     /**
-     * @var int
+     * @var int|null
      */
     private $rowIndex;
 
     /**
      * PhpSpreadsheetWrapper constructor.
+     *
      * @param array $context
      * @param \Twig_Environment $environment
      */
@@ -81,10 +83,10 @@ class PhpSpreadsheetWrapper
     //
 
     /**
-     * @param null|array $properties
+     * @param array $properties
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function startDocument(array $properties = null)
+    public function startDocument(array $properties = [])
     {
         $this->documentWrapper->start($properties);
     }
@@ -100,11 +102,11 @@ class PhpSpreadsheetWrapper
     }
 
     /**
-     * @param string $index
-     * @param null|array $properties
+     * @param int|string|null $index
+     * @param array $properties
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function startSheet($index, array $properties = null)
+    public function startSheet($index = null, array $properties = [])
     {
         $this->sheetWrapper->start($index, $properties);
     }
@@ -126,12 +128,12 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param null|mixed $value
-     * @param null|array $properties
+     * @param array $properties
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function startCell($value = null, array $properties = null)
+    public function startCell($value = null, array $properties = [])
     {
         $this->cellWrapper->start($this->cellIndex, $value, $properties);
     }
@@ -143,10 +145,10 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param string $type
-     * @param null|array $properties
+     * @param array $properties
      * @throws \LogicException
      */
-    public function startHeaderFooter($type, array $properties = null)
+    public function startHeaderFooter(string $type, array $properties = [])
     {
         $this->headerFooterWrapper->start($type, $properties);
     }
@@ -158,10 +160,10 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param null|string $type
-     * @param null|array $properties
+     * @param array $properties
      * @throws \InvalidArgumentException
      */
-    public function startAlignment($type = null, array $properties = null)
+    public function startAlignment(string $type = null, array $properties = [])
     {
         $this->headerFooterWrapper->startAlignment($type, $properties);
     }
@@ -170,7 +172,7 @@ class PhpSpreadsheetWrapper
      * @param null|string $value
      * @throws \InvalidArgumentException
      */
-    public function endAlignment($value = null)
+    public function endAlignment(string $value = null)
     {
         $this->headerFooterWrapper->endAlignment($value);
     }
@@ -183,7 +185,7 @@ class PhpSpreadsheetWrapper
      * @throws \RuntimeException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function startDrawing($path, array $properties = null)
+    public function startDrawing(string $path, array $properties = [])
     {
         $this->drawingWrapper->start($path, $properties);
     }
@@ -196,7 +198,7 @@ class PhpSpreadsheetWrapper
     // Getter / Setter
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getCellIndex()
     {
@@ -204,15 +206,15 @@ class PhpSpreadsheetWrapper
     }
 
     /**
-     * @param int $cellIndex
+     * @param int|null $cellIndex
      */
-    public function setCellIndex($cellIndex)
+    public function setCellIndex(int $cellIndex = null)
     {
         $this->cellIndex = $cellIndex;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getRowIndex()
     {
@@ -220,9 +222,9 @@ class PhpSpreadsheetWrapper
     }
 
     /**
-     * @param int $rowIndex
+     * @param int|null $rowIndex
      */
-    public function setRowIndex($rowIndex)
+    public function setRowIndex(int $rowIndex = null)
     {
         $this->rowIndex = $rowIndex;
     }
