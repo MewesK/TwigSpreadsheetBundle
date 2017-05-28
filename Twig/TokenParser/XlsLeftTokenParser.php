@@ -3,7 +3,6 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
 
 use MewesK\TwigSpreadsheetBundle\Twig\Node\XlsLeftNode;
-use Twig_Token;
 
 /**
  * Class XlsLeftTokenParser
@@ -13,15 +12,15 @@ use Twig_Token;
 class XlsLeftTokenParser extends AbstractTokenParser
 {
     /**
-     * @param Twig_Token $token
+     * @param \Twig_Token $token
      *
      * @return XlsLeftNode
      * @throws \Twig_Error_Syntax
      */
-    public function parse(Twig_Token $token)
+    public function parse(\Twig_Token $token)
     {
         // parse attributes
-        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 
         // parse body
         $body = $this->parseBody();

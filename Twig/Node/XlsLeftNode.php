@@ -3,30 +3,28 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
-use Twig_Compiler;
-use Twig_Node;
 
 /**
  * Class XlsLeftNode
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
-class XlsLeftNode extends Twig_Node implements SyntaxAwareNodeInterface
+class XlsLeftNode extends \Twig_Node implements SyntaxAwareNodeInterface
 {
     /**
-     * @param Twig_Node $body
+     * @param \Twig_Node $body
      * @param int $line
      * @param string $tag
      */
-    public function __construct(Twig_Node $body, $line = 0, $tag = 'xlsleft')
+    public function __construct(\Twig_Node $body, $line = 0, $tag = 'xlsleft')
     {
         parent::__construct(['body' => $body], [], $line, $tag);
     }
 
     /**
-     * @param Twig_Compiler $compiler
+     * @param \Twig_Compiler $compiler
      */
-    public function compile(Twig_Compiler $compiler)
+    public function compile(\Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
             ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)

@@ -14,16 +14,13 @@ use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsLeftTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRightTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRowTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsSheetTokenParser;
-use Twig\Error\RuntimeError;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 /**
  * Class TwigSpreadsheetExtension
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig
  */
-class TwigSpreadsheetExtension extends AbstractExtension
+class TwigSpreadsheetExtension extends \Twig_Extension
 {
     /**
      * @var bool
@@ -50,7 +47,7 @@ class TwigSpreadsheetExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('xlsmergestyles', [$this, 'mergeStyles'])
+            new \Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles'])
         ];
     }
 
@@ -97,12 +94,12 @@ class TwigSpreadsheetExtension extends AbstractExtension
      * @param array $style2
      *
      * @return array
-     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig_Error_Runtime
      */
     public function mergeStyles(array $style1, array $style2)
     {
         if (!is_array($style1) || !is_array($style2)) {
-            throw new RuntimeError('The xlsmergestyles function only works with arrays.');
+            throw new \Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
         }
 
         return array_merge_recursive($style1, $style2);

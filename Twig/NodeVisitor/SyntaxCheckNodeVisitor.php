@@ -3,15 +3,13 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
 use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNodeInterface;
-use Twig\Error\SyntaxError;
-use Twig\NodeVisitor\AbstractNodeVisitor;
 
 /**
  * Class SyntaxCheckNodeVisitor
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
  */
-class SyntaxCheckNodeVisitor extends AbstractNodeVisitor
+class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * @var array
@@ -20,8 +18,7 @@ class SyntaxCheckNodeVisitor extends AbstractNodeVisitor
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig_Error_Syntax
      */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
@@ -63,7 +60,7 @@ class SyntaxCheckNodeVisitor extends AbstractNodeVisitor
 
     /**
      * @param SyntaxAwareNodeInterface $node
-     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig_Error_Syntax
      */
     private function checkAllowedParents(SyntaxAwareNodeInterface $node)
     {
@@ -86,6 +83,6 @@ class SyntaxCheckNodeVisitor extends AbstractNodeVisitor
             }
         }
 
-        throw new SyntaxError(sprintf('Node "%s" is not allowed inside of Node "%s".', get_class($node), $parentName));
+        throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed inside of Node "%s".', get_class($node), $parentName));
     }
 }

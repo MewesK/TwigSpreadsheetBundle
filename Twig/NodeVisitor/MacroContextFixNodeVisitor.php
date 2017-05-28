@@ -3,17 +3,13 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
 use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
-use Twig\Node\Expression\ConstantExpression;
-use Twig\Node\Expression\MethodCallExpression;
-use Twig\Node\Expression\NameExpression;
-use Twig\NodeVisitor\AbstractNodeVisitor;
 
 /**
  * Class MacroContextFixNodeVisitor
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
  */
-class MacroContextFixNodeVisitor extends AbstractNodeVisitor
+class MacroContextFixNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * {@inheritdoc}
@@ -21,14 +17,14 @@ class MacroContextFixNodeVisitor extends AbstractNodeVisitor
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
         // Add 'spreadsheetWrapper' as argument on method/macro calls
-        if ($node instanceof MethodCallExpression) {
+        if ($node instanceof \Twig_Node_Expression_MethodCall) {
             /**
              * @var \Twig_Node_Expression_Array $argumentsNode
              */
             $argumentsNode = $node->getNode('arguments');
             $argumentsNode->addElement(
-                new NameExpression(PhpSpreadsheetWrapper::INSTANCE_KEY, $node->getTemplateLine()),
-                new ConstantExpression(PhpSpreadsheetWrapper::INSTANCE_KEY, $node->getTemplateLine())
+                new \Twig_Node_Expression_Name(PhpSpreadsheetWrapper::INSTANCE_KEY, $node->getTemplateLine()),
+                new \Twig_Node_Expression_Constant(PhpSpreadsheetWrapper::INSTANCE_KEY, $node->getTemplateLine())
             );
         }
 

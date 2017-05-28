@@ -3,16 +3,13 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
-use Twig_Compiler;
-use Twig_Node;
-use Twig_Node_Expression;
 
 /**
  * Class XlsDocumentNode
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
-class XlsDocumentNode extends Twig_Node implements SyntaxAwareNodeInterface
+class XlsDocumentNode extends \Twig_Node implements SyntaxAwareNodeInterface
 {
     /**
      * @var bool
@@ -24,14 +21,14 @@ class XlsDocumentNode extends Twig_Node implements SyntaxAwareNodeInterface
     private $diskCachingDirectory;
 
     /**
-     * @param Twig_Node_Expression $properties
-     * @param Twig_Node $body
+     * @param \Twig_Node_Expression $properties
+     * @param \Twig_Node $body
      * @param int $line
      * @param string $tag
      * @param bool $preCalculateFormulas
      * @param null|string $diskCachingDirectory
      */
-    public function __construct(Twig_Node_Expression $properties, Twig_Node $body, $line = 0, $tag = 'xlsdocument', $preCalculateFormulas = true, $diskCachingDirectory = null)
+    public function __construct(\Twig_Node_Expression $properties, \Twig_Node $body, $line = 0, $tag = 'xlsdocument', $preCalculateFormulas = true, $diskCachingDirectory = null)
     {
         parent::__construct(['properties' => $properties, 'body' => $body], [], $line, $tag);
         $this->preCalculateFormulas = $preCalculateFormulas;
@@ -39,9 +36,9 @@ class XlsDocumentNode extends Twig_Node implements SyntaxAwareNodeInterface
     }
 
     /**
-     * @param Twig_Compiler $compiler
+     * @param \Twig_Compiler $compiler
      */
-    public function compile(Twig_Compiler $compiler)
+    public function compile(\Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
             ->write("ob_start();\n")
