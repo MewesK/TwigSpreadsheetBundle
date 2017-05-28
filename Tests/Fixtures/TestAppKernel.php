@@ -36,7 +36,7 @@ class TestAppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return $this->getProjectDir() . '/tmp/cache';
+        return $this->getRootDir() . '/../../tmp/cache';
     }
 
     /**
@@ -44,6 +44,6 @@ class TestAppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return $this->getProjectDir() . '/tmp/logs';
+        return $this->getRootDir() . '/../../tmp/logs';
     }
 }
