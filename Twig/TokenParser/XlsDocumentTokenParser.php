@@ -3,7 +3,6 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
 
 use MewesK\TwigSpreadsheetBundle\Twig\Node\XlsDocumentNode;
-use MewesK\TwigSpreadsheetBundle\Twig\NodeHelper;
 use Twig_Token;
 
 /**
