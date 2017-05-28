@@ -1,5 +1,5 @@
 TwigSpreadsheetBundle Documentation
-=============================
+===================================
 
 |TravisCI| |Scrutinizer| |SensioLabsInsight|
 

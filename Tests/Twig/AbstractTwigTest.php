@@ -3,7 +3,6 @@
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
-use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bridge\Twig\AppVariable;
