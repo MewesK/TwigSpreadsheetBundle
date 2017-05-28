@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 use Twig_Node_Expression;
@@ -31,7 +32,8 @@ class XlsCellNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
-            ->write('$context[\'phpSpreadsheetWrapper\']->setCellIndex(')
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->setCellIndex(')
             ->subcompile($this->getNode('index'))
             ->raw(');' . PHP_EOL)
             ->write("ob_start();\n")
@@ -40,9 +42,9 @@ class XlsCellNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$cellProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startCell($cellValue, $cellProperties);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startCell($cellValue, $cellProperties);' . PHP_EOL)
             ->write('unset($cellIndex, $cellValue, $cellProperties);' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->endCell();' . PHP_EOL);
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endCell();' . PHP_EOL);
     }
 
     /**

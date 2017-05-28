@@ -9,6 +9,24 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
  */
 class PhpSpreadsheetWrapper
 {
+    const INSTANCE_KEY = '_tsb';
+
+    /**
+     * @param array $context
+     * @return mixed
+     */
+    public static function fixContext(array $context) {
+        if (!array_key_exists(self::INSTANCE_KEY, $context) && is_array($context['varargs'])) {
+            foreach ($context['varargs'] as $arg) {
+                if ($arg instanceof self) {
+                    $context[self::INSTANCE_KEY] = $arg;
+                }
+            }
+        }
+
+        return $context;
+    }
+
     /**
      * @var XlsDocumentWrapper
      */

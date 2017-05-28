@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 use Twig_Node_Expression;
@@ -31,6 +32,7 @@ class XlsFooterNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
             ->write('$footerType = ')
             ->subcompile($this->getNode('type'))
             ->raw(';' . PHP_EOL)
@@ -38,11 +40,11 @@ class XlsFooterNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$footerProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startHeaderFooter($footerType, $footerProperties);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startHeaderFooter($footerType, $footerProperties);' . PHP_EOL)
             ->write('unset($footerType, $footerProperties);' . PHP_EOL)
             ->subcompile($this->getNode('body'))
             ->addDebugInfo($this)
-            ->write('$context[\'phpSpreadsheetWrapper\']->endHeaderFooter();' . PHP_EOL);
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endHeaderFooter();' . PHP_EOL);
     }
 
     /**

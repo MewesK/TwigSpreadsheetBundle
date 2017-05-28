@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 use Twig_Node_Expression;
@@ -31,20 +32,21 @@ class XlsSheetNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
             ->write('$sheetIndex = ')
             ->subcompile($this->getNode('index'))
             ->raw(';' . PHP_EOL)
             ->write('$sheetProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startSheet($sheetIndex, $sheetProperties);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startSheet($sheetIndex, $sheetProperties);' . PHP_EOL)
             ->write('unset($sheetIndex, $sheetProperties);' . PHP_EOL);
 
         if ($this->hasNode('body')) {
             $compiler->subcompile($this->getNode('body'));
         }
 
-        $compiler->addDebugInfo($this)->write('$context[\'phpSpreadsheetWrapper\']->endSheet();' . PHP_EOL);
+        $compiler->addDebugInfo($this)->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endSheet();' . PHP_EOL);
     }
 
     /**

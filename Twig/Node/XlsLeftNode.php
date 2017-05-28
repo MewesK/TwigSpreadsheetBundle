@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 
@@ -28,11 +29,12 @@ class XlsLeftNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startAlignment(\'left\');' . PHP_EOL)
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startAlignment(\'left\');' . PHP_EOL)
             ->write("ob_start();\n")
             ->subcompile($this->getNode('body'))
             ->write('$leftValue = trim(ob_get_clean());' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->endAlignment($leftValue);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endAlignment($leftValue);' . PHP_EOL)
             ->write('unset($leftValue);' . PHP_EOL);
     }
 

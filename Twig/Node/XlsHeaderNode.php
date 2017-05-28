@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 use Twig_Node_Expression;
@@ -31,6 +32,7 @@ class XlsHeaderNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
             ->write('$headerType = ')
             ->subcompile($this->getNode('type'))
             ->raw(';' . PHP_EOL)
@@ -38,11 +40,11 @@ class XlsHeaderNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$headerProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startHeaderFooter($headerType, $headerProperties);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startHeaderFooter($headerType, $headerProperties);' . PHP_EOL)
             ->write('unset($headerType, $headerProperties);' . PHP_EOL)
             ->subcompile($this->getNode('body'))
             ->addDebugInfo($this)
-            ->write('$context[\'phpSpreadsheetWrapper\']->endHeaderFooter();' . PHP_EOL);
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endHeaderFooter();' . PHP_EOL);
     }
 
     /**

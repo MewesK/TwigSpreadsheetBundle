@@ -1,20 +1,20 @@
 {% xlsdocument %}
-    {% xlsblock sheet %}
+    {% block sheet %}
         {% xlssheet 'Test' %}
-            {% xlsblock row %}
+            {% block row %}
                 {% xlsrow %}
                     {% xlscell %}Hello{% endxlscell %}
                     {% xlscell %}World{% endxlscell %}
                 {% endxlsrow %}
-            {% endxlsblock %}
+            {% endblock %}
             {% xlsrow %}
                 {% xlscell %}
-                    {% xlsblock content %}Foo{% endxlsblock %}
+                    {% block content %}Foo{% endblock %}
                 {% endxlscell %}
-                {% xlsblock cell %}
+                {% block cell %}
                     {% xlscell %}Bar{% endxlscell %}
-                {% endxlsblock %}
+                {% endblock %}
             {% endxlsrow %}
         {% endxlssheet %}
-    {% endxlsblock %}
+    {% endblock %}
 {% endxlsdocument %}

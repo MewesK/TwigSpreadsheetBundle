@@ -45,11 +45,16 @@ class XlsDocumentTokenParser extends AbstractTokenParser
 
         // parse body
         $body = $this->parseBody();
-        NodeHelper::removeTextNodesRecursively($body, $this->parser);
-        NodeHelper::fixMacroCallsRecursively($body);
 
         // return node
-        return new XlsDocumentNode($properties, $body, $token->getLine(), $this->getTag(), $this->preCalculateFormulas, $this->diskCachingDirectory);
+        return new XlsDocumentNode(
+            $properties,
+            $body,
+            $token->getLine(),
+            $this->getTag(),
+            $this->preCalculateFormulas,
+            $this->diskCachingDirectory
+        );
     }
 
     /**

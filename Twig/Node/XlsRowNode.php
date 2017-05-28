@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 use Twig_Node_Expression;
@@ -30,14 +31,15 @@ class XlsRowNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
-            ->write('$context[\'phpSpreadsheetWrapper\']->setRowIndex(')
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->setRowIndex(')
             ->subcompile($this->getNode('index'))
             ->raw(');' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startRow($context[\'phpSpreadsheetWrapper\']->getRowIndex());' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->setRowIndex(0);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startRow($context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->getRowIndex());' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->setRowIndex(0);' . PHP_EOL)
             ->subcompile($this->getNode('body'))
             ->addDebugInfo($this)
-            ->write('$context[\'phpSpreadsheetWrapper\']->endRow();' . PHP_EOL);
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endRow();' . PHP_EOL);
     }
 
     /**

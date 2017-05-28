@@ -2,35 +2,43 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
 
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Node\Expression\ConditionalExpression;
+use Twig\Node\Expression\GetAttrExpression;
+use Twig\Node\Node;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser as BaseTokenParser;
+
 /**
  * Class AbstractTokenParser
  * @package MewesK\TwigSpreadsheetBundle\Twig\TokenParser
  */
-abstract class AbstractTokenParser extends \Twig_TokenParser
+abstract class AbstractTokenParser extends BaseTokenParser
 {
     /**
-     * @return \Twig_Node
-     * @throws \Twig_Error_Syntax
+     * @return Node
      */
     protected function parseBody()
     {
-        $body = $this->parser->subparse(function (\Twig_Token $token) {
-            return $token->test('end' . $this->getTag());
-        },
-            true);
-        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
+        $body = $this->parser->subparse(function (Token $token) {
+                return $token->test('end' . $this->getTag());
+            },
+            true
+        );
+        $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
         return $body;
     }
 
     /**
-     * @param \Twig_Token $token
-     * @return mixed|\Twig_Node_Expression_Array|\Twig_Node_Expression_Conditional|\Twig_Node_Expression_GetAttr
+     * @param Token $token
+     * @return mixed|ArrayExpression|ConditionalExpression|GetAttrExpression
      */
-    protected function parseProperties(\Twig_Token $token)
+    protected function parseProperties(Token $token)
     {
-        $properties = new \Twig_Node_Expression_Array([], $token->getLine());
-        if (!$this->parser->getStream()->test(\Twig_Token::BLOCK_END_TYPE)) {
+        $properties = new ArrayExpression([], $token->getLine());
+
+        if (!$this->parser->getStream()->test(Token::BLOCK_END_TYPE)) {
             $properties = $this->parser->getExpressionParser()->parseExpression();
         }
 

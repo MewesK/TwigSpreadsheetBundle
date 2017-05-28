@@ -3,20 +3,15 @@
 namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
 use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNodeInterface;
-use MewesK\TwigSpreadsheetBundle\Twig\NodeHelper;
-use Twig_BaseNodeVisitor;
-use Twig_Environment;
-use Twig_Error_Syntax;
-use Twig_Node;
-use Twig_Node_Block;
-use Twig_Node_Macro;
+use Twig\Error\SyntaxError;
+use Twig\NodeVisitor\AbstractNodeVisitor;
 
 /**
  * Class SyntaxCheckNodeVisitor
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
  */
-class SyntaxCheckNodeVisitor extends Twig_BaseNodeVisitor
+class SyntaxCheckNodeVisitor extends AbstractNodeVisitor
 {
     /**
      * @var array
@@ -26,32 +21,24 @@ class SyntaxCheckNodeVisitor extends Twig_BaseNodeVisitor
     /**
      * {@inheritdoc}
      *
-     * @throws Twig_Error_Syntax
+     * @throws \Twig\Error\SyntaxError
      */
-    protected function doEnterNode(Twig_Node $node, Twig_Environment $env)
+    protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
-        if (($node instanceof Twig_Node_Block || $node instanceof Twig_Node_Macro) && !$node->hasAttribute('twigSpreadsheetBundle') && NodeHelper::checkContainsXlsNode($node)) {
-            if ($node instanceof Twig_Node_Block) {
-                throw new Twig_Error_Syntax('Block tags do not work together with Twig tags provided by TwigSpreadsheetBundle. Please use \'xlsblock\' instead.');
-            }
-            if ($node instanceof Twig_Node_Macro) {
-                throw new Twig_Error_Syntax('Macro tags do not work together with Twig tags provided by TwigSpreadsheetBundle. Please use \'xlsmacro\' instead.');
-            }
-        }
-        elseif ($node instanceof SyntaxAwareNodeInterface) {
+        if ($node instanceof SyntaxAwareNodeInterface) {
             /**
              * @var SyntaxAwareNodeInterface $node
              */
             try {
-                NodeHelper::checkAllowedParents($node, $this->path);
-            } catch(Twig_Error_Syntax $e) {
+                $this->checkAllowedParents($node);
+            } catch(\Twig_Error_Syntax $e) {
                 // reset path since throwing an error prevents doLeaveNode to be called
                 $this->path = [];
                 throw $e;
             }
         }
 
-        $this->path[] = get_class($node);
+        $this->path[] = $node !== null ? get_class($node) : null;
 
         return $node;
     }
@@ -59,7 +46,7 @@ class SyntaxCheckNodeVisitor extends Twig_BaseNodeVisitor
     /**
      * {@inheritdoc}
      */
-    protected function doLeaveNode(Twig_Node $node, Twig_Environment $env)
+    protected function doLeaveNode(\Twig_Node $node,\ Twig_Environment $env)
     {
         array_pop($this->path);
 
@@ -72,5 +59,33 @@ class SyntaxCheckNodeVisitor extends Twig_BaseNodeVisitor
     public function getPriority()
     {
         return 0;
+    }
+
+    /**
+     * @param SyntaxAwareNodeInterface $node
+     * @throws \Twig\Error\SyntaxError
+     */
+    private function checkAllowedParents(SyntaxAwareNodeInterface $node)
+    {
+        $parentName = null;
+
+        foreach (array_reverse($this->path) as $className) {
+            if ($className !== null && strpos($className, 'MewesK\TwigSpreadsheetBundle\Twig\Node\Xls') === 0) {
+                $parentName = $className;
+                break;
+            }
+        }
+
+        if ($parentName === null) {
+            return;
+        }
+
+        foreach ($node->getAllowedParents() as $className) {
+            if ($className === $parentName) {
+                return;
+            }
+        }
+
+        throw new SyntaxError(sprintf('Node "%s" is not allowed inside of Node "%s".', get_class($node), $parentName));
     }
 }

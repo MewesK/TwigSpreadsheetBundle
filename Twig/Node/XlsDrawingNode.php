@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 use Twig_Compiler;
 use Twig_Node;
 use Twig_Node_Expression;
@@ -30,15 +31,16 @@ class XlsDrawingNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
+            ->write('$context = ' . PhpSpreadsheetWrapper::class . '::fixContext($context);' . PHP_EOL)
             ->write('$drawingPath = ')
             ->subcompile($this->getNode('path'))
             ->raw(';' . PHP_EOL)
             ->write('$drawingProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->startDrawing($drawingPath, $drawingProperties);' . PHP_EOL)
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->startDrawing($drawingPath, $drawingProperties);' . PHP_EOL)
             ->write('unset($drawingPath, $drawingProperties);' . PHP_EOL)
-            ->write('$context[\'phpSpreadsheetWrapper\']->endDrawing();' . PHP_EOL);
+            ->write('$context[\'' . PhpSpreadsheetWrapper::INSTANCE_KEY . '\']->endDrawing();' . PHP_EOL);
     }
 
     /**

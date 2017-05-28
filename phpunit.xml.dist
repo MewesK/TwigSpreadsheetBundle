@@ -6,7 +6,7 @@
          bootstrap="./vendor/autoload.php"
         >
     <php>
-        <env name="DELETE_TEMP_FILES" value="false"/>
+        <env name="DELETE_TEMP_FILES" value="true"/>
         <server name="KERNEL_DIR" value="./Tests/Fixtures/"/>
     </php>
 

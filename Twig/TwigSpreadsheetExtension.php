@@ -2,30 +2,28 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig;
 
+use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\MacroContextFixNodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsBlockTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsCellTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsCenterTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsDocumentTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsDrawingTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsFooterTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsHeaderTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsIncludeTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsLeftTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsMacroTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRightTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRowTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsSheetTokenParser;
-use Twig_Error_Runtime;
-use Twig_Extension;
-use Twig_SimpleFunction;
+use Twig\Error\RuntimeError;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Class TwigSpreadsheetExtension
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig
  */
-class TwigSpreadsheetExtension extends Twig_Extension
+class TwigSpreadsheetExtension extends AbstractExtension
 {
     /**
      * @var bool
@@ -51,7 +49,9 @@ class TwigSpreadsheetExtension extends Twig_Extension
      */
     public function getFunctions()
     {
-        return [new Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles'])];
+        return [
+            new TwigFunction('xlsmergestyles', [$this, 'mergeStyles'])
+        ];
     }
 
     /**
@@ -60,16 +60,13 @@ class TwigSpreadsheetExtension extends Twig_Extension
     public function getTokenParsers()
     {
         return [
-            new XlsBlockTokenParser(),
             new XlsCellTokenParser(),
             new XlsCenterTokenParser(),
             new XlsDocumentTokenParser($this->preCalculateFormulas, $this->diskCachingDirectory),
             new XlsDrawingTokenParser(),
             new XlsFooterTokenParser(),
             new XlsHeaderTokenParser(),
-            new XlsIncludeTokenParser(),
             new XlsLeftTokenParser(),
-            new XlsMacroTokenParser(),
             new XlsRightTokenParser(),
             new XlsRowTokenParser(),
             new XlsSheetTokenParser()
@@ -82,6 +79,7 @@ class TwigSpreadsheetExtension extends Twig_Extension
     public function getNodeVisitors()
     {
         return [
+            new MacroContextFixNodeVisitor(),
             new SyntaxCheckNodeVisitor()
         ];
     }
@@ -99,12 +97,12 @@ class TwigSpreadsheetExtension extends Twig_Extension
      * @param array $style2
      *
      * @return array
-     * @throws Twig_Error_Runtime
+     * @throws \Twig\Error\RuntimeError
      */
     public function mergeStyles(array $style1, array $style2)
     {
         if (!is_array($style1) || !is_array($style2)) {
-            throw new Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
+            throw new RuntimeError('The xlsmergestyles function only works with arrays.');
         }
 
         return array_merge_recursive($style1, $style2);

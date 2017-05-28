@@ -1,12 +1,10 @@
-{% xlsinclude %}
-    {% xlsdocument %}
-        {% xlssheet 'Test' %}
-            {% xlsrow %}
-                {% xlscell %}{% include 'includeContent.twig' %}{% endxlscell %}
-                {% include 'includeCell.twig' %}
-            {% endxlsrow %}
-            {% include 'includeRow.twig' %}
-        {% endxlssheet %}
-        {% include 'includeSheet.twig' %}
-    {% endxlsdocument %}
-{% endxlsinclude %}
+{% xlsdocument %}
+    {% xlssheet 'Test' %}
+        {% xlsrow %}
+            {% xlscell %}{% include 'includeContent.twig' %}{% endxlscell %}
+            {% include 'includeCell.twig' %}
+        {% endxlsrow %}
+        {% include 'includeRow.twig' %}
+    {% endxlssheet %}
+    {% include 'includeSheet.twig' %}
+{% endxlsdocument %}
