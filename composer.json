@@ -27,6 +27,12 @@
         "sensio/framework-extra-bundle": "~3.2|~4.0",
         "mpdf/mpdf": "~6.0"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/MewesK/PhpSpreadsheet"
+        }
+    ],
     "minimum-stability": "dev",
     "suggest": {
         "mpdf/mpdf": "Add support for PDF rendering, requires ~6.0"
