@@ -22,7 +22,7 @@ The following software is required to use PhpSpreadsheet/TwigSpreadsheetBundle.
 
 **Required by this bundle:**
 
- * PHP 5.5.9 or newer
+ * PHP 7.0 or newer
  * Symfony 3.0 or newer
 
 **Required by PhpSpreadsheet:**
