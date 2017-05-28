@@ -1,19 +1,18 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
-use PHPExcel_IOFactory;
-use PHPExcel_Settings;
-use PHPExcel_Writer_Abstract;
-use ReflectionClass;
+use PhpOffice\PhpSpreadsheet\Exception;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Settings;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
 use Symfony\Bridge\Twig\AppVariable;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 
 /**
  * Class XlsDocumentWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsDocumentWrapper extends AbstractWrapper
 {
@@ -22,11 +21,11 @@ class XlsDocumentWrapper extends AbstractWrapper
      */
     protected $context;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $environment;
     /**
-     * @var \PHPExcel
+     * @var Spreadsheet
      */
     protected $object;
     /**
@@ -42,9 +41,9 @@ class XlsDocumentWrapper extends AbstractWrapper
      * XlsDocumentWrapper constructor.
      * 
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      */
-    public function __construct(array $context, Twig_Environment $environment)
+    public function __construct(array $context, \Twig_Environment $environment)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -119,20 +118,20 @@ class XlsDocumentWrapper extends AbstractWrapper
 
     /**
      * @param null|array $properties
-     * @throws \PHPExcel_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function start(array $properties = null)
     {
         // load template
         if (array_key_exists('template', $properties)) {
             $templatePath = $this->expandPath($properties['template']);
-            $reader = PHPExcel_IOFactory::createReaderForFile($templatePath);
+            $reader = IOFactory::createReaderForFile($templatePath);
             $this->object = $reader->load($templatePath);
         }
 
         // create new
         else {
-            $this->object = new \PHPExcel();
+            $this->object = new Spreadsheet();
             $this->object->removeSheetByIndex(0);
         }
 
@@ -147,9 +146,8 @@ class XlsDocumentWrapper extends AbstractWrapper
      * @param bool $preCalculateFormulas
      * @param null|string $diskCachingDirectory
      * @throws \InvalidArgumentException
-     * @throws \PHPExcel_Exception
-     * @throws \PHPExcel_Reader_Exception
-     * @throws \PHPExcel_Writer_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function end($preCalculateFormulas = true, $diskCachingDirectory = null)
     {
@@ -163,7 +161,7 @@ class XlsDocumentWrapper extends AbstractWrapper
          // try Symfony request
         else if (array_key_exists('app', $this->context)) {
             /**
-             * @var $appVariable AppVariable
+             * @var AppVariable $appVariable
              */
             $appVariable = $this->context['app'];
             if ($appVariable instanceof AppVariable && $appVariable->getRequest() !== null) {
@@ -178,37 +176,32 @@ class XlsDocumentWrapper extends AbstractWrapper
 
         switch (strtolower($format)) {
             case 'csv':
-                $writerType = 'CSV';
+                $writerType = 'Csv';
                 break;
             case 'ods':
-                $writerType = 'OpenDocument';
+                $writerType = 'Ods';
                 break;
             case 'pdf':
-                $writerType = 'PDF';
-                try {
-                    $reflectionClass = new ReflectionClass('mPDF');
-                    $path = dirname($reflectionClass->getFileName());
-                    if (!PHPExcel_Settings::setPdfRenderer(PHPExcel_Settings::PDF_RENDERER_MPDF, $path)) {
-                        throw new \PHPExcel_Exception();
-                    }
-                } catch (\Exception $e) {
-                    throw new \PHPExcel_Exception('Error loading mPDF. Is mPDF correctly installed?', $e->getCode(), $e);
+                $writerType = 'Pdf';
+                if (!class_exists('mPDF')) {
+                    throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
                 }
+                Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
                 break;
             case 'xls':
-                $writerType = 'Excel5';
+                $writerType = 'Xls';
                 break;
             case 'xlsx':
-                $writerType = 'Excel2007';
+                $writerType = 'Xlsx';
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown format "%s"', $format));
         }
 
         /**
-         * @var $writer PHPExcel_Writer_Abstract
+         * @var BaseWriter $writer
          */
-        $writer = \PHPExcel_IOFactory::createWriter($this->object, $writerType);
+        $writer = IOFactory::createWriter($this->object, $writerType);
         $writer->setPreCalculateFormulas($preCalculateFormulas);
         $writer->setUseDiskCaching($diskCachingDirectory !== null, $diskCachingDirectory);
         $writer->save('php://output');
@@ -230,9 +223,9 @@ class XlsDocumentWrapper extends AbstractWrapper
     private function expandPath($path)
     {
         $loader = $this->environment->getLoader();
-        if ($loader instanceof Twig_Loader_Filesystem) {
+        if ($loader instanceof \Twig_Loader_Filesystem) {
             /**
-             * @var Twig_Loader_Filesystem $loader
+             * @var \Twig_Loader_Filesystem $loader
              */
             foreach ($loader->getNamespaces() as $namespace) {
                 if (strpos($path, $namespace) === 1) {
@@ -253,7 +246,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     //
 
     /**
-     * @return \PHPExcel
+     * @return Spreadsheet
      */
     public function getObject()
     {
@@ -261,7 +254,7 @@ class XlsDocumentWrapper extends AbstractWrapper
     }
 
     /**
-     * @param \PHPExcel $object
+     * @param Spreadsheet $object
      */
     public function setObject($object)
     {

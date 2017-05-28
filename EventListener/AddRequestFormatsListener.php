@@ -1,15 +1,16 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\EventListener;
+namespace MewesK\TwigSpreadsheetBundle\EventListener;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Class RequestListener
- *
- * @package MewesK\TwigExcelBundle\EventListener
+ * Class AddRequestFormatsListener
+ * @package MewesK\TwigSpreadsheetBundle\EventListener
  */
-class RequestListener
+class AddRequestFormatsListener implements EventSubscriberInterface
 {
     /**
      * @param GetResponseEvent $event
@@ -21,5 +22,15 @@ class RequestListener
         $event->getRequest()->setFormat('pdf', 'application/pdf');
         $event->getRequest()->setFormat('xls', 'application/vnd.ms-excel');
         $event->getRequest()->setFormat('xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }
+
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::REQUEST => ['onKernelRequest', 1]
+        ];
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Functional;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
 /**
  * Class CustomConfigTest
- * @package MewesK\TwigExcelBundle\Tests\Functional
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Functional
  */
 class CustomConfigTest extends AbstractControllerTest
 {
-    protected static $CONFIG_FILE = 'config_custom.yml';
+    protected static $ENVIRONMENT = 'custom';
     protected static $TEMP_PATH = '/../../tmp/functional/config/';
 
     //
@@ -38,7 +38,7 @@ class CustomConfigTest extends AbstractControllerTest
         $document = $this->getDocument(static::$router->generate('test_default', ['templateName' => 'simple', '_format' => $format]), $format);
         static::assertNotNull($document, 'Document does not exist');
 
-        static::assertFalse(static::$kernel->getContainer()->getParameter('mewes_k_twig_excel.pre_calculate_formulas'), 'Unexpected parameter');
-        static::assertStringEndsWith('tmp/phpexcel', static::$kernel->getContainer()->getParameter('mewes_k_twig_excel.disk_caching_directory'), 'Unexpected parameter');
+        static::assertFalse(static::$kernel->getContainer()->getParameter('mewes_k_twig_spreadsheet.pre_calculate_formulas'), 'Unexpected parameter');
+        static::assertStringEndsWith('tmp/phpSpreadsheet', static::$kernel->getContainer()->getParameter('mewes_k_twig_spreadsheet.disk_caching_directory'), 'Unexpected parameter');
     }
 }

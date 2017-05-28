@@ -1,11 +1,9 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Functional;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
-use InvalidArgumentException;
-use PHPExcel_Reader_Excel2007;
-use PHPExcel_Reader_Excel5;
-use PHPExcel_Reader_OOCalc;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Client;
@@ -14,12 +12,12 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Class AbstractControllerTest
  * 
- * @package MewesK\TwigExcelBundle\Tests\Functional
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Functional
  */
 abstract class AbstractControllerTest extends WebTestCase
 {
-    protected static $CONFIG_FILE;
-    protected static $TEMP_PATH = '/../../tmp/functional/';
+    protected static $ENVIRONMENT;
+    protected static $TEMP_PATH;
 
     /**
      * @var Filesystem
@@ -41,7 +39,7 @@ abstract class AbstractControllerTest extends WebTestCase
     /**
      * @param $uri
      * @param $format
-     * @return \PHPExcel
+     * @return Spreadsheet
      * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
@@ -61,19 +59,19 @@ abstract class AbstractControllerTest extends WebTestCase
         // load source
         switch ($format) {
             case 'ods':
-                $reader = new PHPExcel_Reader_OOCalc();
+                $readerType = 'Ods';
                 break;
             case 'xls':
-                $reader = new PHPExcel_Reader_Excel5();
+                $readerType = 'Xls';
                 break;
             case 'xlsx':
-                $reader = new PHPExcel_Reader_Excel2007();
+                $readerType = 'Xlsx';
                 break;
             default:
-                throw new InvalidArgumentException();
+                throw new \InvalidArgumentException();
         }
 
-        return $reader->load(__DIR__ . static::$TEMP_PATH . 'simple' . '.' . $format);
+        return IOFactory::createReader($readerType)->load($tempFilePath);
     }
 
     //
@@ -87,26 +85,11 @@ abstract class AbstractControllerTest extends WebTestCase
 
     /**
      * {@inheritdoc}
-     * @throws \RuntimeException
-     */
-    protected static function createKernel(array $options = [])
-    {
-        if (null === static::$class) {
-            static::$class = static::getKernelClass();
-        }
-
-        return new static::$class(
-            array_key_exists('config', $options) && is_string($options['config']) ? $options['config'] : 'config.yml'
-        );
-    }
-
-    /**
-     * {@inheritdoc}
      * @throws \Exception
      */
     protected function setUp()
     {
-        static::$client = static::createClient(['config' => static::$CONFIG_FILE]);
+        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
         static::$router = static::$kernel->getContainer()->get('router');
     }
 

@@ -1,15 +1,16 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Fixtures\TestBundle\Controller;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DefaultController
  * 
- * @package MewesK\TwigExcelBundle\Tests\Fixtures\TestBundle\Controller
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestBundle\Controller
  */
 class DefaultController extends Controller
 {
@@ -70,14 +71,13 @@ class DefaultController extends Controller
                         ['name' => 'Jolynn Ell', 'salary' => 5718.0]
                     ]
                 ]
-            ),
-            Response::HTTP_OK,
-            [
-                'Content-Disposition' => 'attachment; filename="foobar.bin"'
-            ]
+            )
         );
 
-        $response->setPrivate();
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'foobar.bin'
+        ));
         $response->setMaxAge(600);
 
         return $response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\Node;
+namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -9,7 +9,7 @@ use Twig_Node_Expression;
 /**
  * Class XlsDocumentNode
  *
- * @package MewesK\TwigExcelBundle\Twig\Node
+ * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
 class XlsDocumentNode extends Twig_Node implements SyntaxAwareNodeInterface
 {
@@ -46,15 +46,15 @@ class XlsDocumentNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$documentProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpExcel\'] = new MewesK\TwigExcelBundle\Wrapper\PhpExcelWrapper($context, $this->env);' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->startDocument($documentProperties);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\'] = new MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper($context, $this->env);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->startDocument($documentProperties);' . PHP_EOL)
             ->write('unset($documentProperties);' . PHP_EOL)
             ->subcompile($this->getNode('body'))
             ->addDebugInfo($this)
-            ->write('$context[\'phpExcel\']->endDocument(' .
+            ->write('$context[\'phpSpreadsheetWrapper\']->endDocument(' .
                 ($this->preCalculateFormulas ? 'true' : 'false') . ', ' .
                 ($this->diskCachingDirectory ? '\'' . $this->diskCachingDirectory . '\'' : 'null') . ');' . PHP_EOL)
-            ->write('unset($context[\'phpExcel\']);' . PHP_EOL);
+            ->write('unset($context[\'phpSpreadsheetWrapper\']);' . PHP_EOL);
     }
 
     /**

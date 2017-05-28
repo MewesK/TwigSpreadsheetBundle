@@ -1,45 +1,45 @@
-# TwigExcelBundle
+# TwigSpreadsheetBundle
 
-[![Teavis CI: Build Status](https://travis-ci.org/MewesK/TwigExcelBundle.png?branch=master)](https://travis-ci.org/MewesK/TwigExcelBundle)
-[![Scrutinizer: Code Quality](https://scrutinizer-ci.com/g/MewesK/TwigExcelBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MewesK/TwigExcelBundle/?branch=master)
+[![Teavis CI: Build Status](https://travis-ci.org/MewesK/TwigSpreadsheetBundle.png?branch=master)](https://travis-ci.org/MewesK/TwigSpreadsheetBundle)
+[![Scrutinizer: Code Quality](https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/?branch=master)
 [![SensioLabsInsight: Code Quality](https://insight.sensiolabs.com/projects/283cfe57-6ee4-4102-8fff-da3f6e668e8f/mini.png)](https://insight.sensiolabs.com/projects/283cfe57-6ee4-4102-8fff-da3f6e668e8f)
 
-This Symfony bundle provides a PhpExcel integration for Twig.
+This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.
 
 ## Supported output formats
 
-The supported output formats are directly based on the capabilities of PhpExcel.
+The supported output formats are directly based on the capabilities of PhpSpreadsheet.
 
- * .CSV (only basic data output)
- * .ODS (only basic data output)
- * .PDF (requires mPDF)
- * .XLS (limited functionality)
- * .XLSX 
+ * Open Document Format/OASIS (.ods)
+ * Office Open XML (.xlsx) Excel 2007 and above
+ * BIFF 8 (.xls) Excel 97 and above
+ * CSV
+ * PDF (using tcPDF, DomPDF or mPDF, which need to be installed separately)
 
 ## Software requirements
 
-The following software is required to use PHPExcel/TwigExcelBundle.
+The following software is required to use PhpSpreadsheet/TwigSpreadsheetBundle.
 
 **Required by this bundle:**
 
- * PHP 5.5.9 or newer (PHP 7.1.0 or newer is not supported by PhpExcel)
- * Symfony 2.7 (LTS) or newer
+ * PHP 5.5.9 or newer
+ * Symfony 3.0 or newer
 
-**Required by PhpExcel:**
+**Required by PhpSpreadsheet:**
 
  * PHP extension php_zip enabled
  * PHP extension php_xml enabled
- * PHP extension php_gd2 enabled (if not compiled in)
+ * PHP extension php_gd2 enabled (optional, but required for exact column width autocalculation)
 
 ## Documentation
 
 The source of the documentation is stored in the Resources/doc/ folder in this bundle:
     
-[Resources/doc/index.rst](https://github.com/MewesK/TwigExcelBundle/blob/master/Resources/doc/index.rst)
+[Resources/doc/index.rst](https://github.com/MewesK/TwigSpreadsheetBundle/blob/master/Resources/doc/index.rst)
 
 You can find a prettier version on [readthedocs.org](httsp://readthedocs.org):
 
-[https://twigexcelbundle.readthedocs.org](https://twigexcelbundle.readthedocs.org/)
+[https://twigspreadsheetbundle.readthedocs.org](https://twigspreadsheetbundle.readthedocs.org/)
 
 ## Installation
 
@@ -49,4 +49,4 @@ All the installation instructions are located in the documentation.
 
 This bundle is under the MIT license. See the complete license in the bundle:
 
-[Resources/meta/LICENSE](https://github.com/MewesK/TwigExcelBundle/blob/master/Resources/meta/LICENSE)
+[Resources/meta/LICENSE](https://github.com/MewesK/TwigSpreadsheetBundle/blob/master/LICENSE)

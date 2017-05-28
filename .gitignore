@@ -1,5 +1,4 @@
-.phpunit/
-tmp/
-vendor/
-composer.lock
-phpunit.xml
+/tmp/
+/vendor/
+/composer.lock
+/phpunit.xml

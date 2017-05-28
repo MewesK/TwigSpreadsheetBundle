@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\TokenParser;
+namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
 
-use MewesK\TwigExcelBundle\Twig\NodeHelper;
+use MewesK\TwigSpreadsheetBundle\Twig\NodeHelper;
 use Twig_Error_Syntax;
 use Twig_Node;
 use Twig_Node_Block;
@@ -13,8 +13,7 @@ use Twig_TokenParser;
 
 /**
  * Class XlsBlockTokenParser
- *
- * @package MewesK\TwigExcelBundle\Twig\TokenParser
+ * @package MewesK\TwigSpreadsheetBundle\Twig\TokenParser
  */
 class XlsBlockTokenParser extends Twig_TokenParser
 {
@@ -31,7 +30,13 @@ class XlsBlockTokenParser extends Twig_TokenParser
         $stream = $this->parser->getStream();
         $name = $stream->expect(Twig_Token::NAME_TYPE)->getValue();
         if ($this->parser->hasBlock($name)) {
-            throw new Twig_Error_Syntax(sprintf("The block '%s' has already been defined line %d.", $name, $this->parser->getBlock($name)->getTemplateLine()), $stream->getCurrent()->getLine(), $stream->getSourceContext());
+            /** @noinspection PhpInternalEntityUsedInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
+            throw new Twig_Error_Syntax(
+                sprintf("The xlsblock '%s' has already been defined line %d.", $name, $this->parser->getBlock($name)->getTemplateLine()),
+                $stream->getCurrent()->getLine(),
+                $stream->getSourceContext()
+            );
         }
         $this->parser->setBlock($name, $block = new Twig_Node_Block($name, new Twig_Node(array()), $lineno));
         $this->parser->pushLocalScope();
@@ -43,7 +48,12 @@ class XlsBlockTokenParser extends Twig_TokenParser
                 $value = $token->getValue();
 
                 if ($value !== $name) {
-                    throw new Twig_Error_Syntax(sprintf('Expected endblock for block "%s" (but "%s" given).', $name, $value), $stream->getCurrent()->getLine(), $stream->getSourceContext());
+                    /** @noinspection PhpInternalEntityUsedInspection */
+                    throw new Twig_Error_Syntax(
+                        sprintf('Expected endxlsblock for block "%s" (but "%s" given).', $name, $value),
+                        $stream->getCurrent()->getLine(),
+                        $stream->getSourceContext()
+                    );
                 }
             }
         } else {
@@ -71,7 +81,7 @@ class XlsBlockTokenParser extends Twig_TokenParser
         // mark for syntax checks
         foreach ($block->getIterator() as $node) {
             if ($node instanceof Twig_Node_Block) {
-                $node->setAttribute('twigExcelBundle', true);
+                $node->setAttribute('twigSpreadsheetBundle', true);
             }
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\Node;
+namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -8,7 +8,7 @@ use Twig_Node;
 /**
  * Class XlsRightNode
  *
- * @package MewesK\TwigExcelBundle\Twig\Node
+ * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
 class XlsRightNode extends Twig_Node implements SyntaxAwareNodeInterface
 {
@@ -28,11 +28,11 @@ class XlsRightNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
-            ->write('$context[\'phpExcel\']->startAlignment(\'right\');' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->startAlignment(\'right\');' . PHP_EOL)
             ->write("ob_start();\n")
             ->subcompile($this->getNode('body'))
             ->write('$rightValue = trim(ob_get_clean());' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->endAlignment($rightValue);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->endAlignment($rightValue);' . PHP_EOL)
             ->write('unset($rightValue);' . PHP_EOL);
     }
 
@@ -42,8 +42,8 @@ class XlsRightNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function getAllowedParents()
     {
         return [
-            'MewesK\TwigExcelBundle\Twig\Node\XlsFooterNode',
-            'MewesK\TwigExcelBundle\Twig\Node\XlsHeaderNode'
+            XlsFooterNode::class,
+            XlsHeaderNode::class
         ];
     }
 

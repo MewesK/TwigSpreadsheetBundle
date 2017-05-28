@@ -17,8 +17,8 @@ Parameters
 ==========  ======  ========  ===========
 Name        Type    Optional  Description
 ==========  ======  ========  ===========
-style1      array             Standard PhpExcel style array
-style2      array             Standard PhpExcel style array
+style1      array             Standard PhpSpreadsheet style array
+style2      array             Standard PhpSpreadsheet style array
 ==========  ======  ========  ===========
 
 Example

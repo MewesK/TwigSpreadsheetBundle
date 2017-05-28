@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\Node;
+namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -9,7 +9,7 @@ use Twig_Node_Expression;
 /**
  * Class XlsHeaderNode
  *
- * @package MewesK\TwigExcelBundle\Twig\Node
+ * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
 class XlsHeaderNode extends Twig_Node implements SyntaxAwareNodeInterface
 {
@@ -38,11 +38,11 @@ class XlsHeaderNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$headerProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->startHeaderFooter($headerType, $headerProperties);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->startHeaderFooter($headerType, $headerProperties);' . PHP_EOL)
             ->write('unset($headerType, $headerProperties);' . PHP_EOL)
             ->subcompile($this->getNode('body'))
             ->addDebugInfo($this)
-            ->write('$context[\'phpExcel\']->endHeaderFooter();' . PHP_EOL);
+            ->write('$context[\'phpSpreadsheetWrapper\']->endHeaderFooter();' . PHP_EOL);
     }
 
     /**
@@ -51,7 +51,7 @@ class XlsHeaderNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function getAllowedParents()
     {
         return [
-            'MewesK\TwigExcelBundle\Twig\Node\XlsSheetNode'
+            XlsSheetNode::class
         ];
     }
 

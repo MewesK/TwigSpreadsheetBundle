@@ -1,10 +1,10 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
  * Class ErrorTwigTest
- * @package MewesK\TwigExcelBundle\Tests\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
  */
 class ErrorTwigTest extends AbstractTwigTest
 {
@@ -34,10 +34,9 @@ class ErrorTwigTest extends AbstractTwigTest
      */
     public function testBlockError($format)
     {
-        $this->setExpectedException(
-            '\Twig_Error_Syntax',
-            'Block tags do not work together with Twig tags provided by TwigExcelBundle. Please use \'xlsblock\' instead in "blockError.twig".'
-        );
+        $this->expectException(\Twig_Error_Syntax::class);
+        $this->expectExceptionMessage('Block tags do not work together with Twig tags provided by TwigSpreadsheetBundle. Please use \'xlsblock\' instead in "blockError.twig".');
+
         $this->getDocument('blockError', $format);
     }
 
@@ -49,10 +48,9 @@ class ErrorTwigTest extends AbstractTwigTest
      */
     public function testDocumentError($format)
     {
-        $this->setExpectedException(
-            '\Twig_Error_Syntax',
-            'Node "MewesK\TwigExcelBundle\Twig\Node\XlsDocumentNode" is not allowed inside of Node "MewesK\TwigExcelBundle\Twig\Node\XlsSheetNode"'
-        );
+        $this->expectException(\Twig_Error_Syntax::class);
+        $this->expectExceptionMessage('Node "MewesK\TwigSpreadsheetBundle\Twig\Node\XlsDocumentNode" is not allowed inside of Node "MewesK\TwigSpreadsheetBundle\Twig\Node\XlsSheetNode"');
+
         $this->getDocument('documentError', $format);
     }
 
@@ -64,10 +62,9 @@ class ErrorTwigTest extends AbstractTwigTest
      */
     public function testMacroError($format)
     {
-        $this->setExpectedException(
-            '\Twig_Error_Syntax',
-            'Macro tags do not work together with Twig tags provided by TwigExcelBundle. Please use \'xlsmacro\' instead in "macroError.twig".'
-        );
+        $this->expectException(\Twig_Error_Syntax::class);
+        $this->expectExceptionMessage('Macro tags do not work together with Twig tags provided by TwigSpreadsheetBundle. Please use \'xlsmacro\' instead in "macroError.twig".');
+
         $this->getDocument('macroError', $format);
     }
 }

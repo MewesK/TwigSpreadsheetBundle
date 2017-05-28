@@ -1,14 +1,13 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
-use Twig_Environment;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 /**
- * Class PhpExcelWrapper
+ * Class PhpSpreadsheetWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
-class PhpExcelWrapper
+class PhpSpreadsheetWrapper
 {
     /**
      * @var XlsDocumentWrapper
@@ -45,11 +44,11 @@ class PhpExcelWrapper
     private $rowIndex;
 
     /**
-     * PhpExcelWrapper constructor.
+     * PhpSpreadsheetWrapper constructor.
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      */
-    public function __construct(array $context = [], Twig_Environment $environment)
+    public function __construct(array $context = [], \Twig_Environment $environment)
     {
         $this->documentWrapper = new XlsDocumentWrapper($context, $environment);
         $this->sheetWrapper = new XlsSheetWrapper($context, $environment, $this->documentWrapper);
@@ -65,8 +64,7 @@ class PhpExcelWrapper
 
     /**
      * @param null|array $properties
-     *
-     * @throws \PHPExcel_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function startDocument(array $properties = null)
     {
@@ -74,10 +72,9 @@ class PhpExcelWrapper
     }
 
     /**
-     * @throws \PHPExcel_Reader_Exception
-     * @throws \PHPExcel_Exception
      * @throws \InvalidArgumentException
-     * @throws \PHPExcel_Writer_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function endDocument()
     {
@@ -87,7 +84,7 @@ class PhpExcelWrapper
     /**
      * @param string $index
      * @param null|array $properties
-     * @throws \PHPExcel_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function startSheet($index, array $properties = null)
     {
@@ -112,9 +109,9 @@ class PhpExcelWrapper
     /**
      * @param null|mixed $value
      * @param null|array $properties
-     * @throws \PHPExcel_Exception
      * @throws \InvalidArgumentException
      * @throws \LogicException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function startCell($value = null, array $properties = null)
     {
@@ -163,10 +160,10 @@ class PhpExcelWrapper
     /**
      * @param string $path
      * @param array $properties
-     * @throws \PHPExcel_Exception
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @throws \RuntimeException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function startDrawing($path, array $properties = null)
     {

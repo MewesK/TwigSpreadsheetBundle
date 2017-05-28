@@ -1,25 +1,20 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
-use InvalidArgumentException;
-use MewesK\TwigExcelBundle\Twig\TwigExcelExtension;
-use PHPExcel_Reader_Excel2007;
-use PHPExcel_Reader_Excel5;
-use PHPExcel_Reader_OOCalc;
-use PHPUnit_Framework_TestCase;
+use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 
 /**
  * Class AbstractTwigTest
- * @package MewesK\TwigExcelBundle\Tests\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
  */
-abstract class AbstractTwigTest extends PHPUnit_Framework_TestCase
+abstract class AbstractTwigTest extends \PHPUnit_Framework_TestCase
 {
     protected static $TEMP_PATH = '/../../tmp/';
     protected static $RESOURCE_PATH = '/../Resources/views/';
@@ -30,7 +25,7 @@ abstract class AbstractTwigTest extends PHPUnit_Framework_TestCase
      */
     protected static $fileSystem;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected static $environment;
 
@@ -41,7 +36,7 @@ abstract class AbstractTwigTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $templateName
      * @param string $format
-     * @return \PHPExcel|string
+     * @return Spreadsheet|string
      * @throws \Twig_Error_Syntax
      * @throws \Twig_Error_Loader
      * @throws \Symfony\Component\Filesystem\Exception\IOException
@@ -60,7 +55,7 @@ abstract class AbstractTwigTest extends PHPUnit_Framework_TestCase
         $appVariable->setRequestStack($requestStack);
 
         // generate source from template
-        $source = static::$environment->loadTemplate($templateName . '.twig')->render(['app' => $appVariable]);
+        $source = static::$environment->load($templateName . '.twig')->render(['app' => $appVariable]);
 
         // create paths
         $tempDirPath = __DIR__ . static::$TEMP_PATH;
@@ -72,20 +67,22 @@ abstract class AbstractTwigTest extends PHPUnit_Framework_TestCase
         // load source
         switch ($format) {
             case 'ods':
-                $reader = new PHPExcel_Reader_OOCalc();
+                $readerType = 'Ods';
                 break;
             case 'xls':
-                $reader = new PHPExcel_Reader_Excel5();
+                $readerType = 'Xls';
                 break;
             case 'xlsx':
-                $reader = new PHPExcel_Reader_Excel2007();
+                $readerType = 'Xlsx';
                 break;
             case 'pdf':
             case 'csv':
                 return $tempFilePath;
             default:
-                throw new InvalidArgumentException();
+                throw new \InvalidArgumentException();
         }
+
+        $reader = IOFactory::createReader($readerType);
 
         return $reader->load($tempFilePath);
     }
@@ -107,11 +104,11 @@ abstract class AbstractTwigTest extends PHPUnit_Framework_TestCase
     {
         static::$fileSystem = new Filesystem();
         
-        $twigFileSystem = new Twig_Loader_Filesystem([__DIR__ . static::$RESOURCE_PATH]);
+        $twigFileSystem = new \Twig_Loader_Filesystem([__DIR__ . static::$RESOURCE_PATH]);
         $twigFileSystem->addPath( __DIR__ . static::$TEMPLATE_PATH, 'templates');
         
-        static::$environment = new Twig_Environment($twigFileSystem, ['strict_variables' => true]);
-        static::$environment->addExtension(new TwigExcelExtension());
+        static::$environment = new \Twig_Environment($twigFileSystem, ['strict_variables' => true]);
+        static::$environment->addExtension(new TwigSpreadsheetExtension());
         static::$environment->setCache(__DIR__ . static::$TEMP_PATH);
     }
 

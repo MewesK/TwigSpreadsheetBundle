@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\Node;
+namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -9,7 +9,7 @@ use Twig_Node_Expression;
 /**
  * Class XlsCellNode
  *
- * @package MewesK\TwigExcelBundle\Twig\Node
+ * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
 class XlsCellNode extends Twig_Node implements SyntaxAwareNodeInterface
 {
@@ -31,7 +31,7 @@ class XlsCellNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
-            ->write('$context[\'phpExcel\']->setCellIndex(')
+            ->write('$context[\'phpSpreadsheetWrapper\']->setCellIndex(')
             ->subcompile($this->getNode('index'))
             ->raw(');' . PHP_EOL)
             ->write("ob_start();\n")
@@ -40,9 +40,9 @@ class XlsCellNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$cellProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->startCell($cellValue, $cellProperties);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->startCell($cellValue, $cellProperties);' . PHP_EOL)
             ->write('unset($cellIndex, $cellValue, $cellProperties);' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->endCell();' . PHP_EOL);
+            ->write('$context[\'phpSpreadsheetWrapper\']->endCell();' . PHP_EOL);
     }
 
     /**
@@ -51,7 +51,7 @@ class XlsCellNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function getAllowedParents()
     {
         return [
-            'MewesK\TwigExcelBundle\Twig\Node\XlsRowNode'
+            XlsRowNode::class
         ];
     }
 

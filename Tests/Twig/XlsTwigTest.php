@@ -1,10 +1,12 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+
+use PhpOffice\PhpSpreadsheet\Shared\PasswordHasher;
 
 /**
  * Class XlsTwigTest
- * @package MewesK\TwigExcelBundle\Tests\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
  */
 class XlsTwigTest extends AbstractTwigTest
 {
@@ -236,7 +238,7 @@ class XlsTwigTest extends AbstractTwigTest
         static::assertTrue($protection->getInsertHyperlinks(), 'Unexpected value in insertHyperlinks');
         static::assertTrue($protection->getInsertRows(), 'Unexpected value in insertRows');
         static::assertTrue($protection->getObjects(), 'Unexpected value in objects');
-        static::assertEquals(\PHPExcel_Shared_PasswordHasher::hashPassword('testpassword'), $protection->getPassword(), 'Unexpected value in password');
+        static::assertEquals(PasswordHasher::hashPassword('testpassword'), $protection->getPassword(), 'Unexpected value in password');
         static::assertTrue($protection->getPivotTables(), 'Unexpected value in pivotTables');
         static::assertTrue($protection->getScenarios(), 'Unexpected value in scenarios');
         static::assertTrue($protection->getSelectLockedCells(), 'Unexpected value in selectLockedCells');

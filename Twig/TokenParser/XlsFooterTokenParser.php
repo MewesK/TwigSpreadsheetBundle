@@ -1,15 +1,15 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\TokenParser;
+namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
 
-use MewesK\TwigExcelBundle\Twig\Node\XlsFooterNode;
+use MewesK\TwigSpreadsheetBundle\Twig\Node\XlsFooterNode;
 use Twig_Node_Expression_Constant;
 use Twig_Token;
 
 /**
  * Class XlsFooterTokenParser
  *
- * @package MewesK\TwigExcelBundle\Twig\TokenParser
+ * @package MewesK\TwigSpreadsheetBundle\Twig\TokenParser
  */
 class XlsFooterTokenParser extends AbstractTokenParser
 {

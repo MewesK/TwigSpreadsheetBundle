@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\Node;
+namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -9,7 +9,7 @@ use Twig_Node_Expression;
 /**
  * Class XlsSheetNode
  *
- * @package MewesK\TwigExcelBundle\Twig\Node
+ * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
 class XlsSheetNode extends Twig_Node implements SyntaxAwareNodeInterface
 {
@@ -37,14 +37,14 @@ class XlsSheetNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$sheetProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->startSheet($sheetIndex, $sheetProperties);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->startSheet($sheetIndex, $sheetProperties);' . PHP_EOL)
             ->write('unset($sheetIndex, $sheetProperties);' . PHP_EOL);
 
         if ($this->hasNode('body')) {
             $compiler->subcompile($this->getNode('body'));
         }
 
-        $compiler->addDebugInfo($this)->write('$context[\'phpExcel\']->endSheet();' . PHP_EOL);
+        $compiler->addDebugInfo($this)->write('$context[\'phpSpreadsheetWrapper\']->endSheet();' . PHP_EOL);
     }
 
     /**
@@ -53,7 +53,7 @@ class XlsSheetNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function getAllowedParents()
     {
         return [
-            'MewesK\TwigExcelBundle\Twig\Node\XlsDocumentNode'
+            XlsDocumentNode::class
         ];
     }
 

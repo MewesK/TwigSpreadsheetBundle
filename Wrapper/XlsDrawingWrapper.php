@@ -1,12 +1,13 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
-use Twig_Environment;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 
 /**
  * Class XlsDrawingWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsDrawingWrapper extends AbstractWrapper
 {
@@ -15,7 +16,7 @@ class XlsDrawingWrapper extends AbstractWrapper
      */
     protected $context;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $environment;
     /**
@@ -28,7 +29,7 @@ class XlsDrawingWrapper extends AbstractWrapper
     protected $headerFooterWrapper;
 
     /**
-     * @var \PHPExcel_Worksheet_Drawing | \PHPExcel_Worksheet_HeaderFooterDrawing
+     * @var Drawing | HeaderFooterDrawing
      */
     protected $object;
     /**
@@ -44,11 +45,11 @@ class XlsDrawingWrapper extends AbstractWrapper
      * XlsDrawingWrapper constructor.
      * 
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      * @param XlsSheetWrapper $sheetWrapper
      * @param XlsHeaderFooterWrapper $headerFooterWrapper
      */
-    public function __construct(array $context, Twig_Environment $environment, XlsSheetWrapper $sheetWrapper, XlsHeaderFooterWrapper $headerFooterWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper, XlsHeaderFooterWrapper $headerFooterWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -117,10 +118,10 @@ class XlsDrawingWrapper extends AbstractWrapper
     /**
      * @param $path
      * @param array|null $properties
-     * @throws \PHPExcel_Exception
      * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function start($path, array $properties = null)
     {
@@ -170,7 +171,7 @@ class XlsDrawingWrapper extends AbstractWrapper
                     throw new \InvalidArgumentException(sprintf('Unknown type "%s"', $headerFooterAttributes['type']));
             }
 
-            $this->object = new \PHPExcel_Worksheet_HeaderFooterDrawing();
+            $this->object = new HeaderFooterDrawing();
             $this->object->setPath($tempPath);
             $this->headerFooterWrapper->getObject()->addImage($this->object, $location);
             $this->headerFooterWrapper->setAttributes($headerFooterAttributes);
@@ -178,7 +179,7 @@ class XlsDrawingWrapper extends AbstractWrapper
 
         // add to worksheet
         else {
-            $this->object = new \PHPExcel_Worksheet_Drawing();
+            $this->object = new Drawing();
             $this->object->setWorksheet($this->sheetWrapper->getObject());
             $this->object->setPath($tempPath);
         }
@@ -216,7 +217,7 @@ class XlsDrawingWrapper extends AbstractWrapper
             if ($data === false) {
                 throw new \InvalidArgumentException($path . ' does not exist.');
             }
-            $temp = fopen($tempPath, 'w+');
+            $temp = fopen($tempPath, 'wb+');
             if ($temp === false) {
                 throw new \RuntimeException('Cannot open ' . $tempPath);
             }
@@ -251,7 +252,7 @@ class XlsDrawingWrapper extends AbstractWrapper
     }
 
     /**
-     * @return \PHPExcel_Worksheet_Drawing|\PHPExcel_Worksheet_HeaderFooterDrawing
+     * @return Drawing|HeaderFooterDrawing
      */
     public function getObject()
     {
@@ -259,7 +260,7 @@ class XlsDrawingWrapper extends AbstractWrapper
     }
 
     /**
-     * @param \PHPExcel_Worksheet_Drawing|\PHPExcel_Worksheet_HeaderFooterDrawing $object
+     * @param Drawing|HeaderFooterDrawing $object
      */
     public function setObject($object)
     {

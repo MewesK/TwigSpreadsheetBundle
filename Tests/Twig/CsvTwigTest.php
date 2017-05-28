@@ -1,10 +1,10 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
  * Class CsvTwigTest
- * @package MewesK\TwigExcelBundle\Tests\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
  */
 class CsvTwigTest extends AbstractTwigTest
 {
@@ -38,7 +38,7 @@ class CsvTwigTest extends AbstractTwigTest
 
         static::assertFileExists($path, 'File does not exist');
         static::assertGreaterThan(0, filesize($path), 'File is empty');
-        static::assertEquals("\"Foo\",\"Bar\"".PHP_EOL."\"Hello\",\"World\"".PHP_EOL, file_get_contents($path), 'Unexpected content');
+        static::assertStringEqualsFile($path, '"Foo","Bar"' .PHP_EOL. '"Hello","World"' .PHP_EOL, 'Unexpected content');
     }
 
     /**
@@ -53,6 +53,6 @@ class CsvTwigTest extends AbstractTwigTest
 
         static::assertFileExists($path, 'File does not exist');
         static::assertGreaterThan(0, filesize($path), 'File is empty');
-        static::assertEquals("\"Hello2\",\"World\"".PHP_EOL."\"Foo\",\"Bar2\"".PHP_EOL, file_get_contents($path), 'Unexpected content');
+        static::assertStringEqualsFile($path, '"Hello2","World"' .PHP_EOL. '"Foo","Bar2"' .PHP_EOL, 'Unexpected content');
     }
 }

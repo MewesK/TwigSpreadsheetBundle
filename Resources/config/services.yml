@@ -1,0 +1,11 @@
+services:
+    mewes_k_twig_spreadsheet.add_request_formats_listener:
+        class: MewesK\TwigSpreadsheetBundle\EventListener\AddRequestFormatsListener
+        tags:
+            - { name: kernel.event_subscriber }
+
+    mewes_k_twig_spreadsheet.twig_spreadsheet_extension:
+        class: MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension
+        arguments: ['%mewes_k_twig_spreadsheet.pre_calculate_formulas%', '%mewes_k_twig_spreadsheet.disk_caching_directory%']
+        tags:
+            - { name: twig.extension }

@@ -1,10 +1,10 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
  * Class XlsxTwigTest
- * @package MewesK\TwigExcelBundle\Tests\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
  */
 class XlsxTwigTest extends AbstractTwigTest
 {

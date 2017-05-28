@@ -1,31 +1,31 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Twig;
 
-use MewesK\TwigExcelBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsBlockTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsCellTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsCenterTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsDocumentTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsDrawingTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsFooterTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsHeaderTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsIncludeTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsLeftTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsMacroTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsRightTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsRowTokenParser;
-use MewesK\TwigExcelBundle\Twig\TokenParser\XlsSheetTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsBlockTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsCellTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsCenterTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsDocumentTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsDrawingTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsFooterTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsHeaderTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsIncludeTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsLeftTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsMacroTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRightTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRowTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsSheetTokenParser;
 use Twig_Error_Runtime;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
 /**
- * Class TwigExcelExtension
+ * Class TwigSpreadsheetExtension
  *
- * @package MewesK\TwigExcelBundle\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Twig
  */
-class TwigExcelExtension extends Twig_Extension
+class TwigSpreadsheetExtension extends Twig_Extension
 {
     /**
      * @var bool
@@ -91,7 +91,7 @@ class TwigExcelExtension extends Twig_Extension
      */
     public function getName()
     {
-        return 'excel_extension';
+        return 'spreadsheet_extension';
     }
 
     /**

@@ -1,14 +1,13 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
-use PHPExcel_Cell;
-use Twig_Environment;
+use PhpOffice\PhpSpreadsheet\Cell;
 
 /**
  * Class XlsCellWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsCellWrapper extends AbstractWrapper
 {
@@ -17,7 +16,7 @@ class XlsCellWrapper extends AbstractWrapper
      */
     protected $context;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $environment;
     /**
@@ -26,7 +25,7 @@ class XlsCellWrapper extends AbstractWrapper
     protected $sheetWrapper;
 
     /**
-     * @var \PHPExcel_Cell
+     * @var Cell
      */
     protected $object;
     /**
@@ -42,10 +41,10 @@ class XlsCellWrapper extends AbstractWrapper
      * XlsCellWrapper constructor.
      * 
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      * @param XlsSheetWrapper $sheetWrapper
      */
-    public function __construct(array $context, Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -107,7 +106,7 @@ class XlsCellWrapper extends AbstractWrapper
         };
         $this->mappings['merge'] = function ($value) {
             if (is_int($value)) {
-                $value = PHPExcel_Cell::stringFromColumnIndex($value) . $this->sheetWrapper->getRow();
+                $value = Cell::stringFromColumnIndex($value) . $this->sheetWrapper->getRow();
             }
             $this->sheetWrapper->getObject()->mergeCells(sprintf('%s:%s', $this->object->getCoordinate(), $value));
         };
@@ -123,9 +122,9 @@ class XlsCellWrapper extends AbstractWrapper
      * @param null|int $index
      * @param null|mixed $value
      * @param null|array $properties
-     * @throws \PHPExcel_Exception
      * @throws \LogicException
      * @throws \InvalidArgumentException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function start($index = null, $value = null, array $properties = null)
     {
@@ -146,8 +145,8 @@ class XlsCellWrapper extends AbstractWrapper
             $this->sheetWrapper->getRow());
 
         if ($value !== null) {
-            if (array_key_exists('explicitValue', $properties) && $properties['explicitValue'] === true) {
-                $this->object->setValueExplicit($value);
+            if (array_key_exists('dataType', $properties) && $properties['dataType']) {
+                $this->object->setValueExplicit($value, $properties['dataType']);
             } else {
                 $this->object->setValue($value);
             }
@@ -172,7 +171,7 @@ class XlsCellWrapper extends AbstractWrapper
     //
 
     /**
-     * @return \PHPExcel_Cell
+     * @return Cell
      */
     public function getObject()
     {
@@ -180,7 +179,7 @@ class XlsCellWrapper extends AbstractWrapper
     }
 
     /**
-     * @param \PHPExcel_Cell $object
+     * @param Cell $object
      */
     public function setObject($object)
     {

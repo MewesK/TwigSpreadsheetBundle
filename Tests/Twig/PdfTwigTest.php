@@ -1,10 +1,10 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
  * Class PdfTwigTest
- * @package MewesK\TwigExcelBundle\Tests\Twig
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
  */
 class PdfTwigTest extends AbstractTwigTest
 {
@@ -36,7 +36,7 @@ class PdfTwigTest extends AbstractTwigTest
     public function testBasic($format)
     {
         // Skip PDF test for nightly builds of PHP since mPDF doesn't work
-        if (version_compare(phpversion(), '7.0.0-dev', '>=')) {
+        if (version_compare(PHP_VERSION, '7.0.0-dev', '>=')) {
             return;
         }
 

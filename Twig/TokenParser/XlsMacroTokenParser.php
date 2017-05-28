@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\TokenParser;
+namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
 
-use MewesK\TwigExcelBundle\Twig\NodeHelper;
+use MewesK\TwigSpreadsheetBundle\Twig\NodeHelper;
 use Twig_Error_Syntax;
 use Twig_Node_Body;
 use Twig_Node_Expression_Constant;
@@ -13,7 +13,7 @@ use Twig_TokenParser;
 /**
  * Class XlsMacroTokenParser
  *
- * @package MewesK\TwigExcelBundle\Twig\TokenParser
+ * @package MewesK\TwigSpreadsheetBundle\Twig\TokenParser
  */
 class XlsMacroTokenParser extends Twig_TokenParser
 {
@@ -33,7 +33,7 @@ class XlsMacroTokenParser extends Twig_TokenParser
         $arguments = $this->parser->getExpressionParser()->parseArguments(true, true);
 
         // fix macro context
-        $arguments->setNode('phpExcel', new Twig_Node_Expression_Constant(null, null));
+        $arguments->setNode('phpSpreadsheetWrapper', new Twig_Node_Expression_Constant(null, null));
 
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
         $this->parser->pushLocalScope();
@@ -42,7 +42,12 @@ class XlsMacroTokenParser extends Twig_TokenParser
             $value = $token->getValue();
 
             if ($value !== $name) {
-                throw new Twig_Error_Syntax(sprintf('Expected endxlsmacro for macro "%s" (but "%s" given).', $name, $value), $stream->getCurrent()->getLine(), $stream->getFilename());
+                /** @noinspection PhpInternalEntityUsedInspection */
+                throw new Twig_Error_Syntax(
+                    sprintf('Expected endxlsmacro for macro "%s" (but "%s" given).', $name, $value),
+                    $stream->getCurrent()->getLine(),
+                    $stream->getSourceContext()
+                );
             }
         }
         $this->parser->popLocalScope();
@@ -57,7 +62,7 @@ class XlsMacroTokenParser extends Twig_TokenParser
         $macro = new Twig_Node_Macro($name, new Twig_Node_Body(array($body)), $arguments, $lineno, $this->getTag());
 
         // mark for syntax checks
-        $macro->setAttribute('twigExcelBundle', true);
+        $macro->setAttribute('twigSpreadsheetBundle', true);
 
         $this->parser->setMacro($name, $macro);
     }

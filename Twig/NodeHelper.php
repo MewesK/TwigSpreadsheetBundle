@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig;
+namespace MewesK\TwigSpreadsheetBundle\Twig;
 
-use MewesK\TwigExcelBundle\Twig\Node\SyntaxAwareNodeInterface;
+use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNodeInterface;
 use Twig_Error_Syntax;
 use Twig_Node;
 use Twig_Node_Block;
@@ -15,12 +15,12 @@ use Twig_Parser;
 /**
  * Class NodeHelper
  *
- * @package MewesK\TwigExcelBundle\Twig\TokenParser
+ * @package MewesK\TwigSpreadsheetBundle\Twig\TokenParser
  */
 class NodeHelper
 {
     /**
-     * Adds the PhpExcel instance as the last parameter to all macro function calls.
+     * Adds the PhpSpreadsheet instance as the last parameter to all macro function calls.
      *
      * @param Twig_Node $node
      */
@@ -32,7 +32,7 @@ class NodeHelper
                  * @var \Twig_Node_Expression_Array $argumentsNode
                  */
                 $argumentsNode = $subNode->getNode('arguments');
-                $argumentsNode->addElement(new Twig_Node_Expression_Name('phpExcel', null), null);
+                $argumentsNode->addElement(new Twig_Node_Expression_Name('phpSpreadsheetWrapper', null), null);
             } elseif ($subNode instanceof Twig_Node && $subNode->count() > 0) {
                 self::fixMacroCallsRecursively($subNode);
             }
@@ -76,7 +76,7 @@ class NodeHelper
         $parentName = null;
 
         foreach (array_reverse($path) as $className) {
-            if (strpos($className, 'MewesK\TwigExcelBundle\Twig\Node\Xls') === 0) {
+            if (strpos($className, 'MewesK\TwigSpreadsheetBundle\Twig\Node\Xls') === 0) {
                 $parentName = $className;
                 break;
             }
@@ -104,10 +104,9 @@ class NodeHelper
         foreach ($node->getIterator() as $key => $subNode) {
             if ($node instanceof SyntaxAwareNodeInterface) {
                 return true;
-            } elseif ($subNode instanceof Twig_Node && $subNode->count() > 0) {
-                if (self::checkContainsXlsNode($subNode)) {
-                    return true;
-                }
+            }
+            if ($subNode instanceof Twig_Node && $subNode->count() > 0 && self::checkContainsXlsNode($subNode)) {
+                return true;
             }
         }
         return false;

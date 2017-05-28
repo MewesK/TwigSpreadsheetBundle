@@ -1,12 +1,13 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
-use Twig_Environment;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+
+use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooter;
 
 /**
  * Class XlsHeaderFooterWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsHeaderFooterWrapper extends AbstractWrapper
 {
@@ -15,7 +16,7 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
      */
     protected $context;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $environment;
     /**
@@ -29,7 +30,7 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     protected $alignmentAttributes;
 
     /**
-     * @var \PHPExcel_Worksheet_HeaderFooter
+     * @var HeaderFooter
      */
     protected $object;
     /**
@@ -44,10 +45,10 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     /**
      * XlsHeaderFooterWrapper constructor.
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      * @param XlsSheetWrapper $sheetWrapper
      */
-    public function __construct(array $context, Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -205,7 +206,7 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     //
 
     /**
-     * @return \PHPExcel_Worksheet_HeaderFooter
+     * @return HeaderFooter
      */
     public function getObject()
     {
@@ -213,7 +214,7 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     }
 
     /**
-     * @param \PHPExcel_Worksheet_HeaderFooter $object
+     * @param HeaderFooter $object
      */
     public function setObject($object)
     {

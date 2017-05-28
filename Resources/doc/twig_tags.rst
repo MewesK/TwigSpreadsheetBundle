@@ -31,7 +31,7 @@ category                 string    X
 company                  string
 created                  datetime  X    X    Can be null, timestamp or a strtotime compatible string
 creator                  string    X    X
-defaultStyle             array               Standard PhpExcel style array
+defaultStyle             array               Standard PhpSpreadsheet style array
 description              string    X    X
 format                   string    X         Possible formats are 'csv', 'html', 'pdf', 'xls, 'xlsx'
 keywords                 string    X
@@ -114,10 +114,10 @@ Name                     Type      XLS  ODS  Description
 autoFilter               string              The range like 'A1:E20'
 columnDimension          array               Contains one or more arrays. Possible keys are 'default' or a valid column name like 'A'
  \+ autoSize             boolean
- \+ collapsed            boolean             Does not work in PhpExcel?
- \+ columnIndex          string              Does not work in PhpExcel?
+ \+ collapsed            boolean             Does not work in PhpSpreadsheet?
+ \+ columnIndex          string              Does not work in PhpSpreadsheet?
  \+ outlineLevel         int
- \+ visible              boolean             Does not work in PhpExcel?
+ \+ visible              boolean             Does not work in PhpSpreadsheet?
  \+ width                double
  \+ xfIndex              int
 pageMargins              array
@@ -133,7 +133,7 @@ pageSetup                array
  \+ fitToWidth           int
  \+ horizontalCentered   boolean
  \+ orientation          string              Possible orientations are 'default', 'landscape', 'portrait'
- \+ paperSize            int                 Possible values are defined in PHPExcel_Worksheet_PageSetup
+ \+ paperSize            int                 Possible values are defined in PhpOffice\PhpSpreadsheet\Worksheet\PageSetup
  \+ printArea            string              A range like 'A1:E20'
  \+ scale                int
  \+ verticalCentered     boolean
@@ -158,13 +158,13 @@ protection               array
 printGridlines           boolean
 rightToLeft              boolean
 rowDimension             array               Contains one or more arrays. Possible keys are 'default' or a row index >=1
- \+ collapsed            boolean             Does not work in PhpExcel?
+ \+ collapsed            boolean             Does not work in PhpSpreadsheet?
  \+ outlineLevel         int
  \+ rowHeight            double
- \+ rowIndex             int                 Does not work in PhpExcel?
- \+ visible              boolean             Does not work in PhpExcel?
+ \+ rowIndex             int                 Does not work in PhpSpreadsheet?
+ \+ visible              boolean             Does not work in PhpSpreadsheet?
  \+ xfIndex              int
- \+ zeroHeight           boolean             Does not work in PhpExcel?
+ \+ zeroHeight           boolean             Does not work in PhpSpreadsheet?
 sheetState               string
 showGridlines            boolean             Cannot be tested - not supported by the reader
 tabColor                 string
@@ -351,11 +351,10 @@ xlsleft, xlscenter, xlsright
         ...
     {% endxlsright %}
 
-- May contain one 'xlsdrawing' tag (not supported by the Excel5 and OpenDocument writer)
-- Not supported by the OpenDocument writer
+- May contain one 'xlsdrawing' tag (not supported by the XLS and ODS writer)
+- Not supported by the ODS writer
 
-- These tags replace the &L, &C and &R format codes.
-- All other codes can be found at: https://github.com/PHPOffice/PHPExcel/blob/develop/Documentation/markdown/Overview/08-Recipes.md#setting-the-print-header-and-footer-of-a-worksheet
+- These tags replace the &L, &C and &R format codes. All other codes can be found in PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooter
 
 Example
 ```````
@@ -435,25 +434,24 @@ Properties
 =======================  ==========  ===  ===  ===========
 Name                     Type        XLS  ODS  Description
 =======================  ==========  ===  ===  ===========
-break                    int         X         Possible values are defined in PHPExcel_Worksheet
-dataType                 string      X    X    Possible values are defined in PHPExcel_Cell_DataType
+break                    int         X         Possible values are defined in PhpOffice\PhpSpreadsheet\Spreadsheet
+dataType                 string      X    X    If set cell is rendered as an explicit value (prevents PHP type casting). Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataType
 dataValidation           array
  \+ allowBlank           boolean
  \+ error                string
- \+ errorStyle           string                Possible values are defined in PHPExcel_Cell_DataValidation
+ \+ errorStyle           string                Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
  \+ errorTitle           string
  \+ formula1             string
  \+ formula2             string
- \+ operator             string                Possible values are defined in PHPExcel_Cell_DataValidation
+ \+ operator             string                Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
  \+ prompt               string
  \+ promptTitle          string
  \+ showDropDown         boolean
  \+ showErrorMessage     boolean
  \+ showInputMessage     boolean
- \+ type                 string                Possible values are defined in PHPExcel_Cell_DataValidation
-explicitValue            boolean     X         If true cell is rendered as an explicit value (useful to show leading zeros using strings)
+ \+ type                 string                Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
 merge                    int|string  X         Merge a cell range. Allows zero-based cell index or cell coordinates like 'A3'
-style                    array       X         Standard PhpExcel style array
+style                    array       X         Standard PhpSpreadsheet style array
 url                      string      X
 =======================  ==========  ===  ===  ===========
 
@@ -530,7 +528,7 @@ offsetY                  int
 resizeProportional       boolean   X
 rotation                 int
 shadow                   array
- \+ alignment            string              Possible values are defined in PHPExcel_Worksheet_Drawing_Shadow
+ \+ alignment            string              Possible values are defined in PhpOffice\PhpSpreadsheet\Worksheet\Drawing\Shadow
  \+ alpha                int
  \+ blurRadius           int
  \+ color                string              A hexadecimal color string like '000000' (without #)

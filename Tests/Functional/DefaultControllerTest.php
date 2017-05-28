@@ -1,15 +1,16 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Tests\Functional;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DefaultControllerTest
- * @package MewesK\TwigExcelBundle\Tests\Functional
+ * @package MewesK\TwigSpreadsheetBundle\Tests\Functional
  */
 class DefaultControllerTest extends AbstractControllerTest
 {
+    protected static $ENVIRONMENT = 'controller';
     protected static $TEMP_PATH = '/../../tmp/functional/controller/';
 
     //
@@ -64,13 +65,13 @@ class DefaultControllerTest extends AbstractControllerTest
         static::$client->request('GET', $uri);
 
         /**
-         * @var $response Response
+         * @var Response $response
          */
         $response = static::$client->getResponse();
 
         static::assertNotNull($response, 'Response does not exist');
-        static::assertEquals('attachment; filename="foobar.bin"', $response->headers->get('content-disposition'), 'Unexpected or missing header "Content-Disposition"');
-        static::assertEquals('max-age=600, private', $response->headers->get('cache-control'), 'Unexpected or missing header "Cache-Control"');
+        static::assertEquals('attachment; filename="foobar.bin"', $response->headers->get('Content-Disposition'), 'Unexpected or missing header "Content-Disposition"');
+        static::assertEquals(600, $response->getMaxAge(), 'Unexpected value in maxAge');
     }
 
     /**

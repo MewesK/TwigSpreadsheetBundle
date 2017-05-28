@@ -1,15 +1,13 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
-use PHPExcel_Cell;
-use PHPExcel_Exception;
-use PHPExcel_Worksheet_RowCellIterator;
-use Twig_Environment;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+
+use PhpOffice\PhpSpreadsheet\Exception;
+use PhpOffice\PhpSpreadsheet\Worksheet;
 
 /**
  * Class XlsSheetWrapper
- *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsSheetWrapper extends AbstractWrapper
 {
@@ -27,7 +25,7 @@ class XlsSheetWrapper extends AbstractWrapper
      */
     protected $context;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $environment;
     /**
@@ -43,7 +41,7 @@ class XlsSheetWrapper extends AbstractWrapper
      */
     protected $column;
     /**
-     * @var \PHPExcel_Worksheet
+     * @var Worksheet
      */
     protected $object;
     /**
@@ -59,10 +57,10 @@ class XlsSheetWrapper extends AbstractWrapper
      * XlsSheetWrapper constructor.
      * 
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      * @param XlsDocumentWrapper $documentWrapper
      */
-    public function __construct(array $context, Twig_Environment $environment, XlsDocumentWrapper $documentWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, XlsDocumentWrapper $documentWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -252,7 +250,7 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @param $index
      * @param array|null $properties
-     * @throws \PHPExcel_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function start($index, array $properties = null)
     {
@@ -279,8 +277,7 @@ class XlsSheetWrapper extends AbstractWrapper
     }
 
     /**
-     * @throws \PHPExcel_Reader_Exception
-     * @throws \PHPExcel_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function end()
     {
@@ -297,19 +294,13 @@ class XlsSheetWrapper extends AbstractWrapper
                 if(true === is_array($value) && true === isset($value['autoSize'])) {
                     if ('default' === $key) {
                         try {
-                            /**
-                             * @var PHPExcel_Worksheet_RowCellIterator $cellIterator
-                             */
                             $cellIterator = $this->object->getRowIterator()->current()->getCellIterator();
                             $cellIterator->setIterateOnlyExistingCells(true);
 
-                            /**
-                             * @var PHPExcel_Cell $cell
-                             */
                             foreach ($cellIterator as $cell) {
                                 $this->object->getColumnDimension($cell->getColumn())->setAutoSize($value['autoSize']);
                             }
-                        } catch (PHPExcel_Exception $e) {
+                        } catch (Exception $e) {
                             // ignore exceptions thrown when no cells are defined
                         }
                     } else {
@@ -375,7 +366,7 @@ class XlsSheetWrapper extends AbstractWrapper
     }
 
     /**
-     * @return \PHPExcel_Worksheet
+     * @return Worksheet
      */
     public function getObject()
     {
@@ -383,7 +374,7 @@ class XlsSheetWrapper extends AbstractWrapper
     }
 
     /**
-     * @param \PHPExcel_Worksheet $object
+     * @param Worksheet $object
      */
     public function setObject($object)
     {

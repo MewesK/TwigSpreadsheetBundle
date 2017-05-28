@@ -1,12 +1,11 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
-use Twig_Environment;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 /**
  * Class XlsSheetWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 class XlsRowWrapper extends AbstractWrapper
 {
@@ -15,7 +14,7 @@ class XlsRowWrapper extends AbstractWrapper
      */
     protected $context;
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $environment;
     /**
@@ -26,10 +25,10 @@ class XlsRowWrapper extends AbstractWrapper
     /**
      * XlsRowWrapper constructor.
      * @param array $context
-     * @param Twig_Environment $environment
+     * @param \Twig_Environment $environment
      * @param XlsSheetWrapper $sheetWrapper
      */
-    public function __construct(array $context, Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;

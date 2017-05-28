@@ -25,15 +25,21 @@
                 },
                 'url': 'http://example.com/'
             } %}Foo{% endxlscell %}
-            {% xlscell {
-                'dataType': 's'
-            } %}42{% endxlscell %}
-            {% xlscell {
-                'dataType': 'n'
-            } %}42{% endxlscell %}
-            {% xlscell {
-                'explicitValue': true
-            } %}007{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell %}42{% endxlscell %}
+            {% xlscell {'dataType': 's'} %}42{% endxlscell %}
+            {% xlscell {'dataType': 'n'} %}42{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell %}007{% endxlscell %}
+            {% xlscell {'dataType': 's'} %}007{% endxlscell %}
+            {% xlscell {'dataType': 'n'} %}007{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell %}0.13370{% endxlscell %}
+            {% xlscell {'dataType': 's'} %}0.13370{% endxlscell %}
+            {% xlscell {'dataType': 'n'} %}0.13370{% endxlscell %}
         {% endxlsrow %}
     {% endxlssheet %}
 {% endxlsdocument %}

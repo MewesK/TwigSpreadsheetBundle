@@ -1,6 +1,6 @@
 imports:
     - { resource: config.yml }
 
-mewes_k_twig_excel:
+mewes_k_twig_spreadsheet:
     pre_calculate_formulas: false
-    disk_caching_directory: "%kernel.root_dir%/../../tmp/phpexcel"
+    disk_caching_directory: "%kernel.root_dir%/../../tmp/phpSpreadsheet"

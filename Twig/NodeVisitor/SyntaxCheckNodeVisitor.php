@@ -1,9 +1,9 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\NodeVisitor;
+namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
-use MewesK\TwigExcelBundle\Twig\Node\SyntaxAwareNodeInterface;
-use MewesK\TwigExcelBundle\Twig\NodeHelper;
+use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNodeInterface;
+use MewesK\TwigSpreadsheetBundle\Twig\NodeHelper;
 use Twig_BaseNodeVisitor;
 use Twig_Environment;
 use Twig_Error_Syntax;
@@ -14,7 +14,7 @@ use Twig_Node_Macro;
 /**
  * Class SyntaxCheckNodeVisitor
  *
- * @package MewesK\TwigExcelBundle\Twig\NodeVisitor
+ * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
  */
 class SyntaxCheckNodeVisitor extends Twig_BaseNodeVisitor
 {
@@ -30,12 +30,12 @@ class SyntaxCheckNodeVisitor extends Twig_BaseNodeVisitor
      */
     protected function doEnterNode(Twig_Node $node, Twig_Environment $env)
     {
-        if (($node instanceof Twig_Node_Block || $node instanceof Twig_Node_Macro) && !$node->hasAttribute('twigExcelBundle') && NodeHelper::checkContainsXlsNode($node)) {
+        if (($node instanceof Twig_Node_Block || $node instanceof Twig_Node_Macro) && !$node->hasAttribute('twigSpreadsheetBundle') && NodeHelper::checkContainsXlsNode($node)) {
             if ($node instanceof Twig_Node_Block) {
-                throw new Twig_Error_Syntax('Block tags do not work together with Twig tags provided by TwigExcelBundle. Please use \'xlsblock\' instead.');
+                throw new Twig_Error_Syntax('Block tags do not work together with Twig tags provided by TwigSpreadsheetBundle. Please use \'xlsblock\' instead.');
             }
-            elseif ($node instanceof Twig_Node_Macro) {
-                throw new Twig_Error_Syntax('Macro tags do not work together with Twig tags provided by TwigExcelBundle. Please use \'xlsmacro\' instead.');
+            if ($node instanceof Twig_Node_Macro) {
+                throw new Twig_Error_Syntax('Macro tags do not work together with Twig tags provided by TwigSpreadsheetBundle. Please use \'xlsmacro\' instead.');
             }
         }
         elseif ($node instanceof SyntaxAwareNodeInterface) {

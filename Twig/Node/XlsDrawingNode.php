@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Twig\Node;
+namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 
 use Twig_Compiler;
 use Twig_Node;
@@ -9,7 +9,7 @@ use Twig_Node_Expression;
 /**
  * Class XlsDrawingNode
  *
- * @package MewesK\TwigExcelBundle\Twig\Node
+ * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
 class XlsDrawingNode extends Twig_Node implements SyntaxAwareNodeInterface
 {
@@ -36,9 +36,9 @@ class XlsDrawingNode extends Twig_Node implements SyntaxAwareNodeInterface
             ->write('$drawingProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->startDrawing($drawingPath, $drawingProperties);' . PHP_EOL)
+            ->write('$context[\'phpSpreadsheetWrapper\']->startDrawing($drawingPath, $drawingProperties);' . PHP_EOL)
             ->write('unset($drawingPath, $drawingProperties);' . PHP_EOL)
-            ->write('$context[\'phpExcel\']->endDrawing();' . PHP_EOL);
+            ->write('$context[\'phpSpreadsheetWrapper\']->endDrawing();' . PHP_EOL);
     }
 
     /**
@@ -47,10 +47,10 @@ class XlsDrawingNode extends Twig_Node implements SyntaxAwareNodeInterface
     public function getAllowedParents()
     {
         return [
-            'MewesK\TwigExcelBundle\Twig\Node\XlsSheetNode',
-            'MewesK\TwigExcelBundle\Twig\Node\XlsLeftNode',
-            'MewesK\TwigExcelBundle\Twig\Node\XlsCenterNode',
-            'MewesK\TwigExcelBundle\Twig\Node\XlsRightNode'
+            XlsSheetNode::class,
+            XlsLeftNode::class,
+            XlsCenterNode::class,
+            XlsRightNode::class
         ];
     }
 

@@ -1,25 +1,24 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\DependencyInjection;
+namespace MewesK\TwigSpreadsheetBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Class Configuration
- * 
- * @package MewesK\TwigExcelBundle\DependencyInjection
+ * @package MewesK\TwigSpreadsheetBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * @return TreeBuilder
      * @throws \RuntimeException
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mewes_k_twig_excel');
+        $rootNode = $treeBuilder->root('mewes_k_twig_spreadsheet');
 
         $rootNode
             ->children()

@@ -1,11 +1,11 @@
 <?php
 
-namespace MewesK\TwigExcelBundle\Wrapper;
+namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 /**
  * Class AbstractWrapper
  *
- * @package MewesK\TwigExcelBundle\Wrapper
+ * @package MewesK\TwigSpreadsheetBundle\Wrapper
  */
 abstract class AbstractWrapper
 {
