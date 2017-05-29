@@ -4,6 +4,8 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\ColumnDimension;
+use PhpOffice\PhpSpreadsheet\Worksheet\RowDimension;
 
 /**
  * Class XlsSheetWrapper
@@ -15,11 +17,11 @@ class XlsSheetWrapper extends AbstractWrapper
     /**
      * @var int
      */
-    public static $COLUMN_DEFAULT = 0;
+    const COLUMN_DEFAULT = 0;
     /**
      * @var int
      */
-    public static $ROW_DEFAULT = 1;
+    const ROW_DEFAULT = 1;
 
     /**
      * @var array
@@ -33,6 +35,7 @@ class XlsSheetWrapper extends AbstractWrapper
      * @var XlsDocumentWrapper
      */
     protected $documentWrapper;
+
     /**
      * @var null|int
      */
@@ -82,30 +85,31 @@ class XlsSheetWrapper extends AbstractWrapper
         $this->mappings['autoFilter'] = function ($value) {
             $this->object->setAutoFilter($value);
         };
-        $this->mappings['columnDimension']['__multi'] = true;
-        $this->mappings['columnDimension']['__object'] = function ($key = 'default') {
-            return $key === 'default' ? $this->object->getDefaultColumnDimension() : $this->object->getColumnDimension($key);
+        $this->mappings['columnDimension']['__multi'] = function ($column = 'default'): ColumnDimension {
+            return $column === 'default' ?
+                $this->object->getDefaultColumnDimension() :
+                $this->object->getColumnDimension($column);
         };
-        $this->mappings['columnDimension']['autoSize'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setAutoSize($value);
+        $this->mappings['columnDimension']['autoSize'] = function ($value, ColumnDimension $object) {
+            $object->setAutoSize($value);
         };
-        $this->mappings['columnDimension']['collapsed'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setCollapsed($value);
+        $this->mappings['columnDimension']['collapsed'] = function ($value, ColumnDimension $object) {
+            $object->setCollapsed($value);
         };
-        $this->mappings['columnDimension']['columnIndex'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setColumnIndex($value);
+        $this->mappings['columnDimension']['columnIndex'] = function ($value, ColumnDimension $object) {
+            $object->setColumnIndex($value);
         };
-        $this->mappings['columnDimension']['outlineLevel'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setOutlineLevel($value);
+        $this->mappings['columnDimension']['outlineLevel'] = function ($value, ColumnDimension $object) {
+            $object->setOutlineLevel($value);
         };
-        $this->mappings['columnDimension']['visible'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setVisible($value);
+        $this->mappings['columnDimension']['visible'] = function ($value, ColumnDimension $object) {
+            $object->setVisible($value);
         };
-        $this->mappings['columnDimension']['width'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setWidth($value);
+        $this->mappings['columnDimension']['width'] = function ($value, ColumnDimension $object) {
+            $object->setWidth($value);
         };
-        $this->mappings['columnDimension']['xfIndex'] = function ($key, $value) {
-            $this->mappings['columnDimension']['__object']($key)->setXfIndex($value);
+        $this->mappings['columnDimension']['xfIndex'] = function ($value, ColumnDimension $object) {
+            $object->setXfIndex($value);
         };
         $this->mappings['pageMargins']['top'] = function ($value) {
             $this->object->getPageMargins()->setTop($value);
@@ -209,30 +213,31 @@ class XlsSheetWrapper extends AbstractWrapper
         $this->mappings['rightToLeft'] = function ($value) {
             $this->object->setRightToLeft($value);
         };
-        $this->mappings['rowDimension']['__multi'] = true;
-        $this->mappings['rowDimension']['__object'] = function ($key) {
-            return $key === 'default' ? $this->object->getDefaultRowDimension() : $this->object->getRowDimension($key);
+        $this->mappings['rowDimension']['__multi'] = function ($column = 'default'): RowDimension {
+            return $column === 'default' ?
+                $this->object->getDefaultRowDimension() :
+                $this->object->getRowDimension($column);
         };
-        $this->mappings['rowDimension']['collapsed'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setCollapsed($value);
+        $this->mappings['rowDimension']['collapsed'] = function ($value, RowDimension $object) {
+            $object->setCollapsed($value);
         };
-        $this->mappings['rowDimension']['outlineLevel'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setOutlineLevel($value);
+        $this->mappings['rowDimension']['outlineLevel'] = function ($value, RowDimension $object) {
+            $object->setOutlineLevel($value);
         };
-        $this->mappings['rowDimension']['rowHeight'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setRowHeight($value);
+        $this->mappings['rowDimension']['rowHeight'] = function ($value, RowDimension $object) {
+            $object->setRowHeight($value);
         };
-        $this->mappings['rowDimension']['rowIndex'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setRowIndex($value);
+        $this->mappings['rowDimension']['rowIndex'] = function ($value, RowDimension $object) {
+            $object->setRowIndex($value);
         };
-        $this->mappings['rowDimension']['visible'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setVisible($value);
+        $this->mappings['rowDimension']['visible'] = function ($value, RowDimension $object) {
+            $object->setVisible($value);
         };
-        $this->mappings['rowDimension']['xfIndex'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setXfIndex($value);
+        $this->mappings['rowDimension']['xfIndex'] = function ($value, RowDimension $object) {
+            $object->setXfIndex($value);
         };
-        $this->mappings['rowDimension']['zeroHeight'] = function ($key, $value) {
-            $this->mappings['rowDimension']['__object']($key)->setZeroHeight($value);
+        $this->mappings['rowDimension']['zeroHeight'] = function ($value, RowDimension $object) {
+            $object->setZeroHeight($value);
         };
         $this->mappings['sheetState'] = function ($value) {
             $this->object->setSheetState($value);
@@ -252,6 +257,7 @@ class XlsSheetWrapper extends AbstractWrapper
      * @param int|string|null $index
      * @param array $properties
      * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \RuntimeException
      */
     public function start($index, array $properties = [])
     {
@@ -320,12 +326,12 @@ class XlsSheetWrapper extends AbstractWrapper
 
     public function increaseRow()
     {
-        $this->row = $this->row === null ? self::$ROW_DEFAULT : $this->row + 1;
+        $this->row = $this->row === null ? self::ROW_DEFAULT : $this->row + 1;
     }
 
     public function increaseColumn()
     {
-        $this->column = $this->column === null ? self::$COLUMN_DEFAULT : $this->column + 1;
+        $this->column = $this->column === null ? self::COLUMN_DEFAULT : $this->column + 1;
     }
 
     //

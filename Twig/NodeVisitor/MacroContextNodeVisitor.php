@@ -5,11 +5,11 @@ namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 
 /**
- * Class MacroContextFixNodeVisitor
+ * Class MacroContextNodeVisitor
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
  */
-class MacroContextFixNodeVisitor extends \Twig_BaseNodeVisitor
+class MacroContextNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * {@inheritdoc}

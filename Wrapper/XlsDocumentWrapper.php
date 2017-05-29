@@ -24,6 +24,7 @@ class XlsDocumentWrapper extends AbstractWrapper
      * @var \Twig_Environment
      */
     protected $environment;
+
     /**
      * @var Spreadsheet|null
      */
@@ -118,6 +119,8 @@ class XlsDocumentWrapper extends AbstractWrapper
 
     /**
      * @param array $properties
+     * @throws \RuntimeException
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function start(array $properties = [])

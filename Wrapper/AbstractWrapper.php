@@ -14,47 +14,39 @@ abstract class AbstractWrapper
      *
      * @param array $properties
      * @param array $mappings
+     * @param string|null $column
      * @throws \RuntimeException
      */
-    protected function setProperties(array $properties, array $mappings)
+    protected function setProperties(array $properties, array $mappings, string $column = null)
     {
         foreach ($properties as $key => $value) {
+            if (!isset($mappings[$key])) {
+                throw new \RuntimeException(sprintf('No mapping found for key "%s"', $key));
+            }
+
             if (is_array($value) && is_array($mappings[$key])) {
-                if (isset($mappings[$key]['__multi']) && $mappings[$key]['__multi'] === true) {
-                    /**
-                     * @var array $value
-                     */
-                    foreach ($value as $_key => $_value) {
-                        $this->setPropertiesByKey($_key, $_value, $mappings[$key]);
+                // recursion
+                /**
+                 * @var array $value
+                 */
+                if (isset($mappings[$key]['__multi'])) {
+                    // handle multi target structure (with columns)
+                    foreach ($value as $_column => $_value) {
+                        $this->setProperties($_value, $mappings[$key], $_column);
                     }
                 } else {
+                    // handle single target structure
                     $this->setProperties($value, $mappings[$key]);
                 }
             } elseif (is_callable($mappings[$key])) {
-                $mappings[$key]($value);
+                // call single and multi target mapping
+                // if column is set it is used to get object from the callback in __multi
+                $mappings[$key](
+                    $value,
+                    $column !== null ? $mappings['__multi']($column) : null
+                );
             } else {
-                throw new \RuntimeException(sprintf('Invalid mapping with key "%s"', $key));
-            }
-        }
-    }
-
-    /**
-     * @param string $key
-     * @param array $properties
-     * @param array $mappings
-     * @throws \RuntimeException
-     */
-    private function setPropertiesByKey(string $key, array $properties, array $mappings)
-    {
-        foreach ($properties as $_key => $value) {
-            if (isset($mappings[$_key])) {
-                if (is_array($value)) {
-                    $this->setPropertiesByKey($key, $value, $mappings[$_key]);
-                } elseif(is_callable($mappings[$_key])) {
-                    $mappings[$_key]($key, $value);
-                } else {
-                    throw new \RuntimeException(sprintf('Invalid mapping with key "%s"', $_key));
-                }
+                throw new \RuntimeException(sprintf('Invalid mapping for key "%s"', $key));
             }
         }
     }

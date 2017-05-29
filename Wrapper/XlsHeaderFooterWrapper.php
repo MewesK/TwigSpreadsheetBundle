@@ -25,11 +25,6 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     protected $sheetWrapper;
 
     /**
-     * @var array
-     */
-    protected $alignmentAttributes;
-
-    /**
      * @var null|HeaderFooter
      */
     protected $object;
@@ -41,6 +36,10 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
      * @var array
      */
     protected $mappings;
+    /**
+     * @var array
+     */
+    protected $alignmentAttributes;
 
     /**
      * XlsHeaderFooterWrapper constructor.
@@ -55,11 +54,10 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
         $this->environment = $environment;
         $this->sheetWrapper = $sheetWrapper;
 
-        $this->alignmentAttributes = [];
-
         $this->object = null;
         $this->attributes = [];
         $this->mappings = [];
+        $this->alignmentAttributes = [];
 
         $this->initializeMappings();
     }
