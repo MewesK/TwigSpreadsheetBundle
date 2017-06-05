@@ -3,11 +3,9 @@
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 /**
- * Class XlsSheetWrapper
- *
- * @package MewesK\TwigSpreadsheetBundle\Wrapper
+ * Class SheetWrapper.
  */
-class XlsRowWrapper extends AbstractWrapper
+class RowWrapper extends BaseWrapper
 {
     /**
      * @var array
@@ -18,18 +16,18 @@ class XlsRowWrapper extends AbstractWrapper
      */
     protected $environment;
     /**
-     * @var XlsSheetWrapper
+     * @var SheetWrapper
      */
     protected $sheetWrapper;
 
     /**
-     * XlsRowWrapper constructor.
+     * RowWrapper constructor.
      *
-     * @param array $context
+     * @param array             $context
      * @param \Twig_Environment $environment
-     * @param XlsSheetWrapper $sheetWrapper
+     * @param SheetWrapper      $sheetWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -38,6 +36,7 @@ class XlsRowWrapper extends AbstractWrapper
 
     /**
      * @param null|int $index
+     *
      * @throws \LogicException
      */
     public function start(int $index = null)

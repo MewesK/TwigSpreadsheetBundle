@@ -5,8 +5,9 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 use PhpOffice\PhpSpreadsheet\Shared\PasswordHasher;
 
 /**
- * Class XlsTwigTest
- * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
+ * Class XlsTwigTest.
+ *
+ * @coversNothing
  */
 class XlsTwigTest extends AbstractTwigTest
 {
@@ -30,6 +31,7 @@ class XlsTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -49,6 +51,7 @@ class XlsTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -80,9 +83,10 @@ class XlsTwigTest extends AbstractTwigTest
      * $security->getLockStructure() -> true
      * $security->getLockWindows() -> true
      * $security->getRevisionsPassword() -> 'test'
-     * $security->getWorkbookPassword() -> 'test'
+     * $security->getWorkbookPassword() -> 'test'.
      *
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -105,6 +109,7 @@ class XlsTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -135,6 +140,7 @@ class XlsTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -159,6 +165,7 @@ class XlsTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -196,9 +203,10 @@ class XlsTwigTest extends AbstractTwigTest
      * $rowDimension->getRowIndex() -> 1
      * $rowDimension->getVisible() -> false
      * $rowDimension->getzeroHeight() -> true
-     * $sheet->getShowGridlines() -> false
+     * $sheet->getShowGridlines() -> false.
      *
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider

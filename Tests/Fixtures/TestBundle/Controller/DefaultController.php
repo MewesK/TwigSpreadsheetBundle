@@ -8,14 +8,13 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * 
- * @package MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestBundle\Controller
+ * Class DefaultController.
  */
 class DefaultController extends Controller
 {
     /**
      * @param $templateName
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/default/{templateName}.{_format}", name="test_default", defaults={"templateName" = "simple", "_format" = "xlsx"})
@@ -23,7 +22,7 @@ class DefaultController extends Controller
     public function defaultAction($templateName): Response
     {
         return $this->render(
-            '@Test/Default/' . $templateName . '.twig',
+            '@Test/Default/'.$templateName.'.twig',
             [
                 'data' => [
                     ['name' => 'Everette Grim', 'salary' => 5458.0],
@@ -45,17 +44,19 @@ class DefaultController extends Controller
                     ['name' => 'Thersa Havis', 'salary' => 2264.0],
                     ['name' => 'Long Kenner', 'salary' => 4051.0],
                     ['name' => 'Kena Kea', 'salary' => 4090.0],
-                    ['name' => 'Evita Chittum', 'salary' => 4639.0]
+                    ['name' => 'Evita Chittum', 'salary' => 4639.0],
                 ],
-                'kernelPath' => $this->get('kernel')->getRootDir()
+                'kernelPath' => $this->get('kernel')->getRootDir(),
             ]
         );
     }
 
     /**
      * @param $templateName
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws \InvalidArgumentException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/custom-response/{templateName}.{_format}", name="test_custom_response", defaults={"templateName" = "simple", "_format" = "xlsx"})
      */
@@ -63,13 +64,13 @@ class DefaultController extends Controller
     {
         $response = new Response(
             $this->render(
-                '@Test/Default/' . $templateName . '.twig',
+                '@Test/Default/'.$templateName.'.twig',
                 [
                     'data' => [
                         ['name' => 'Everette Grim', 'salary' => 5458.0],
                         ['name' => 'Nam Poirrier', 'salary' => 3233.0],
-                        ['name' => 'Jolynn Ell', 'salary' => 5718.0]
-                    ]
+                        ['name' => 'Jolynn Ell', 'salary' => 5718.0],
+                    ],
                 ]
             )
         );

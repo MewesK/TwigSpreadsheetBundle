@@ -3,53 +3,37 @@
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 /**
- * Class PhpSpreadsheetWrapper
- *
- * @package MewesK\TwigSpreadsheetBundle\Wrapper
+ * Class PhpSpreadsheetWrapper.
  */
 class PhpSpreadsheetWrapper
 {
+    /**
+     * @var string
+     */
     const INSTANCE_KEY = '_tsb';
 
     /**
-     * @param array $context
-     * @return array
-     */
-    public static function fixContext(array $context): array
-    {
-        if (!isset($context[self::INSTANCE_KEY]) && isset($context['varargs']) && is_array($context['varargs'])) {
-            foreach ($context['varargs'] as $arg) {
-                if ($arg instanceof self) {
-                    $context[self::INSTANCE_KEY] = $arg;
-                }
-            }
-        }
-
-        return $context;
-    }
-
-    /**
-     * @var XlsDocumentWrapper
+     * @var DocumentWrapper
      */
     private $documentWrapper;
     /**
-     * @var XlsSheetWrapper
+     * @var SheetWrapper
      */
     private $sheetWrapper;
     /**
-     * @var XlsRowWrapper
+     * @var RowWrapper
      */
     private $rowWrapper;
     /**
-     * @var XlsCellWrapper
+     * @var CellWrapper
      */
     private $cellWrapper;
     /**
-     * @var XlsHeaderFooterWrapper
+     * @var HeaderFooterWrapper
      */
     private $headerFooterWrapper;
     /**
-     * @var XlsDrawingWrapper
+     * @var DrawingWrapper
      */
     private $drawingWrapper;
 
@@ -65,25 +49,44 @@ class PhpSpreadsheetWrapper
     /**
      * PhpSpreadsheetWrapper constructor.
      *
-     * @param array $context
+     * @param array             $context
      * @param \Twig_Environment $environment
      */
-    public function __construct(array $context = [], \Twig_Environment $environment)
+    public function __construct(array $context, \Twig_Environment $environment)
     {
-        $this->documentWrapper = new XlsDocumentWrapper($context, $environment);
-        $this->sheetWrapper = new XlsSheetWrapper($context, $environment, $this->documentWrapper);
-        $this->rowWrapper = new XlsRowWrapper($context, $environment, $this->sheetWrapper);
-        $this->cellWrapper = new XlsCellWrapper($context, $environment, $this->sheetWrapper);
-        $this->headerFooterWrapper = new XlsHeaderFooterWrapper($context, $environment, $this->sheetWrapper);
-        $this->drawingWrapper = new XlsDrawingWrapper($context, $environment, $this->sheetWrapper, $this->headerFooterWrapper);
+        $this->documentWrapper = new DocumentWrapper($context, $environment);
+        $this->sheetWrapper = new SheetWrapper($context, $environment, $this->documentWrapper);
+        $this->rowWrapper = new RowWrapper($context, $environment, $this->sheetWrapper);
+        $this->cellWrapper = new CellWrapper($context, $environment, $this->sheetWrapper);
+        $this->headerFooterWrapper = new HeaderFooterWrapper($context, $environment, $this->sheetWrapper);
+        $this->drawingWrapper = new DrawingWrapper($context, $environment, $this->sheetWrapper, $this->headerFooterWrapper);
     }
 
-    //
-    // Tags
-    //
+    /**
+     * @param array $context
+     *
+     * @return array
+     */
+    public static function fixContext(array $context): array
+    {
+        if (!isset($context[self::INSTANCE_KEY]) && isset($context['varargs']) && is_array($context['varargs'])) {
+            /**
+             * @var array $args
+             */
+            $args = $context['varargs'];
+            foreach ($args as $arg) {
+                if ($arg instanceof self) {
+                    $context[self::INSTANCE_KEY] = $arg;
+                }
+            }
+        }
+
+        return $context;
+    }
 
     /**
      * @param array $properties
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \RuntimeException
@@ -105,7 +108,8 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param int|string|null $index
-     * @param array $properties
+     * @param array           $properties
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \RuntimeException
      */
@@ -131,10 +135,12 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param null|mixed $value
-     * @param array $properties
+     * @param array      $properties
+     *
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \RuntimeException
      */
     public function startCell($value = null, array $properties = [])
     {
@@ -148,8 +154,11 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param string $type
-     * @param array $properties
+     * @param array  $properties
+     *
      * @throws \LogicException
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function startHeaderFooter(string $type, array $properties = [])
     {
@@ -163,7 +172,8 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param null|string $type
-     * @param array $properties
+     * @param array       $properties
+     *
      * @throws \InvalidArgumentException
      */
     public function startAlignment(string $type = null, array $properties = [])
@@ -173,6 +183,7 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param null|string $value
+     *
      * @throws \InvalidArgumentException
      */
     public function endAlignment(string $value = null)
@@ -182,7 +193,8 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param string $path
-     * @param array $properties
+     * @param array  $properties
+     *
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @throws \RuntimeException
@@ -197,8 +209,6 @@ class PhpSpreadsheetWrapper
     {
         $this->drawingWrapper->end();
     }
-
-    // Getter / Setter
 
     /**
      * @return int|null

@@ -7,8 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Class AddRequestFormatsListener
- * @package MewesK\TwigSpreadsheetBundle\EventListener
+ * Class AddRequestFormatsListener.
  */
 class AddRequestFormatsListener implements EventSubscriberInterface
 {
@@ -30,7 +29,7 @@ class AddRequestFormatsListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['onKernelRequest', 1]
+            KernelEvents::REQUEST => ['onKernelRequest', 1],
         ];
     }
 }

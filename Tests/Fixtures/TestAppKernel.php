@@ -4,7 +4,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * Class TestAppKernel
+ * Class TestAppKernel.
  */
 class TestAppKernel extends Kernel
 {
@@ -18,17 +18,18 @@ class TestAppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new MewesK\TwigSpreadsheetBundle\MewesKTwigSpreadsheetBundle(),
-            new MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestBundle\TestBundle()
+            new MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestBundle\TestBundle(),
         ];
     }
 
     /**
      * @param LoaderInterface $loader
+     *
      * @throws \Exception
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
+        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
     }
 
     /**
@@ -36,7 +37,7 @@ class TestAppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return $this->getRootDir() . '/../../tmp/cache';
+        return $this->getRootDir().'/../../tmp/cache';
     }
 
     /**
@@ -44,6 +45,6 @@ class TestAppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return $this->getRootDir() . '/../../tmp/logs';
+        return $this->getRootDir().'/../../tmp/logs';
     }
 }

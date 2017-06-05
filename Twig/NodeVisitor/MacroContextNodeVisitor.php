@@ -5,18 +5,24 @@ namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 
 /**
- * Class MacroContextNodeVisitor
- *
- * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
+ * Class MacroContextNodeVisitor.
  */
 class MacroContextNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * {@inheritdoc}
      */
+    public function getPriority()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
-        // Add 'spreadsheetWrapper' as argument on method/macro calls
+        // Add main spreadsheet wrapper as argument on method/macro calls
         if ($node instanceof \Twig_Node_Expression_MethodCall) {
             /**
              * @var \Twig_Node_Expression_Array $argumentsNode
@@ -37,13 +43,5 @@ class MacroContextNodeVisitor extends \Twig_BaseNodeVisitor
     protected function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)
     {
         return $node;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return 0;
     }
 }

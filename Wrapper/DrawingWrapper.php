@@ -6,11 +6,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 
 /**
- * Class XlsDrawingWrapper
- *
- * @package MewesK\TwigSpreadsheetBundle\Wrapper
+ * Class DrawingWrapper.
  */
-class XlsDrawingWrapper extends AbstractWrapper
+class DrawingWrapper extends BaseWrapper
 {
     /**
      * @var array
@@ -21,11 +19,11 @@ class XlsDrawingWrapper extends AbstractWrapper
      */
     protected $environment;
     /**
-     * @var XlsSheetWrapper
+     * @var SheetWrapper
      */
     protected $sheetWrapper;
     /**
-     * @var XlsHeaderFooterWrapper
+     * @var HeaderFooterWrapper
      */
     protected $headerFooterWrapper;
 
@@ -43,14 +41,14 @@ class XlsDrawingWrapper extends AbstractWrapper
     protected $mappings;
 
     /**
-     * XlsDrawingWrapper constructor.
-     * 
-     * @param array $context
-     * @param \Twig_Environment $environment
-     * @param XlsSheetWrapper $sheetWrapper
-     * @param XlsHeaderFooterWrapper $headerFooterWrapper
+     * DrawingWrapper constructor.
+     *
+     * @param array               $context
+     * @param \Twig_Environment   $environment
+     * @param SheetWrapper        $sheetWrapper
+     * @param HeaderFooterWrapper $headerFooterWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper, XlsHeaderFooterWrapper $headerFooterWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper, HeaderFooterWrapper $headerFooterWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -64,61 +62,10 @@ class XlsDrawingWrapper extends AbstractWrapper
         $this->initializeMappings();
     }
 
-    protected function initializeMappings()
-    {
-        $this->mappings['coordinates'] = function ($value) {
-            $this->object->setCoordinates($value);
-        };
-        $this->mappings['description'] = function ($value) {
-            $this->object->setDescription($value);
-        };
-        $this->mappings['height'] = function ($value) {
-            $this->object->setHeight($value);
-        };
-        $this->mappings['name'] = function ($value) {
-            $this->object->setName($value);
-        };
-        $this->mappings['offsetX'] = function ($value) {
-            $this->object->setOffsetX($value);
-        };
-        $this->mappings['offsetY'] = function ($value) {
-            $this->object->setOffsetY($value);
-        };
-        $this->mappings['resizeProportional'] = function ($value) {
-            $this->object->setResizeProportional($value);
-        };
-        $this->mappings['rotation'] = function ($value) {
-            $this->object->setRotation($value);
-        };
-        $this->mappings['shadow']['alignment'] = function ($value) {
-            $this->object->getShadow()->setAlignment($value);
-        };
-        $this->mappings['shadow']['alpha'] = function ($value) {
-            $this->object->getShadow()->setAlpha($value);
-        };
-        $this->mappings['shadow']['blurRadius'] = function ($value) {
-            $this->object->getShadow()->setBlurRadius($value);
-        };
-        $this->mappings['shadow']['color'] = function ($value) {
-            $this->object->getShadow()->getColor()->setRGB($value);
-        };
-        $this->mappings['shadow']['direction'] = function ($value) {
-            $this->object->getShadow()->setDirection($value);
-        };
-        $this->mappings['shadow']['distance'] = function ($value) {
-            $this->object->getShadow()->setDistance($value);
-        };
-        $this->mappings['shadow']['visible'] = function ($value) {
-            $this->object->getShadow()->setVisible($value);
-        };
-        $this->mappings['width'] = function ($value) {
-            $this->object->setWidth($value);
-        };
-    }
-
     /**
      * @param string $path
-     * @param array $properties
+     * @param array  $properties
+     *
      * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
@@ -194,46 +141,6 @@ class XlsDrawingWrapper extends AbstractWrapper
         $this->attributes = [];
     }
 
-    //
-    // Helpers
-    //
-
-    /**
-     * @param string $path
-     * @return string
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     */
-    private function createTempCopy(string $path): string
-    {
-        // create temp path
-        $pathExtension = pathinfo($path, PATHINFO_EXTENSION);
-        $tempPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'xlsdrawing' . '_' . md5($path) . ($pathExtension ? '.' . $pathExtension : '');
-
-        // create local copy
-        if (!file_exists($tempPath)) {
-            $data = file_get_contents($path);
-            if ($data === false) {
-                throw new \InvalidArgumentException($path . ' does not exist.');
-            }
-            $temp = fopen($tempPath, 'wb+');
-            if ($temp === false) {
-                throw new \RuntimeException('Cannot open ' . $tempPath);
-            }
-            fwrite($temp, $data);
-            if (fclose($temp) === false) {
-                throw new \RuntimeException('Cannot close ' . $tempPath);
-            }
-            unset($data, $temp);
-        }
-
-        return $tempPath;
-    }
-
-    //
-    // Getters/Setters
-    //
-
     /**
      * @return array
      */
@@ -280,5 +187,91 @@ class XlsDrawingWrapper extends AbstractWrapper
     public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    protected function initializeMappings()
+    {
+        $this->mappings['coordinates'] = function ($value) {
+            $this->object->setCoordinates($value);
+        };
+        $this->mappings['description'] = function ($value) {
+            $this->object->setDescription($value);
+        };
+        $this->mappings['height'] = function ($value) {
+            $this->object->setHeight($value);
+        };
+        $this->mappings['name'] = function ($value) {
+            $this->object->setName($value);
+        };
+        $this->mappings['offsetX'] = function ($value) {
+            $this->object->setOffsetX($value);
+        };
+        $this->mappings['offsetY'] = function ($value) {
+            $this->object->setOffsetY($value);
+        };
+        $this->mappings['resizeProportional'] = function ($value) {
+            $this->object->setResizeProportional($value);
+        };
+        $this->mappings['rotation'] = function ($value) {
+            $this->object->setRotation($value);
+        };
+        $this->mappings['shadow']['alignment'] = function ($value) {
+            $this->object->getShadow()->setAlignment($value);
+        };
+        $this->mappings['shadow']['alpha'] = function ($value) {
+            $this->object->getShadow()->setAlpha($value);
+        };
+        $this->mappings['shadow']['blurRadius'] = function ($value) {
+            $this->object->getShadow()->setBlurRadius($value);
+        };
+        $this->mappings['shadow']['color'] = function ($value) {
+            $this->object->getShadow()->getColor()->setRGB($value);
+        };
+        $this->mappings['shadow']['direction'] = function ($value) {
+            $this->object->getShadow()->setDirection($value);
+        };
+        $this->mappings['shadow']['distance'] = function ($value) {
+            $this->object->getShadow()->setDistance($value);
+        };
+        $this->mappings['shadow']['visible'] = function ($value) {
+            $this->object->getShadow()->setVisible($value);
+        };
+        $this->mappings['width'] = function ($value) {
+            $this->object->setWidth($value);
+        };
+    }
+
+    /**
+     * @param string $path
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
+    private function createTempCopy(string $path): string
+    {
+        // create temp path
+        $pathExtension = pathinfo($path, PATHINFO_EXTENSION);
+        $tempPath = sys_get_temp_dir().DIRECTORY_SEPARATOR.'xlsdrawing'.'_'.md5($path).($pathExtension ? '.'.$pathExtension : '');
+
+        // create local copy
+        if (!file_exists($tempPath)) {
+            $data = file_get_contents($path);
+            if ($data === false) {
+                throw new \InvalidArgumentException($path.' does not exist.');
+            }
+            $temp = fopen($tempPath, 'wb+');
+            if ($temp === false) {
+                throw new \RuntimeException('Cannot open '.$tempPath);
+            }
+            fwrite($temp, $data);
+            if (fclose($temp) === false) {
+                throw new \RuntimeException('Cannot close '.$tempPath);
+            }
+            unset($data, $temp);
+        }
+
+        return $tempPath;
     }
 }

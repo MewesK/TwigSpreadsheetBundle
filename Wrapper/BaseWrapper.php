@@ -3,18 +3,17 @@
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 /**
- * Class AbstractWrapper
- *
- * @package MewesK\TwigSpreadsheetBundle\Wrapper
+ * Class BaseWrapper.
  */
-abstract class AbstractWrapper
+abstract class BaseWrapper
 {
     /**
      * Calls the matching mapping callable for each property.
      *
-     * @param array $properties
-     * @param array $mappings
+     * @param array       $properties
+     * @param array       $mappings
      * @param string|null $column
+     *
      * @throws \RuntimeException
      */
     protected function setProperties(array $properties, array $mappings, string $column = null)
@@ -26,11 +25,11 @@ abstract class AbstractWrapper
 
             if (is_array($value) && is_array($mappings[$key])) {
                 // recursion
-                /**
-                 * @var array $value
-                 */
                 if (isset($mappings[$key]['__multi'])) {
                     // handle multi target structure (with columns)
+                    /**
+                     * @var array $value
+                     */
                     foreach ($value as $_column => $_value) {
                         $this->setProperties($_value, $mappings[$key], $_column);
                     }

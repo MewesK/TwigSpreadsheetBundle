@@ -3,8 +3,9 @@
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
- * Class XlsxTwigTest
- * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
+ * Class XlsxTwigTest.
+ *
+ * @coversNothing
  */
 class XlsxTwigTest extends AbstractTwigTest
 {
@@ -26,9 +27,9 @@ class XlsxTwigTest extends AbstractTwigTest
     // Tests
     //
 
-
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -61,9 +62,10 @@ class XlsxTwigTest extends AbstractTwigTest
      * $security->getLockStructure() -> true
      * $security->getLockWindows() -> true
      * $security->getRevisionsPassword() -> 'test'
-     * $security->getWorkbookPassword() -> 'test'
+     * $security->getWorkbookPassword() -> 'test'.
      *
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -79,6 +81,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -120,6 +123,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -154,6 +158,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -168,7 +173,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
         $headerFooter = $sheet->getHeaderFooter();
         static::assertNotNull($headerFooter, 'HeaderFooter does not exist');
-        static::assertEquals('&LfirstHeader left&CfirstHeader center&RfirstHeader right', 
+        static::assertEquals('&LfirstHeader left&CfirstHeader center&RfirstHeader right',
             $headerFooter->getFirstHeader(),
             'Unexpected value in firstHeader');
         static::assertEquals('&LevenHeader left&CevenHeader center&RevenHeader right',
@@ -184,6 +189,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -223,6 +229,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -251,6 +258,7 @@ class XlsxTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider

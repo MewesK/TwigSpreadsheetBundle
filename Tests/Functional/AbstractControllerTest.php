@@ -10,9 +10,7 @@ use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class AbstractControllerTest
- * 
- * @package MewesK\TwigSpreadsheetBundle\Tests\Functional
+ * Class AbstractControllerTest.
  */
 abstract class AbstractControllerTest extends WebTestCase
 {
@@ -32,6 +30,49 @@ abstract class AbstractControllerTest extends WebTestCase
      */
     protected static $router;
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Exception
+     */
+    public static function setUpBeforeClass()
+    {
+        static::$fileSystem = new Filesystem();
+        static::$fileSystem->remove(__DIR__.static::$TEMP_PATH);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     */
+    public static function tearDownAfterClass()
+    {
+        if (in_array(getenv('DELETE_TEMP_FILES'), ['true', '1', 1, true], true)) {
+            static::$fileSystem->remove(__DIR__.static::$TEMP_PATH);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \Exception
+     */
+    protected function setUp()
+    {
+        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
+        static::$router = static::$kernel->getContainer()->get('router');
+    }
+
+    //
+    // PhpUnit
+    //
+
+    /**
+     * @return array
+     */
+    abstract public function formatProvider();
+
     //
     // Helper
     //
@@ -39,19 +80,21 @@ abstract class AbstractControllerTest extends WebTestCase
     /**
      * @param string $uri
      * @param string $format
-     * @return Spreadsheet
+     *
      * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     *
+     * @return Spreadsheet
      */
     protected function getDocument(string $uri, string $format = 'xlsx'): Spreadsheet
     {
         // generate source
         static::$client->request('GET', $uri);
         $source = static::$client->getResponse()->getContent();
-        
+
         // create paths
-        $tempDirPath = __DIR__ . static::$TEMP_PATH;
-        $tempFilePath = $tempDirPath . 'simple' . '.' . $format;
+        $tempDirPath = __DIR__.static::$TEMP_PATH;
+        $tempFilePath = $tempDirPath.'simple'.'.'.$format;
 
         // save source
         static::$fileSystem->dumpFile($tempFilePath, $source);
@@ -72,45 +115,5 @@ abstract class AbstractControllerTest extends WebTestCase
         }
 
         return IOFactory::createReader($readerType)->load($tempFilePath);
-    }
-
-    //
-    // PhpUnit
-    //
-
-    /**
-     * @return array
-     */
-    abstract public function formatProvider();
-
-    /**
-     * {@inheritdoc}
-     * @throws \Exception
-     */
-    protected function setUp()
-    {
-        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
-        static::$router = static::$kernel->getContainer()->get('router');
-    }
-
-    /**
-     * {@inheritdoc}
-     * @throws \Exception
-     */
-    public static function setUpBeforeClass()
-    {
-        static::$fileSystem = new Filesystem();
-        static::$fileSystem->remove(__DIR__ . static::$TEMP_PATH);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
-     */
-    public static function tearDownAfterClass()
-    {
-        if (in_array(getenv('DELETE_TEMP_FILES'), ['true', '1', 1, true], true)) {
-            static::$fileSystem->remove(__DIR__ . static::$TEMP_PATH);
-        }
     }
 }

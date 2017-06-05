@@ -4,21 +4,19 @@ namespace MewesK\TwigSpreadsheetBundle\Twig;
 
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\MacroContextNodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsCellTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsCenterTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsDocumentTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsDrawingTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsFooterTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsHeaderTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsLeftTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRightTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsRowTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\XlsSheetTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\CellTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\CenterTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\DocumentTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\DrawingTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\FooterTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\HeaderTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\LeftTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RightTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RowTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\SheetTokenParser;
 
 /**
- * Class TwigSpreadsheetExtension
- *
- * @package MewesK\TwigSpreadsheetBundle\Twig
+ * Class TwigSpreadsheetExtension.
  */
 class TwigSpreadsheetExtension extends \Twig_Extension
 {
@@ -32,7 +30,7 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     private $diskCachingDirectory;
 
     /**
-     * @param bool $preCalculateFormulas
+     * @param bool        $preCalculateFormulas
      * @param null|string $diskCachingDirectory
      */
     public function __construct($preCalculateFormulas = true, $diskCachingDirectory = null)
@@ -47,7 +45,7 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles'])
+            new \Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles']),
         ];
     }
 
@@ -57,16 +55,16 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     public function getTokenParsers()
     {
         return [
-            new XlsCellTokenParser(),
-            new XlsCenterTokenParser(),
-            new XlsDocumentTokenParser($this->preCalculateFormulas, $this->diskCachingDirectory),
-            new XlsDrawingTokenParser(),
-            new XlsFooterTokenParser(),
-            new XlsHeaderTokenParser(),
-            new XlsLeftTokenParser(),
-            new XlsRightTokenParser(),
-            new XlsRowTokenParser(),
-            new XlsSheetTokenParser()
+            new CellTokenParser(),
+            new CenterTokenParser(),
+            new DocumentTokenParser($this->preCalculateFormulas, $this->diskCachingDirectory),
+            new DrawingTokenParser(),
+            new FooterTokenParser(),
+            new HeaderTokenParser(),
+            new LeftTokenParser(),
+            new RightTokenParser(),
+            new RowTokenParser(),
+            new SheetTokenParser(),
         ];
     }
 
@@ -77,26 +75,19 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     {
         return [
             new MacroContextNodeVisitor(),
-            new SyntaxCheckNodeVisitor()
+            new SyntaxCheckNodeVisitor(),
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'spreadsheet_extension';
     }
 
     /**
      * @param array $style1
      * @param array $style2
      *
-     * @return array
      * @throws \Twig_Error_Runtime
+     *
+     * @return array
      */
-    public function mergeStyles(array $style1, array $style2)
+    public function mergeStyles(array $style1, array $style2): array
     {
         if (!is_array($style1) || !is_array($style2)) {
             throw new \Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
@@ -104,4 +95,4 @@ class TwigSpreadsheetExtension extends \Twig_Extension
 
         return array_merge_recursive($style1, $style2);
     }
-} 
+}

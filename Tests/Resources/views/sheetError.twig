@@ -1,8 +1,8 @@
-{% xlssheet 'Test' %}
-    {% xlsdocument %}
-        {% xlsrow %}
+{% xlsdocument %}
+    {% xlsrow %}
+        {% xlssheet 'Test' %}
             {% xlscell %}Foo{% endxlscell %}
             {% xlscell %}Bar{% endxlscell %}
-        {% endxlsrow %}
-    {% endxlsdocument %}
-{% endxlssheet %}
+        {% endxlssheet %}
+    {% endxlsrow %}
+{% endxlsdocument %}

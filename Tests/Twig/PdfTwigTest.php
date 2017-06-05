@@ -3,8 +3,9 @@
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
- * Class PdfTwigTest
- * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
+ * Class PdfTwigTest.
+ *
+ * @coversNothing
  */
 class PdfTwigTest extends AbstractTwigTest
 {
@@ -26,9 +27,9 @@ class PdfTwigTest extends AbstractTwigTest
     // Tests
     //
 
-
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider

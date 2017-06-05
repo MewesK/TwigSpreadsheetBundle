@@ -2,12 +2,10 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
-use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNode;
+use MewesK\TwigSpreadsheetBundle\Twig\Node\BaseNode;
 
 /**
- * Class SyntaxCheckNodeVisitor
- *
- * @package MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor
+ * Class SyntaxCheckNodeVisitor.
  */
 class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
 {
@@ -18,17 +16,26 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
 
     /**
      * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @throws \Twig_Error_Syntax
      */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
-        if ($node instanceof SyntaxAwareNode) {
-            /**
-             * @var SyntaxAwareNode $node
+        if ($node instanceof BaseNode) {
+            /*
+             * @var BaseNode $node
              */
             try {
                 $this->checkAllowedParents($node);
-            } catch(\Twig_Error_Syntax $e) {
+            } catch (\Twig_Error_Syntax $e) {
                 // reset path since throwing an error prevents doLeaveNode to be called
                 $this->path = [];
                 throw $e;
@@ -43,7 +50,7 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
     /**
      * {@inheritdoc}
      */
-    protected function doLeaveNode(\Twig_Node $node,\ Twig_Environment $env)
+    protected function doLeaveNode(\Twig_Node $node, \ Twig_Environment $env)
     {
         array_pop($this->path);
 
@@ -51,23 +58,16 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return 0;
-    }
-
-    /**
-     * @param SyntaxAwareNode $node
+     * @param BaseNode $node
+     *
      * @throws \Twig_Error_Syntax
      */
-    private function checkAllowedParents(SyntaxAwareNode $node)
+    private function checkAllowedParents(BaseNode $node)
     {
         $parentName = null;
 
         foreach (array_reverse($this->path) as $className) {
-            if ($className !== null && strpos($className, 'MewesK\TwigSpreadsheetBundle\Twig\Node\Xls') === 0) {
+            if (strpos($className, 'MewesK\\TwigSpreadsheetBundle\\Twig\\Node\\') === 0) {
                 $parentName = $className;
                 break;
             }

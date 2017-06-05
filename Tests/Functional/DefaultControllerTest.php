@@ -5,8 +5,9 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class DefaultControllerTest
- * @package MewesK\TwigSpreadsheetBundle\Tests\Functional
+ * Class DefaultControllerTest.
+ *
+ * @coversNothing
  */
 class DefaultControllerTest extends AbstractControllerTest
 {
@@ -31,6 +32,7 @@ class DefaultControllerTest extends AbstractControllerTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -52,6 +54,7 @@ class DefaultControllerTest extends AbstractControllerTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -65,7 +68,7 @@ class DefaultControllerTest extends AbstractControllerTest
         static::$client->request('GET', $uri);
 
         /**
-         * @var Response $response
+         * @var Response
          */
         $response = static::$client->getResponse();
 
@@ -76,6 +79,7 @@ class DefaultControllerTest extends AbstractControllerTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -96,6 +100,7 @@ class DefaultControllerTest extends AbstractControllerTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider

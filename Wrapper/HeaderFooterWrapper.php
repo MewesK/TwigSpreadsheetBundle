@@ -5,11 +5,9 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooter;
 
 /**
- * Class XlsHeaderFooterWrapper
- *
- * @package MewesK\TwigSpreadsheetBundle\Wrapper
+ * Class HeaderFooterWrapper.
  */
-class XlsHeaderFooterWrapper extends AbstractWrapper
+class HeaderFooterWrapper extends BaseWrapper
 {
     /**
      * @var array
@@ -20,7 +18,7 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
      */
     protected $environment;
     /**
-     * @var XlsSheetWrapper
+     * @var SheetWrapper
      */
     protected $sheetWrapper;
 
@@ -42,13 +40,13 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     protected $alignmentAttributes;
 
     /**
-     * XlsHeaderFooterWrapper constructor.
+     * HeaderFooterWrapper constructor.
      *
-     * @param array $context
+     * @param array             $context
      * @param \Twig_Environment $environment
-     * @param XlsSheetWrapper $sheetWrapper
+     * @param SheetWrapper      $sheetWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, XlsSheetWrapper $sheetWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -62,19 +60,10 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
         $this->initializeMappings();
     }
 
-    protected function initializeMappings()
-    {
-        $this->mappings['scaleWithDocument'] = function ($value) {
-            $this->object->setScaleWithDocument($value);
-        };
-        $this->mappings['alignWithMargins'] = function ($value) {
-            $this->object->setAlignWithMargins($value);
-        };
-    }
-
     /**
      * @param string $type
-     * @param array $properties
+     * @param array  $properties
+     *
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @throws \RuntimeException
@@ -148,7 +137,8 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
 
     /**
      * @param string $type
-     * @param array $properties
+     * @param array  $properties
+     *
      * @throws \InvalidArgumentException
      */
     public function startAlignment(string $type, array $properties = [])
@@ -173,6 +163,7 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
 
     /**
      * @param string $value
+     *
      * @throws \InvalidArgumentException
      */
     public function endAlignment($value)
@@ -199,10 +190,6 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
 
         $this->alignmentAttributes = [];
     }
-
-    //
-    // Getters/Setters
-    //
 
     /**
      * @return null|HeaderFooter
@@ -266,5 +253,15 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     public function setAlignmentAttributes(array $alignmentAttributes)
     {
         $this->alignmentAttributes = $alignmentAttributes;
+    }
+
+    protected function initializeMappings()
+    {
+        $this->mappings['scaleWithDocument'] = function ($value) {
+            $this->object->setScaleWithDocument($value);
+        };
+        $this->mappings['alignWithMargins'] = function ($value) {
+            $this->object->setAlignWithMargins($value);
+        };
     }
 }

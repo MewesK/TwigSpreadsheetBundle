@@ -8,11 +8,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\ColumnDimension;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowDimension;
 
 /**
- * Class XlsSheetWrapper
- *
- * @package MewesK\TwigSpreadsheetBundle\Wrapper
+ * Class SheetWrapper.
  */
-class XlsSheetWrapper extends AbstractWrapper
+class SheetWrapper extends BaseWrapper
 {
     /**
      * @var int
@@ -32,7 +30,7 @@ class XlsSheetWrapper extends AbstractWrapper
      */
     protected $environment;
     /**
-     * @var XlsDocumentWrapper
+     * @var DocumentWrapper
      */
     protected $documentWrapper;
 
@@ -58,13 +56,13 @@ class XlsSheetWrapper extends AbstractWrapper
     protected $mappings;
 
     /**
-     * XlsSheetWrapper constructor.
-     * 
-     * @param array $context
+     * SheetWrapper constructor.
+     *
+     * @param array             $context
      * @param \Twig_Environment $environment
-     * @param XlsDocumentWrapper $documentWrapper
+     * @param DocumentWrapper   $documentWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, XlsDocumentWrapper $documentWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, DocumentWrapper $documentWrapper)
     {
         $this->context = $context;
         $this->environment = $environment;
@@ -78,6 +76,164 @@ class XlsSheetWrapper extends AbstractWrapper
         $this->mappings = [];
 
         $this->initializeMappings();
+    }
+
+    /**
+     * @param int|string|null $index
+     * @param array           $properties
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \RuntimeException
+     */
+    public function start($index, array $properties = [])
+    {
+        if (is_int($index) && $index < $this->documentWrapper->getObject()->getSheetCount()) {
+            $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex($index);
+        } elseif (is_string($index)) {
+            if (!$this->documentWrapper->getObject()->sheetNameExists($index)) {
+                // create new sheet with a name
+                $this->documentWrapper->getObject()->createSheet()->setTitle($index);
+            }
+            $this->object = $this->documentWrapper->getObject()->setActiveSheetIndexByName($index);
+        } else {
+            // create new sheet without a name
+            $this->documentWrapper->getObject()->createSheet();
+            $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex(0);
+        }
+
+        $this->attributes['index'] = $index;
+        $this->attributes['properties'] = $properties;
+
+        $this->setProperties($properties, $this->mappings);
+    }
+
+    /**
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    public function end()
+    {
+        // auto-size columns
+        if (
+            isset($this->attributes['properties']['columnDimension']) &&
+            is_array($this->attributes['properties']['columnDimension'])
+        ) {
+            /**
+             * @var array $columnDimension
+             */
+            $columnDimension = $this->attributes['properties']['columnDimension'];
+            foreach ($columnDimension as $key => $value) {
+                if (isset($value['autoSize'])) {
+                    if ('default' === $key) {
+                        try {
+                            $cellIterator = $this->object->getRowIterator()->current()->getCellIterator();
+                            $cellIterator->setIterateOnlyExistingCells(true);
+
+                            foreach ($cellIterator as $cell) {
+                                $this->object->getColumnDimension($cell->getColumn())->setAutoSize($value['autoSize']);
+                            }
+                        } catch (Exception $e) {
+                            // ignore exceptions thrown when no cells are defined
+                        }
+                    } else {
+                        $this->object->getColumnDimension($key)->setAutoSize($value['autoSize']);
+                    }
+                }
+            }
+        }
+
+        $this->object = null;
+        $this->attributes = [];
+        $this->row = null;
+    }
+
+    public function increaseRow()
+    {
+        $this->row = $this->row === null ? self::ROW_DEFAULT : $this->row + 1;
+    }
+
+    public function increaseColumn()
+    {
+        $this->column = $this->column === null ? self::COLUMN_DEFAULT : $this->column + 1;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getRow()
+    {
+        return $this->row;
+    }
+
+    /**
+     * @param int|null $row
+     */
+    public function setRow($row)
+    {
+        $this->row = $row;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * @param int|null $column
+     */
+    public function setColumn($column)
+    {
+        $this->column = $column;
+    }
+
+    /**
+     * @return Worksheet
+     */
+    public function getObject(): Worksheet
+    {
+        return $this->object;
+    }
+
+    /**
+     * @param Worksheet $object
+     */
+    public function setObject(Worksheet $object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMappings(): array
+    {
+        return $this->mappings;
+    }
+
+    /**
+     * @param array $mappings
+     */
+    public function setMappings(array $mappings)
+    {
+        $this->mappings = $mappings;
     }
 
     protected function initializeMappings()
@@ -251,170 +407,5 @@ class XlsSheetWrapper extends AbstractWrapper
         $this->mappings['zoomScale'] = function ($value) {
             $this->object->getSheetView()->setZoomScale($value);
         };
-    }
-
-    /**
-     * @param int|string|null $index
-     * @param array $properties
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \RuntimeException
-     */
-    public function start($index, array $properties = [])
-    {
-        if (is_int($index) && $index <$this->documentWrapper->getObject()->getSheetCount()) {
-            $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex($index);
-        } elseif (is_string($index)) {
-            if (!$this->documentWrapper->getObject()->sheetNameExists($index)) {
-                // create new sheet with a name
-                $this->documentWrapper->getObject()->createSheet()->setTitle($index);
-            }
-            $this->object = $this->documentWrapper->getObject()->setActiveSheetIndexByName($index);
-        }  else {
-            // create new sheet without a name
-            $this->documentWrapper->getObject()->createSheet();
-            $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex(0);
-        }
-
-        $this->attributes['index'] = $index;
-        $this->attributes['properties'] = $properties;
-
-        $this->setProperties($properties, $this->mappings);
-    }
-
-    /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     */
-    public function end()
-    {
-        // auto-size columns
-        if (
-            isset($this->attributes['properties']['columnDimension']) &&
-            is_array($this->attributes['properties']['columnDimension'])
-        ) {
-            /**
-             * @var array $columnDimension
-             */
-            $columnDimension = $this->attributes['properties']['columnDimension'];
-            foreach ($columnDimension as $key => $value) {
-                if(isset($value['autoSize'])) {
-                    if ('default' === $key) {
-                        try {
-                            $cellIterator = $this->object->getRowIterator()->current()->getCellIterator();
-                            $cellIterator->setIterateOnlyExistingCells(true);
-
-                            foreach ($cellIterator as $cell) {
-                                $this->object->getColumnDimension($cell->getColumn())->setAutoSize($value['autoSize']);
-                            }
-                        } catch (Exception $e) {
-                            // ignore exceptions thrown when no cells are defined
-                        }
-                    } else {
-                        $this->object->getColumnDimension($key)->setAutoSize($value['autoSize']);
-                    }
-                }
-            }
-        }
-
-        $this->object = null;
-        $this->attributes = [];
-        $this->row = null;
-    }
-
-    //
-    // Helpers
-    //
-
-    public function increaseRow()
-    {
-        $this->row = $this->row === null ? self::ROW_DEFAULT : $this->row + 1;
-    }
-
-    public function increaseColumn()
-    {
-        $this->column = $this->column === null ? self::COLUMN_DEFAULT : $this->column + 1;
-    }
-
-    //
-    // Getters/Setters
-    //
-
-    /**
-     * @return int|null
-     */
-    public function getRow()
-    {
-        return $this->row;
-    }
-
-    /**
-     * @param int|null $row
-     */
-    public function setRow($row)
-    {
-        $this->row = $row;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getColumn()
-    {
-        return $this->column;
-    }
-
-    /**
-     * @param int|null $column
-     */
-    public function setColumn($column)
-    {
-        $this->column = $column;
-    }
-
-    /**
-     * @return Worksheet
-     */
-    public function getObject(): Worksheet
-    {
-        return $this->object;
-    }
-
-    /**
-     * @param Worksheet $object
-     */
-    public function setObject(Worksheet $object)
-    {
-        $this->object = $object;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMappings(): array
-    {
-        return $this->mappings;
-    }
-
-    /**
-     * @param array $mappings
-     */
-    public function setMappings(array $mappings)
-    {
-        $this->mappings = $mappings;
     }
 }

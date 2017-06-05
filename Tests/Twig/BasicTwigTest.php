@@ -3,8 +3,9 @@
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
- * Class BasicTwigTest
- * @package MewesK\TwigSpreadsheetBundle\Tests\Twig
+ * Class BasicTwigTest.
+ *
+ * @coversNothing
  */
 class BasicTwigTest extends AbstractTwigTest
 {
@@ -28,8 +29,9 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
-     * 
+     *
      * @dataProvider formatProvider
      */
     public function testBlock($format)
@@ -48,6 +50,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -68,6 +71,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -88,6 +92,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -108,6 +113,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -128,6 +134,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -150,6 +157,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -195,6 +203,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -222,9 +231,10 @@ class BasicTwigTest extends AbstractTwigTest
      * $security->getLockStructure() -> true
      * $security->getLockWindows() -> true
      * $security->getRevisionsPassword() -> 'test'
-     * $security->getWorkbookPassword() -> 'test'
+     * $security->getWorkbookPassword() -> 'test'.
      *
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -259,6 +269,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -279,13 +290,14 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
      */
     public function testDocumentTemplate($format)
     {
-        $document = $this->getDocument('documentTemplate.' . $format, $format);
+        $document = $this->getDocument('documentTemplate.'.$format, $format);
         static::assertNotNull($document, 'Document does not exist');
 
         $sheet = $document->getSheet(0);
@@ -299,6 +311,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -325,6 +338,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -357,6 +371,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -379,6 +394,7 @@ class BasicTwigTest extends AbstractTwigTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
@@ -416,9 +432,10 @@ class BasicTwigTest extends AbstractTwigTest
      * $rowDimension->getRowIndex() -> 1
      * $rowDimension->getVisible() -> false
      * $rowDimension->getzeroHeight() -> true
-     * $sheet->getShowGridlines() -> false
+     * $sheet->getShowGridlines() -> false.
      *
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider

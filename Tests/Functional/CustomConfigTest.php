@@ -3,8 +3,9 @@
 namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
 /**
- * Class CustomConfigTest
- * @package MewesK\TwigSpreadsheetBundle\Tests\Functional
+ * Class CustomConfigTest.
+ *
+ * @coversNothing
  */
 class CustomConfigTest extends AbstractControllerTest
 {
@@ -29,6 +30,7 @@ class CustomConfigTest extends AbstractControllerTest
 
     /**
      * @param string $format
+     *
      * @throws \Exception
      *
      * @dataProvider formatProvider
