@@ -2,6 +2,9 @@ build:
     environment:
         php:
             version: '7.0'
+    tests:
+        override:
+            - vendor/bin/simple-phpunit
 
 checks:
     php: true
