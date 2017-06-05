@@ -37,7 +37,7 @@ class ErrorTwigTest extends BaseTwigTest
     public function testCellIndexError($format)
     {
         $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::setCellIndex() must be of the type integer, string given');
+        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::setCellIndex() must be of the type integer');
 
         $this->getDocument('cellIndexError', $format);
     }
@@ -97,7 +97,7 @@ class ErrorTwigTest extends BaseTwigTest
     public function testRowIndexError($format)
     {
         $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::setRowIndex() must be of the type integer, string given');
+        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::setRowIndex() must be of the type integer');
 
         $this->getDocument('rowIndexError', $format);
     }
