@@ -4,7 +4,11 @@ build:
             version: '7.0'
     tests:
         override:
-            - vendor/bin/simple-phpunit
+            -
+                command: vendor/bin/simple-phpunit -c phpunit.coverage.xml.dist
+                coverage:
+                    file: 'tmp/logs/coverage.xml'
+                    format: 'clover'
 
 checks:
     php: true
