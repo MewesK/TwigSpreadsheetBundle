@@ -65,8 +65,7 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
     private function checkAllowedChildren(\Twig_Node $node)
     {
         $hasDocumentNode = false;
-        $hasTextNodeBefore = false;
-        $hasTextNodeAfter = false;
+        $hasTextNode = false;
 
         /**
          * @var \Twig_Node $currentNode
@@ -74,24 +73,14 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
         foreach ($node->getIterator() as $currentNode) {
             if ($currentNode instanceof \Twig_Node_Text) {
                 if ($hasDocumentNode) {
-                    $hasTextNodeAfter = true;
-                } else {
-                    $hasTextNodeBefore = true;
+                    throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed after Node "%s".', \Twig_Node_Text::class, DocumentNode::class));
                 }
-            }
-
-            if ($currentNode instanceof DocumentNode) {
+                $hasTextNode = true;
+            } elseif ($currentNode instanceof DocumentNode) {
+                if ($hasTextNode) {
+                    throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed before Node "%s".', \Twig_Node_Text::class, DocumentNode::class));
+                }
                 $hasDocumentNode = true;
-            }
-        }
-
-        if ($hasDocumentNode) {
-            if ($hasTextNodeBefore) {
-                throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed before Node "%s".', \Twig_Node_Text::class, DocumentNode::class));
-            }
-
-            if ($hasTextNodeAfter) {
-                throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed after Node "%s".', \Twig_Node_Text::class, DocumentNode::class));
             }
         }
     }
