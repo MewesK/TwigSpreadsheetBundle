@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DefaultControllerTest.
- *
- * @coversNothing
  */
 class DefaultControllerTest extends AbstractControllerTest
 {

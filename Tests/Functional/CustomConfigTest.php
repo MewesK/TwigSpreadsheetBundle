@@ -4,8 +4,6 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
 /**
  * Class CustomConfigTest.
- *
- * @coversNothing
  */
 class CustomConfigTest extends AbstractControllerTest
 {

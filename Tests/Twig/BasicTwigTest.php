@@ -6,8 +6,6 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
  * Class BasicTwigTest.
- *
- * @coversNothing
  */
 class BasicTwigTest extends BaseTwigTest
 {

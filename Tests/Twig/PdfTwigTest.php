@@ -4,8 +4,6 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
  * Class PdfTwigTest.
- *
- * @coversNothing
  */
 class PdfTwigTest extends BaseTwigTest
 {

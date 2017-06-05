@@ -6,8 +6,6 @@ use PhpOffice\PhpSpreadsheet\Shared\PasswordHasher;
 
 /**
  * Class XlsTwigTest.
- *
- * @coversNothing
  */
 class XlsTwigTest extends BaseTwigTest
 {
