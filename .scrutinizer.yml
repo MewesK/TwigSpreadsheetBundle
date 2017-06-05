@@ -7,8 +7,8 @@ build:
             -
                 command: vendor/bin/simple-phpunit -c phpunit.coverage.xml.dist
                 coverage:
-                    file: 'tmp/logs/coverage.xml'
-                    format: 'clover'
+                    file: tmp/logs/coverage.xml
+                    format: clover
 
 checks:
     php: true
