@@ -75,7 +75,9 @@ class XlsHeaderFooterWrapper extends AbstractWrapper
     /**
      * @param string $type
      * @param array $properties
+     * @throws \InvalidArgumentException
      * @throws \LogicException
+     * @throws \RuntimeException
      */
     public function start(string $type, array $properties = [])
     {

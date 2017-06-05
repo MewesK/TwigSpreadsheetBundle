@@ -25,7 +25,7 @@
         "symfony/symfony": "~3.2|~4.0",
         "symfony/phpunit-bridge": "~3.2|~4.0",
         "sensio/framework-extra-bundle": "~3.2|~4.0",
-        "mpdf/mpdf": "~6.0"
+        "mpdf/mpdf": "~6.1"
     },
     "repositories": [
         {

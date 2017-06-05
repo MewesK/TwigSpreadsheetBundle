@@ -9,7 +9,7 @@ use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
-class XlsDrawingNode extends \Twig_Node implements SyntaxAwareNodeInterface
+class XlsDrawingNode extends SyntaxAwareNode
 {
     /**
      * @param \Twig_Node_Expression $path
@@ -51,13 +51,5 @@ class XlsDrawingNode extends \Twig_Node implements SyntaxAwareNodeInterface
             XlsCenterNode::class,
             XlsRightNode::class
         ];
-    }
-
-    /**
-     * @return bool
-     */
-    public function canContainText(): bool
-    {
-        return false;
     }
 }

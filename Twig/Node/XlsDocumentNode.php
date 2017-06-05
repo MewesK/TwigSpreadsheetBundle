@@ -9,7 +9,7 @@ use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
-class XlsDocumentNode extends \Twig_Node implements SyntaxAwareNodeInterface
+class XlsDocumentNode extends SyntaxAwareNode
 {
     /**
      * @var bool
@@ -63,13 +63,5 @@ class XlsDocumentNode extends \Twig_Node implements SyntaxAwareNodeInterface
     public function getAllowedParents(): array
     {
         return [];
-    }
-
-    /**
-     * @return bool
-     */
-    public function canContainText(): bool
-    {
-        return false;
     }
 }

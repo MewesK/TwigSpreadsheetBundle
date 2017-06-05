@@ -9,7 +9,7 @@ use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
  *
  * @package MewesK\TwigSpreadsheetBundle\Twig\Node
  */
-class XlsRowNode extends \Twig_Node implements SyntaxAwareNodeInterface
+class XlsRowNode extends SyntaxAwareNode
 {
     /**
      * @param \Twig_Node_Expression $index
@@ -47,13 +47,5 @@ class XlsRowNode extends \Twig_Node implements SyntaxAwareNodeInterface
         return [
             XlsSheetNode::class
         ];
-    }
-
-    /**
-     * @return bool
-     */
-    public function canContainText(): bool
-    {
-        return false;
     }
 }

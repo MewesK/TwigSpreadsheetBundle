@@ -2,7 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
-use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNodeInterface;
+use MewesK\TwigSpreadsheetBundle\Twig\Node\SyntaxAwareNode;
 
 /**
  * Class SyntaxCheckNodeVisitor
@@ -22,9 +22,9 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
      */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
-        if ($node instanceof SyntaxAwareNodeInterface) {
+        if ($node instanceof SyntaxAwareNode) {
             /**
-             * @var SyntaxAwareNodeInterface $node
+             * @var SyntaxAwareNode $node
              */
             try {
                 $this->checkAllowedParents($node);
@@ -59,10 +59,10 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * @param SyntaxAwareNodeInterface $node
+     * @param SyntaxAwareNode $node
      * @throws \Twig_Error_Syntax
      */
-    private function checkAllowedParents(SyntaxAwareNodeInterface $node)
+    private function checkAllowedParents(SyntaxAwareNode $node)
     {
         $parentName = null;
 

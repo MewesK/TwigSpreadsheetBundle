@@ -122,9 +122,10 @@ class XlsCellWrapper extends AbstractWrapper
      * @param int|null $index
      * @param mixed|null $value
      * @param array $properties
-     * @throws \LogicException
      * @throws \InvalidArgumentException
+     * @throws \LogicException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \RuntimeException
      */
     public function start(int $index = null, $value = null, array $properties = [])
     {
