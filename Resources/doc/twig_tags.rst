@@ -12,7 +12,7 @@ xlsdocument
 
 - Must contain one or more 'xlssheet' tags
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========
@@ -95,7 +95,7 @@ xlssheet
 
 - May contain one or more 'xlsheader', 'xlsfooter', 'xlsrow' and 'xlsdrawing' tags
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========
@@ -264,7 +264,7 @@ xlsheader
 - May contain one 'xlsleft', 'xlscenter' and 'xlsright' tag
 - Not supported by the OpenDocument writer
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========
@@ -305,7 +305,7 @@ xlsfooter
 - May contain one 'xlsleft', 'xlscenter' and 'xlsright' tag
 - Not supported by the OpenDocument writer
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========
@@ -387,13 +387,13 @@ xlsrow
 - If 'index' is not defined it will default to 1 for the first usage per sheet
 - For each further usage it will increase the index by 1 automatically (1, 2, 3, ...)
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========
 Name        Type    Optional  Description
 ==========  ======  ========  ===========
-index       int               A row index >=1
+index       int     X         A row index >=1
 ==========  ======  ========  ===========
 
 Example
@@ -418,13 +418,13 @@ xlscell
 - For each further usage it will increase the index by 1 automatically (0, 1, 2, ...)
 - Formulas are supported (e.g. ``=SUM(A1:F1)`` or ``=A1+B1``)
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========
 Name        Type    Optional  Description
 ==========  ======  ========  ===========
-index       int               A column index >=0
+index       int     X         A column index >=0
 properties  array   X
 ==========  ======  ========  ===========
 
@@ -503,7 +503,7 @@ xlsdrawing
 - If the xlsdrawing is used in a header/footer it automatically adds the &G code to be displayed
 - Not supported by the OpenDocument writer
 
-Attributes
+Parameters
 ``````````
 
 ==========  ======  ========  ===========

@@ -7,7 +7,7 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
  *
  * @coversNothing
  */
-class CsvTwigTest extends AbstractTwigTest
+class CsvTwigTest extends BaseTwigTest
 {
     protected static $TEMP_PATH = '/../../tmp/csv/';
 

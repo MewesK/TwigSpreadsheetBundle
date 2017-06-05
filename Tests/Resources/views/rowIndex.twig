@@ -18,5 +18,22 @@
         {% xlsrow 5 %}
             {% xlscell %}World{% endxlscell %}
         {% endxlsrow %}
+
+        {% xlsrow 6.0 %}
+            {% xlscell %}Foo{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow '7' %}
+            {% xlscell %}Bar{% endxlscell %}
+        {% endxlsrow %}
+        {% set index = 8 %}
+        {% xlsrow index %}
+            {% xlscell %}Lorem{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow 4 + 5 %}
+            {% xlscell %}Ipsum{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow '10'|upper %}
+            {% xlscell %}Hello{% endxlscell %}
+        {% endxlsrow %}
     {% endxlssheet %}
 {% endxlsdocument %}

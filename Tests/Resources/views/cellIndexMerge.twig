@@ -9,13 +9,16 @@
             {% xlscell 4 %}World{% endxlscell %}
         {% endxlsrow %}
         {% xlsrow %}
-            {% xlscell 0 %}Foo{% endxlscell %}
-            {% xlscell 1.0 %}Bar{% endxlscell %}
-            {% xlscell '2' %}Lorem{% endxlscell %}
-            {% set index = 3 %}
-            {% xlscell index %}Ipsum{% endxlscell %}
-            {% xlscell 2 + 2 %}Hello{% endxlscell %}
-            {% xlscell '5'|upper %}World{% endxlscell %}
+            {% xlscell { 'merge': 2 } %}Foo{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell { 'merge': 'C3' } %}Foo{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell { 'merge': 'A6' } %}Foo{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell { 'merge': 'A6' } %}Foo{% endxlscell %}
         {% endxlsrow %}
     {% endxlssheet %}
 {% endxlsdocument %}

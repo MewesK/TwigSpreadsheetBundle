@@ -11,9 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class AbstractTwigTest.
+ * Class BaseTwigTest.
  */
-abstract class AbstractTwigTest extends \PHPUnit_Framework_TestCase
+abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
 {
     protected static $TEMP_PATH = '/../../tmp/';
     protected static $RESOURCE_PATH = '/../Resources/views/';

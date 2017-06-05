@@ -7,7 +7,7 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
  *
  * @coversNothing
  */
-class XlsxTwigTest extends AbstractTwigTest
+class XlsxTwigTest extends BaseTwigTest
 {
     protected static $TEMP_PATH = '/../../tmp/xlsx/';
 

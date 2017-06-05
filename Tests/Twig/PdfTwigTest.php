@@ -7,7 +7,7 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
  *
  * @coversNothing
  */
-class PdfTwigTest extends AbstractTwigTest
+class PdfTwigTest extends BaseTwigTest
 {
     protected static $TEMP_PATH = '/../../tmp/pdf/';
 

@@ -2,12 +2,14 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+
 /**
  * Class BasicTwigTest.
  *
  * @coversNothing
  */
-class BasicTwigTest extends AbstractTwigTest
+class BasicTwigTest extends BaseTwigTest
 {
     protected static $TEMP_PATH = '/../../tmp/basic/';
 
@@ -139,6 +141,30 @@ class BasicTwigTest extends AbstractTwigTest
      *
      * @dataProvider formatProvider
      */
+    public function testCellFormula($format)
+    {
+        $document = $this->getDocument('cellFormula', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
+        $sheet = $document->getSheetByName('Test');
+        static::assertNotNull($sheet, 'Sheet does not exist');
+
+        static::assertEquals('=A1*B1+2', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
+        static::assertTrue($sheet->getCell('A2')->isFormula(), 'Unexpected value in isFormula');
+        static::assertEquals(1337, $sheet->getCell('A2')->getCalculatedValue(), 'Unexpected calculated value in A2');
+
+        static::assertEquals('=SUM(A1:B1)', $sheet->getCell('A3')->getValue(), 'Unexpected value in A3');
+        static::assertTrue($sheet->getCell('A3')->isFormula(), 'Unexpected value in isFormula');
+        static::assertEquals(669.5, $sheet->getCell('A3')->getCalculatedValue(), 'Unexpected calculated value in A3');
+    }
+
+    /**
+     * @param string $format
+     *
+     * @throws \Exception
+     *
+     * @dataProvider formatProvider
+     */
     public function testCellIndex($format)
     {
         $document = $this->getDocument('cellIndex', $format);
@@ -148,11 +174,18 @@ class BasicTwigTest extends AbstractTwigTest
         static::assertNotNull($sheet, 'Sheet does not exist');
 
         static::assertEquals('Foo', $sheet->getCell('A1')->getValue(), 'Unexpected value in A1');
+        static::assertEquals('Hello', $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
         static::assertNotEquals('Bar', $sheet->getCell('C1')->getValue(), 'Unexpected value in C1');
         static::assertEquals('Lorem', $sheet->getCell('C1')->getValue(), 'Unexpected value in C1');
         static::assertEquals('Ipsum', $sheet->getCell('D1')->getValue(), 'Unexpected value in D1');
-        static::assertEquals('Hello', $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
         static::assertEquals('World', $sheet->getCell('E1')->getValue(), 'Unexpected value in E1');
+
+        static::assertEquals('Foo', $sheet->getCell('A2')->getValue(), 'Unexpected value in A1');
+        static::assertEquals('Bar', $sheet->getCell('B2')->getValue(), 'Unexpected value in B1');
+        static::assertEquals('Lorem', $sheet->getCell('C2')->getValue(), 'Unexpected value in C1');
+        static::assertEquals('Ipsum', $sheet->getCell('D2')->getValue(), 'Unexpected value in D1');
+        static::assertEquals('Hello', $sheet->getCell('E2')->getValue(), 'Unexpected value in E1');
+        static::assertEquals('World', $sheet->getCell('F2')->getValue(), 'Unexpected value in F1');
     }
 
     /**
@@ -179,26 +212,32 @@ class BasicTwigTest extends AbstractTwigTest
         $style = $cell->getStyle();
         static::assertNotNull($style, 'Style does not exist');
 
-        static::assertEquals('n', $sheet->getCell('A2')->getDataType(), 'Unexpected value in dataType');
         static::assertEquals(42, $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
-        static::assertEquals('s', $sheet->getCell('B2')->getDataType(), 'Unexpected value in dataType');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('A2')->getDataType(), 'Unexpected value in dataType');
+
         static::assertEquals('42', $sheet->getCell('B2')->getValue(), 'Unexpected value in B2');
-        static::assertEquals('n', $sheet->getCell('C2')->getDataType(), 'Unexpected value in dataType');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('B2')->getDataType(), 'Unexpected value in dataType');
+
         static::assertEquals(42, $sheet->getCell('C2')->getValue(), 'Unexpected value in C2');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('C2')->getDataType(), 'Unexpected value in dataType');
 
-        static::assertEquals('s', $sheet->getCell('A3')->getDataType(), 'Unexpected value in dataType');
         static::assertEquals('007', $sheet->getCell('A3')->getValue(), 'Unexpected value in A3');
-        static::assertEquals('s', $sheet->getCell('B3')->getDataType(), 'Unexpected value in dataType');
-        static::assertEquals('007', $sheet->getCell('B3')->getValue(), 'Unexpected value in B3');
-        static::assertEquals('n', $sheet->getCell('C3')->getDataType(), 'Unexpected value in dataType');
-        static::assertEquals(7, $sheet->getCell('C3')->getValue(), 'Unexpected value in C3');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('A3')->getDataType(), 'Unexpected value in dataType');
 
-        static::assertEquals('n', $sheet->getCell('A4')->getDataType(), 'Unexpected value in dataType');
+        static::assertEquals('007', $sheet->getCell('B3')->getValue(), 'Unexpected value in B3');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('B3')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals(7, $sheet->getCell('C3')->getValue(), 'Unexpected value in C3');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('C3')->getDataType(), 'Unexpected value in dataType');
+
         static::assertEquals(0.1337, $sheet->getCell('A4')->getValue(), 'Unexpected value in A4');
-        static::assertEquals('s', $sheet->getCell('B4')->getDataType(), 'Unexpected value in dataType');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('A4')->getDataType(), 'Unexpected value in dataType');
+
         static::assertEquals('0.13370', $sheet->getCell('B4')->getValue(), 'Unexpected value in B4');
-        static::assertEquals('n', $sheet->getCell('C4')->getDataType(), 'Unexpected value in dataType');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('B4')->getDataType(), 'Unexpected value in dataType');
+
         static::assertEquals(0.1337, $sheet->getCell('C4')->getValue(), 'Unexpected value in C4');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('C4')->getDataType(), 'Unexpected value in dataType');
     }
 
     /**
@@ -208,21 +247,37 @@ class BasicTwigTest extends AbstractTwigTest
      *
      * @dataProvider formatProvider
      */
-    public function testCellFormula($format)
+    public function testCellValue($format)
     {
-        $document = $this->getDocument('cellFormula', $format);
+        $document = $this->getDocument('cellValue', $format);
         static::assertNotNull($document, 'Document does not exist');
 
         $sheet = $document->getSheetByName('Test');
         static::assertNotNull($sheet, 'Sheet does not exist');
 
-        static::assertEquals('=A1*B1+2', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
-        static::assertTrue($sheet->getCell('A2')->isFormula(), 'Unexpected value in isFormula');
-        static::assertEquals(1337, $sheet->getCell('A2')->getCalculatedValue(), 'Unexpected calculated value in A2');
+        static::assertEquals(667.5, $sheet->getCell('A1')->getValue(), 'Unexpected value in A1');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('A1')->getDataType(), 'Unexpected value in dataType');
 
-        static::assertEquals('=SUM(A1:B1)', $sheet->getCell('A3')->getValue(), 'Unexpected value in A3');
-        static::assertTrue($sheet->getCell('A3')->isFormula(), 'Unexpected value in isFormula');
-        static::assertEquals(669.5, $sheet->getCell('A3')->getCalculatedValue(), 'Unexpected calculated value in A3');
+        static::assertEquals(2, $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('B1')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals('007', $sheet->getCell('C1')->getValue(), 'Unexpected value in C1');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('C1')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals('foo', $sheet->getCell('D1')->getValue(), 'Unexpected value in D1');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('D1')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals(0.42, $sheet->getCell('E1')->getValue(), 'Unexpected value in E1');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('E1')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals(21, $sheet->getCell('F1')->getValue(), 'Unexpected value in F1');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('F1')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals(1.2, $sheet->getCell('G1')->getValue(), 'Unexpected value in G1');
+        static::assertEquals(DataType::TYPE_NUMERIC, $sheet->getCell('G1')->getDataType(), 'Unexpected value in dataType');
+
+        static::assertEquals('BAR', $sheet->getCell('H1')->getValue(), 'Unexpected value in H1');
+        static::assertEquals(DataType::TYPE_STRING, $sheet->getCell('H1')->getDataType(), 'Unexpected value in dataType');
     }
 
     /**
@@ -316,6 +371,27 @@ class BasicTwigTest extends AbstractTwigTest
      *
      * @dataProvider formatProvider
      */
+    public function testDocumentWhitespace($format)
+    {
+        $document = $this->getDocument('documentWhitespace', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
+        $sheet = $document->getSheetByName('Test');
+        static::assertNotNull($sheet, 'Sheet does not exist');
+
+        static::assertEquals('Foo', $sheet->getCell('A1')->getValue(), 'Unexpected value in A1');
+        static::assertEquals('Bar', $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
+        static::assertEquals('Hello', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
+        static::assertEquals('World', $sheet->getCell('B2')->getValue(), 'Unexpected value in B2');
+    }
+
+    /**
+     * @param string $format
+     *
+     * @throws \Exception
+     *
+     * @dataProvider formatProvider
+     */
     public function testInclude($format)
     {
         $document = $this->getDocument('include', $format);
@@ -390,6 +466,12 @@ class BasicTwigTest extends AbstractTwigTest
         static::assertEquals('Ipsum', $sheet->getCell('A4')->getValue(), 'Unexpected value in A4');
         static::assertEquals('Hello', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
         static::assertEquals('World', $sheet->getCell('A5')->getValue(), 'Unexpected value in A5');
+
+        static::assertEquals('Foo', $sheet->getCell('A6')->getValue(), 'Unexpected value in A6');
+        static::assertEquals('Bar', $sheet->getCell('A7')->getValue(), 'Unexpected value in A7');
+        static::assertEquals('Lorem', $sheet->getCell('A8')->getValue(), 'Unexpected value in A8');
+        static::assertEquals('Ipsum', $sheet->getCell('A9')->getValue(), 'Unexpected value in A9');
+        static::assertEquals('Hello', $sheet->getCell('A10')->getValue(), 'Unexpected value in A10');
     }
 
     /**

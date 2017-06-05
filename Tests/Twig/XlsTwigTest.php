@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Shared\PasswordHasher;
  *
  * @coversNothing
  */
-class XlsTwigTest extends AbstractTwigTest
+class XlsTwigTest extends BaseTwigTest
 {
     protected static $TEMP_PATH = '/../../tmp/xls/';
 
@@ -36,9 +36,9 @@ class XlsTwigTest extends AbstractTwigTest
      *
      * @dataProvider formatProvider
      */
-    public function testCellIndex($format)
+    public function testCellIndexMerge($format)
     {
-        $document = $this->getDocument('cellIndex', $format);
+        $document = $this->getDocument('cellIndexMerge', $format);
         static::assertNotNull($document, 'Document does not exist');
 
         $sheet = $document->getSheetByName('Test');
@@ -59,9 +59,12 @@ class XlsTwigTest extends AbstractTwigTest
     public function testCellProperties($format)
     {
         $document = $this->getDocument('cellProperties', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
         $sheet = $document->getSheetByName('Test');
+        static::assertNotNull($sheet, 'Sheet does not exist');
+
         $cell = $sheet->getCell('A1');
-        $style = $cell->getStyle();
 
         $breaks = $sheet->getBreaks();
         static::assertCount(1, $breaks, 'Unexpected break count');
@@ -70,7 +73,7 @@ class XlsTwigTest extends AbstractTwigTest
         $break = $breaks['A1'];
         static::assertNotNull($break, 'Break is null');
 
-        $font = $style->getFont();
+        $font = $cell->getStyle()->getFont();
         static::assertNotNull($font, 'Font does not exist');
         static::assertEquals(18, $font->getSize(), 'Unexpected value in size');
 
@@ -94,12 +97,13 @@ class XlsTwigTest extends AbstractTwigTest
     public function testDocumentProperties($format)
     {
         $document = $this->getDocument('documentProperties', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
         $properties = $document->getProperties();
-        $defaultStyle = $document->getDefaultStyle();
 
         static::assertEquals('Test category', $properties->getCategory(), 'Unexpected value in category');
 
-        $font = $defaultStyle->getFont();
+        $font = $document->getDefaultStyle()->getFont();
         static::assertNotNull($font, 'Font does not exist');
         static::assertEquals(18, $font->getSize(), 'Unexpected value in size');
 
@@ -214,10 +218,12 @@ class XlsTwigTest extends AbstractTwigTest
     public function testSheetProperties($format)
     {
         $document = $this->getDocument('sheetProperties', $format);
-        $sheet = $document->getSheetByName('Test');
-        $columnDimension = $sheet->getColumnDimension('D');
-        $pageSetup = $sheet->getPageSetup();
+        static::assertNotNull($document, 'Document does not exist');
 
+        $sheet = $document->getSheetByName('Test');
+        static::assertNotNull($sheet, 'Sheet does not exist');
+
+        $columnDimension = $sheet->getColumnDimension('D');
         static::assertEquals(1, $columnDimension->getOutlineLevel(), 'Unexpected value in outlineLevel');
         static::assertEquals(200, $columnDimension->getWidth(), 'Unexpected value in width');
 
@@ -230,6 +236,7 @@ class XlsTwigTest extends AbstractTwigTest
         static::assertEquals(0.5, $pageMargins->getHeader(), 'Unexpected value in header');
         static::assertEquals(0.5, $pageMargins->getFooter(), 'Unexpected value in footer');
 
+        $pageSetup = $sheet->getPageSetup();
         static::assertEquals('landscape', $pageSetup->getOrientation(), 'Unexpected value in orientation');
         static::assertEquals(9, $pageSetup->getPaperSize(), 'Unexpected value in paperSize');
         static::assertEquals('A1:B1', $pageSetup->getPrintArea(), 'Unexpected value in printArea');

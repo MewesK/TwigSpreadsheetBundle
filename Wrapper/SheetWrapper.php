@@ -102,7 +102,7 @@ class SheetWrapper extends BaseWrapper
             $columnDimension = $this->parameters['properties']['columnDimension'];
             foreach ($columnDimension as $key => $value) {
                 if (isset($value['autoSize'])) {
-                    if ('default' === $key) {
+                    if ($key === 'default') {
                         try {
                             $cellIterator = $this->object->getRowIterator()->current()->getCellIterator();
                             $cellIterator->setIterateOnlyExistingCells(true);
