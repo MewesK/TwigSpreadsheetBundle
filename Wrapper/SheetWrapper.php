@@ -80,10 +80,10 @@ class SheetWrapper extends BaseWrapper
             $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex(0);
         }
 
-        $this->attributes['index'] = $index;
-        $this->attributes['properties'] = $properties;
+        $this->parameters['index'] = $index;
+        $this->parameters['properties'] = $properties;
 
-        $this->setProperties($properties, $this->mappings);
+        $this->setProperties($properties);
     }
 
     /**
@@ -93,13 +93,13 @@ class SheetWrapper extends BaseWrapper
     {
         // auto-size columns
         if (
-            isset($this->attributes['properties']['columnDimension']) &&
-            is_array($this->attributes['properties']['columnDimension'])
+            isset($this->parameters['properties']['columnDimension']) &&
+            is_array($this->parameters['properties']['columnDimension'])
         ) {
             /**
              * @var array $columnDimension
              */
-            $columnDimension = $this->attributes['properties']['columnDimension'];
+            $columnDimension = $this->parameters['properties']['columnDimension'];
             foreach ($columnDimension as $key => $value) {
                 if (isset($value['autoSize'])) {
                     if ('default' === $key) {
@@ -121,7 +121,7 @@ class SheetWrapper extends BaseWrapper
         }
 
         $this->object = null;
-        $this->attributes = [];
+        $this->parameters = [];
         $this->row = null;
     }
 

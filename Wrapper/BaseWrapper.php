@@ -20,7 +20,7 @@ abstract class BaseWrapper
     /**
      * @var array
      */
-    protected $attributes;
+    protected $parameters;
     /**
      * @var array
      */
@@ -37,24 +37,24 @@ abstract class BaseWrapper
         $this->context = $context;
         $this->environment = $environment;
 
-        $this->attributes = [];
+        $this->parameters = [];
         $this->mappings = $this->configureMappings();
     }
 
     /**
      * @return array
      */
-    public function getAttributes(): array
+    public function getParameters(): array
     {
-        return $this->attributes;
+        return $this->parameters;
     }
 
     /**
-     * @param array $attributes
+     * @param array $parameters
      */
-    public function setAttributes(array $attributes)
+    public function setParameters(array $parameters)
     {
-        $this->attributes = $attributes;
+        $this->parameters = $parameters;
     }
 
     /**
@@ -85,13 +85,17 @@ abstract class BaseWrapper
      * Calls the matching mapping callable for each property.
      *
      * @param array       $properties
-     * @param array       $mappings
+     * @param array|null  $mappings
      * @param string|null $column
      *
      * @throws \RuntimeException
      */
-    protected function setProperties(array $properties, array $mappings, string $column = null)
+    protected function setProperties(array $properties, array $mappings = null, string $column = null)
     {
+        if ($mappings === null) {
+            $mappings = $this->mappings;
+        }
+
         foreach ($properties as $key => $value) {
             if (!isset($mappings[$key])) {
                 throw new \RuntimeException(sprintf('No mapping found for key "%s"', $key));

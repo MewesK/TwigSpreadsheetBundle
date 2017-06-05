@@ -68,16 +68,16 @@ class CellWrapper extends BaseWrapper
             }
         }
 
-        $this->attributes['value'] = $value;
-        $this->attributes['properties'] = $properties;
+        $this->parameters['value'] = $value;
+        $this->parameters['properties'] = $properties;
 
-        $this->setProperties($properties, $this->mappings);
+        $this->setProperties($properties);
     }
 
     public function end()
     {
         $this->object = null;
-        $this->attributes = [];
+        $this->parameters = [];
     }
 
     /**

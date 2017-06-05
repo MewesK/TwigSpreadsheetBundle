@@ -54,9 +54,9 @@ class DocumentWrapper extends BaseWrapper
             $this->object->removeSheetByIndex(0);
         }
 
-        $this->attributes['properties'] = $properties;
+        $this->parameters['properties'] = $properties;
 
-        $this->setProperties($properties, $this->mappings);
+        $this->setProperties($properties);
     }
 
     /**
@@ -72,8 +72,8 @@ class DocumentWrapper extends BaseWrapper
         $format = null;
 
         // try document property
-        if (isset($this->attributes['format'])) {
-            $format = $this->attributes['format'];
+        if (isset($this->parameters['format'])) {
+            $format = $this->parameters['format'];
         }
 
          // try Symfony request
@@ -127,7 +127,7 @@ class DocumentWrapper extends BaseWrapper
         }
 
         $this->object = null;
-        $this->attributes = [];
+        $this->parameters = [];
     }
 
     /**
@@ -158,7 +158,7 @@ class DocumentWrapper extends BaseWrapper
             'creator' => function ($value) { $this->object->getProperties()->setCreator($value); },
             'defaultStyle' => function ($value) { $this->object->getDefaultStyle()->applyFromArray($value); },
             'description' => function ($value) { $this->object->getProperties()->setDescription($value); },
-            'format' => function ($value) { $this->attributes['format'] = $value; },
+            'format' => function ($value) { $this->parameters['format'] = $value; },
             'keywords' => function ($value) { $this->object->getProperties()->setKeywords($value); },
             'lastModifiedBy' => function ($value) { $this->object->getProperties()->setLastModifiedBy($value); },
             'manager' => function ($value) { $this->object->getProperties()->setManager($value); },
@@ -171,7 +171,7 @@ class DocumentWrapper extends BaseWrapper
                 'workbookPassword' => function ($value) { $this->object->getSecurity()->setWorkbookPassword($value); },
             ],
             'subject' => function ($value) { $this->object->getProperties()->setSubject($value); },
-            'template' => function ($value) { $this->attributes['template'] = $value; },
+            'template' => function ($value) { $this->parameters['template'] = $value; },
             'title' => function ($value) { $this->object->getProperties()->setTitle($value); },
         ];
     }

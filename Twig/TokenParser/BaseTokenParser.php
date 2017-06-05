@@ -75,7 +75,7 @@ abstract class BaseTokenParser extends \Twig_TokenParser
      */
     public function parse(\Twig_Token $token)
     {
-        // parse attributes
+        // parse parameters
         $nodes = $this->parseParameters($this->configureParameters($token));
 
         // parse body

@@ -62,27 +62,27 @@ class DrawingWrapper extends BaseWrapper
 
         // add to header/footer
         if ($this->headerFooterWrapper->getObject()) {
-            $headerFooterAttributes = $this->headerFooterWrapper->getAttributes();
+            $headerFooterParameters = $this->headerFooterWrapper->getParameters();
             $location = '';
 
-            switch (strtolower($this->headerFooterWrapper->getAlignmentAttributes()['type'])) {
+            switch (strtolower($this->headerFooterWrapper->getAlignmentParameters()['type'])) {
                 case 'left':
                     $location .= 'L';
-                    $headerFooterAttributes['value']['left'] .= '&G';
+                    $headerFooterParameters['value']['left'] .= '&G';
                     break;
                 case 'center':
                     $location .= 'C';
-                    $headerFooterAttributes['value']['center'] .= '&G';
+                    $headerFooterParameters['value']['center'] .= '&G';
                     break;
                 case 'right':
                     $location .= 'R';
-                    $headerFooterAttributes['value']['right'] .= '&G';
+                    $headerFooterParameters['value']['right'] .= '&G';
                     break;
                 default:
-                    throw new \InvalidArgumentException(sprintf('Unknown alignment type "%s"', $this->headerFooterWrapper->getAlignmentAttributes()['type']));
+                    throw new \InvalidArgumentException(sprintf('Unknown alignment type "%s"', $this->headerFooterWrapper->getAlignmentParameters()['type']));
             }
 
-            switch (strtolower($headerFooterAttributes['type'])) {
+            switch (strtolower($headerFooterParameters['type'])) {
                 case 'header':
                 case 'oddheader':
                 case 'evenheader':
@@ -96,13 +96,13 @@ class DrawingWrapper extends BaseWrapper
                     $location .= 'F';
                     break;
                 default:
-                    throw new \InvalidArgumentException(sprintf('Unknown type "%s"', $headerFooterAttributes['type']));
+                    throw new \InvalidArgumentException(sprintf('Unknown type "%s"', $headerFooterParameters['type']));
             }
 
             $this->object = new HeaderFooterDrawing();
             $this->object->setPath($tempPath);
             $this->headerFooterWrapper->getObject()->addImage($this->object, $location);
-            $this->headerFooterWrapper->setAttributes($headerFooterAttributes);
+            $this->headerFooterWrapper->setParameters($headerFooterParameters);
         }
 
         // add to worksheet
@@ -112,13 +112,13 @@ class DrawingWrapper extends BaseWrapper
             $this->object->setPath($tempPath);
         }
 
-        $this->setProperties($properties, $this->mappings);
+        $this->setProperties($properties);
     }
 
     public function end()
     {
         $this->object = null;
-        $this->attributes = [];
+        $this->parameters = [];
     }
 
     /**
