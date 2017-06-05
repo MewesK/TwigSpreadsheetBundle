@@ -2,6 +2,7 @@
 
 [![Teavis CI: Build Status](https://travis-ci.org/MewesK/TwigSpreadsheetBundle.png?branch=master)](https://travis-ci.org/MewesK/TwigSpreadsheetBundle)
 [![Scrutinizer: Code Quality](https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/?branch=master)
 [![SensioLabsInsight: Code Quality](https://insight.sensiolabs.com/projects/f5c25ebe-0cbc-4be1-a094-4ef87d48ea1b/mini.png)](https://insight.sensiolabs.com/projects/f5c25ebe-0cbc-4be1-a094-4ef87d48ea1b)
 
 This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.
