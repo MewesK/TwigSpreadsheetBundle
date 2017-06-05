@@ -18,6 +18,21 @@ abstract class BaseTokenParser extends \Twig_TokenParser
     const PARAMETER_TYPE_VALUE = 1;
 
     /**
+     * @var array
+     */
+    private $attributes;
+
+    /**
+     * BaseTokenParser constructor.
+     *
+     * @param array $attributes optional attributes for the corresponding node
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
      * @param \Twig_Token $token
      *
      * @return array
@@ -32,10 +47,12 @@ abstract class BaseTokenParser extends \Twig_TokenParser
      */
     public function getAttributes(): array
     {
-        return [];
+        return $this->attributes;
     }
 
     /**
+     * The class name of the corresponding node.
+     *
      * @return string
      */
     abstract public function getNode(): string;

@@ -57,7 +57,10 @@ class TwigSpreadsheetExtension extends \Twig_Extension
         return [
             new CellTokenParser(),
             new CenterTokenParser(),
-            new DocumentTokenParser($this->preCalculateFormulas, $this->diskCachingDirectory),
+            new DocumentTokenParser([
+                'preCalculateFormulas' => $this->preCalculateFormulas,
+                'diskCachingDirectory' => $this->diskCachingDirectory,
+            ]),
             new DrawingTokenParser(),
             new FooterTokenParser(),
             new HeaderTokenParser(),

@@ -10,33 +10,6 @@ use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 class DocumentNode extends BaseNode
 {
     /**
-     * @var bool
-     */
-    private $preCalculateFormulas;
-    /**
-     * @var null|string
-     */
-    private $diskCachingDirectory;
-
-    /**
-     * DocumentNode constructor.
-     *
-     * @param array       $nodes
-     * @param array       $attributes
-     * @param int         $lineno
-     * @param string|null $tag
-     */
-    public function __construct(array $nodes = [], array $attributes = [], int $lineno = 0, string $tag = null)
-    {
-        $this->preCalculateFormulas = $attributes['preCalculateFormulas'] ?? false;
-        $this->diskCachingDirectory = $attributes['diskCachingDirectory'] ?? null;
-
-        unset($attributes['preCalculateFormulas'], $attributes['diskCachingDirectory']);
-
-        parent::__construct($nodes, $attributes, $lineno, $tag);
-    }
-
-    /**
      * @param \Twig_Compiler $compiler
      */
     public function compile(\Twig_Compiler $compiler)
@@ -53,8 +26,8 @@ class DocumentNode extends BaseNode
             ->addDebugInfo($this)
             ->write("ob_end_clean();\n")
             ->write(self::CODE_INSTANCE.'->endDocument('.
-                ($this->preCalculateFormulas ? 'true' : 'false').', '.
-                ($this->diskCachingDirectory ? '\''.$this->diskCachingDirectory.'\'' : 'null').');'.PHP_EOL)
+                ($this->getAttribute('preCalculateFormulas') ? 'true' : 'false').', '.
+                ($this->getAttribute('diskCachingDirectory') ? '\''.$this->getAttribute('diskCachingDirectory').'\'' : 'null').');'.PHP_EOL)
             ->write('unset('.self::CODE_INSTANCE.');'.PHP_EOL);
     }
 

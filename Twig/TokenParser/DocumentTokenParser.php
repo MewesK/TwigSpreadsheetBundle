@@ -10,25 +10,6 @@ use MewesK\TwigSpreadsheetBundle\Twig\Node\DocumentNode;
 class DocumentTokenParser extends BaseTokenParser
 {
     /**
-     * @var bool
-     */
-    private $preCalculateFormulas;
-    /**
-     * @var null|string
-     */
-    private $diskCachingDirectory;
-
-    /**
-     * @param bool        $preCalculateFormulas
-     * @param null|string $diskCachingDirectory
-     */
-    public function __construct($preCalculateFormulas = true, $diskCachingDirectory = null)
-    {
-        $this->preCalculateFormulas = $preCalculateFormulas;
-        $this->diskCachingDirectory = $diskCachingDirectory;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function configureParameters(\Twig_Token $token): array
@@ -38,17 +19,6 @@ class DocumentTokenParser extends BaseTokenParser
                 'type' => self::PARAMETER_TYPE_ARRAY,
                 'default' => new \Twig_Node_Expression_Array([], $token->getLine()),
             ],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttributes(): array
-    {
-        return [
-            'preCalculateFormulas' => $this->preCalculateFormulas,
-            'diskCachingDirectory' => $this->diskCachingDirectory,
         ];
     }
 
