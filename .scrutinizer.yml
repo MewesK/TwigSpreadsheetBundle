@@ -1,0 +1,11 @@
+build:
+    environment:
+        php:
+            version: '7.0'
+
+checks:
+    php: true
+
+filter:
+    excluded_paths:
+        - Tests/*
