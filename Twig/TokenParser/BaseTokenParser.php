@@ -108,7 +108,6 @@ abstract class BaseTokenParser extends \Twig_TokenParser
                         break;
                     default:
                         throw new \InvalidArgumentException('Invalid parameter type');
-                        break;
                 }
 
                 if ($valid) {

@@ -138,13 +138,15 @@ class DocumentWrapper extends BaseWrapper
                 throw new \InvalidArgumentException(sprintf('Unknown format "%s"', $format));
         }
 
-        /**
-         * @var BaseWriter $writer
-         */
-        $writer = IOFactory::createWriter($this->object, $writerType);
-        $writer->setPreCalculateFormulas($preCalculateFormulas);
-        $writer->setUseDiskCaching($diskCachingDirectory !== null, $diskCachingDirectory);
-        $writer->save('php://output');
+        if ($this->object !== null) {
+            /**
+             * @var BaseWriter $writer
+             */
+            $writer = IOFactory::createWriter($this->object, $writerType);
+            $writer->setPreCalculateFormulas($preCalculateFormulas);
+            $writer->setUseDiskCaching($diskCachingDirectory !== null, $diskCachingDirectory);
+            $writer->save('php://output');
+        }
 
         $this->object = null;
         $this->attributes = [];
