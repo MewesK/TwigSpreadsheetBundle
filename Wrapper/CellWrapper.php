@@ -10,14 +10,6 @@ use PhpOffice\PhpSpreadsheet\Cell;
 class CellWrapper extends BaseWrapper
 {
     /**
-     * @var array
-     */
-    protected $context;
-    /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
-    /**
      * @var SheetWrapper
      */
     protected $sheetWrapper;
@@ -26,14 +18,6 @@ class CellWrapper extends BaseWrapper
      * @var Cell|null
      */
     protected $object;
-    /**
-     * @var array
-     */
-    protected $attributes;
-    /**
-     * @var array
-     */
-    protected $mappings;
 
     /**
      * CellWrapper constructor.
@@ -44,15 +28,11 @@ class CellWrapper extends BaseWrapper
      */
     public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
-        $this->context = $context;
-        $this->environment = $environment;
+        parent::__construct($context, $environment);
+
         $this->sheetWrapper = $sheetWrapper;
 
         $this->object = null;
-        $this->attributes = [];
-        $this->mappings = [];
-
-        $this->initializeMappings();
     }
 
     /**
@@ -119,93 +99,34 @@ class CellWrapper extends BaseWrapper
     /**
      * @return array
      */
-    public function getAttributes(): array
+    protected function configureMappings(): array
     {
-        return $this->attributes;
-    }
-
-    /**
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMappings(): array
-    {
-        return $this->mappings;
-    }
-
-    /**
-     * @param array $mappings
-     */
-    public function setMappings(array $mappings)
-    {
-        $this->mappings = $mappings;
-    }
-
-    protected function initializeMappings()
-    {
-        $this->mappings['break'] = function ($value) {
-            $this->sheetWrapper->getObject()->setBreak($this->object->getCoordinate(), $value);
-        };
-        $this->mappings['dataType'] = function ($value) {
-            $this->object->setDataType($value);
-        };
-        $this->mappings['dataValidation']['allowBlank'] = function ($value) {
-            $this->object->getDataValidation()->setAllowBlank($value);
-        };
-        $this->mappings['dataValidation']['error'] = function ($value) {
-            $this->object->getDataValidation()->setError($value);
-        };
-        $this->mappings['dataValidation']['errorStyle'] = function ($value) {
-            $this->object->getDataValidation()->setErrorStyle($value);
-        };
-        $this->mappings['dataValidation']['errorTitle'] = function ($value) {
-            $this->object->getDataValidation()->setErrorTitle($value);
-        };
-        $this->mappings['dataValidation']['formula1'] = function ($value) {
-            $this->object->getDataValidation()->setFormula1($value);
-        };
-        $this->mappings['dataValidation']['formula2'] = function ($value) {
-            $this->object->getDataValidation()->setFormula2($value);
-        };
-        $this->mappings['dataValidation']['operator'] = function ($value) {
-            $this->object->getDataValidation()->setOperator($value);
-        };
-        $this->mappings['dataValidation']['prompt'] = function ($value) {
-            $this->object->getDataValidation()->setPrompt($value);
-        };
-        $this->mappings['dataValidation']['promptTitle'] = function ($value) {
-            $this->object->getDataValidation()->setPromptTitle($value);
-        };
-        $this->mappings['dataValidation']['showDropDown'] = function ($value) {
-            $this->object->getDataValidation()->setShowDropDown($value);
-        };
-        $this->mappings['dataValidation']['showErrorMessage'] = function ($value) {
-            $this->object->getDataValidation()->setShowErrorMessage($value);
-        };
-        $this->mappings['dataValidation']['showInputMessage'] = function ($value) {
-            $this->object->getDataValidation()->setShowInputMessage($value);
-        };
-        $this->mappings['dataValidation']['type'] = function ($value) {
-            $this->object->getDataValidation()->setType($value);
-        };
-        $this->mappings['merge'] = function ($value) {
-            if (is_int($value)) {
-                $value = Cell::stringFromColumnIndex($value).$this->sheetWrapper->getRow();
-            }
-            $this->sheetWrapper->getObject()->mergeCells(sprintf('%s:%s', $this->object->getCoordinate(), $value));
-        };
-        $this->mappings['style'] = function ($value) {
-            $this->sheetWrapper->getObject()->getStyle($this->object->getCoordinate())->applyFromArray($value);
-        };
-        $this->mappings['url'] = function ($value) {
-            $this->object->getHyperlink()->setUrl($value);
-        };
+        return [
+            'break' => function ($value) { $this->sheetWrapper->getObject()->setBreak($this->object->getCoordinate(), $value); },
+            'dataType' => function ($value) { $this->object->setDataType($value); },
+            'dataValidation' => [
+                'allowBlank' => function ($value) { $this->object->getDataValidation()->setAllowBlank($value); },
+                'error' => function ($value) { $this->object->getDataValidation()->setError($value); },
+                'errorStyle' => function ($value) { $this->object->getDataValidation()->setErrorStyle($value); },
+                'errorTitle' => function ($value) { $this->object->getDataValidation()->setErrorTitle($value); },
+                'formula1' => function ($value) { $this->object->getDataValidation()->setFormula1($value); },
+                'formula2' => function ($value) { $this->object->getDataValidation()->setFormula2($value); },
+                'operator' => function ($value) { $this->object->getDataValidation()->setOperator($value); },
+                'prompt' => function ($value) { $this->object->getDataValidation()->setPrompt($value); },
+                'promptTitle' => function ($value) { $this->object->getDataValidation()->setPromptTitle($value); },
+                'showDropDown' => function ($value) { $this->object->getDataValidation()->setShowDropDown($value); },
+                'showErrorMessage' => function ($value) { $this->object->getDataValidation()->setShowErrorMessage($value); },
+                'showInputMessage' => function ($value) { $this->object->getDataValidation()->setShowInputMessage($value); },
+                'type' => function ($value) { $this->object->getDataValidation()->setType($value); },
+            ],
+            'merge' => function ($value) {
+                if (is_int($value)) {
+                    $value = Cell::stringFromColumnIndex($value).$this->sheetWrapper->getRow();
+                }
+                $this->sheetWrapper->getObject()->mergeCells(sprintf('%s:%s', $this->object->getCoordinate(), $value));
+            },
+            'style' => function ($value) { $this->sheetWrapper->getObject()->getStyle($this->object->getCoordinate())->applyFromArray($value); },
+            'url' => function ($value) { $this->object->getHyperlink()->setUrl($value); },
+        ];
     }
 }

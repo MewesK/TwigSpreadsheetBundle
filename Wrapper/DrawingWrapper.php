@@ -11,14 +11,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 class DrawingWrapper extends BaseWrapper
 {
     /**
-     * @var array
-     */
-    protected $context;
-    /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
-    /**
      * @var SheetWrapper
      */
     protected $sheetWrapper;
@@ -31,14 +23,6 @@ class DrawingWrapper extends BaseWrapper
      * @var Drawing | HeaderFooterDrawing
      */
     protected $object;
-    /**
-     * @var array
-     */
-    protected $attributes;
-    /**
-     * @var array
-     */
-    protected $mappings;
 
     /**
      * DrawingWrapper constructor.
@@ -50,16 +34,12 @@ class DrawingWrapper extends BaseWrapper
      */
     public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper, HeaderFooterWrapper $headerFooterWrapper)
     {
-        $this->context = $context;
-        $this->environment = $environment;
+        parent::__construct($context, $environment);
+
         $this->sheetWrapper = $sheetWrapper;
         $this->headerFooterWrapper = $headerFooterWrapper;
 
         $this->object = null;
-        $this->attributes = [];
-        $this->mappings = [];
-
-        $this->initializeMappings();
     }
 
     /**
@@ -142,22 +122,6 @@ class DrawingWrapper extends BaseWrapper
     }
 
     /**
-     * @return array
-     */
-    public function getMappings(): array
-    {
-        return $this->mappings;
-    }
-
-    /**
-     * @param array $mappings
-     */
-    public function setMappings(array $mappings)
-    {
-        $this->mappings = $mappings;
-    }
-
-    /**
      * @return Drawing
      */
     public function getObject(): Drawing
@@ -176,69 +140,28 @@ class DrawingWrapper extends BaseWrapper
     /**
      * @return array
      */
-    public function getAttributes(): array
+    protected function configureMappings(): array
     {
-        return $this->attributes;
-    }
-
-    /**
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    protected function initializeMappings()
-    {
-        $this->mappings['coordinates'] = function ($value) {
-            $this->object->setCoordinates($value);
-        };
-        $this->mappings['description'] = function ($value) {
-            $this->object->setDescription($value);
-        };
-        $this->mappings['height'] = function ($value) {
-            $this->object->setHeight($value);
-        };
-        $this->mappings['name'] = function ($value) {
-            $this->object->setName($value);
-        };
-        $this->mappings['offsetX'] = function ($value) {
-            $this->object->setOffsetX($value);
-        };
-        $this->mappings['offsetY'] = function ($value) {
-            $this->object->setOffsetY($value);
-        };
-        $this->mappings['resizeProportional'] = function ($value) {
-            $this->object->setResizeProportional($value);
-        };
-        $this->mappings['rotation'] = function ($value) {
-            $this->object->setRotation($value);
-        };
-        $this->mappings['shadow']['alignment'] = function ($value) {
-            $this->object->getShadow()->setAlignment($value);
-        };
-        $this->mappings['shadow']['alpha'] = function ($value) {
-            $this->object->getShadow()->setAlpha($value);
-        };
-        $this->mappings['shadow']['blurRadius'] = function ($value) {
-            $this->object->getShadow()->setBlurRadius($value);
-        };
-        $this->mappings['shadow']['color'] = function ($value) {
-            $this->object->getShadow()->getColor()->setRGB($value);
-        };
-        $this->mappings['shadow']['direction'] = function ($value) {
-            $this->object->getShadow()->setDirection($value);
-        };
-        $this->mappings['shadow']['distance'] = function ($value) {
-            $this->object->getShadow()->setDistance($value);
-        };
-        $this->mappings['shadow']['visible'] = function ($value) {
-            $this->object->getShadow()->setVisible($value);
-        };
-        $this->mappings['width'] = function ($value) {
-            $this->object->setWidth($value);
-        };
+        return [
+            'coordinates' => function ($value) { $this->object->setCoordinates($value); },
+            'description' => function ($value) { $this->object->setDescription($value); },
+            'height' => function ($value) { $this->object->setHeight($value); },
+            'name' => function ($value) { $this->object->setName($value); },
+            'offsetX' => function ($value) { $this->object->setOffsetX($value); },
+            'offsetY' => function ($value) { $this->object->setOffsetY($value); },
+            'resizeProportional' => function ($value) { $this->object->setResizeProportional($value); },
+            'rotation' => function ($value) { $this->object->setRotation($value); },
+            'shadow' => [
+                'alignment' => function ($value) { $this->object->getShadow()->setAlignment($value); },
+                'alpha' => function ($value) { $this->object->getShadow()->setAlpha($value); },
+                'blurRadius' => function ($value) { $this->object->getShadow()->setBlurRadius($value); },
+                'color' => function ($value) { $this->object->getShadow()->getColor()->setRGB($value); },
+                'direction' => function ($value) { $this->object->getShadow()->setDirection($value); },
+                'distance' => function ($value) { $this->object->getShadow()->setDistance($value); },
+                'visible' => function ($value) { $this->object->getShadow()->setVisible($value); },
+            ],
+            'width' => function ($value) { $this->object->setWidth($value); },
+        ];
     }
 
     /**

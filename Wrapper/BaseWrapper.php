@@ -8,6 +8,80 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 abstract class BaseWrapper
 {
     /**
+     * @var array
+     */
+    protected $context;
+
+    /**
+     * @var \Twig_Environment
+     */
+    protected $environment;
+
+    /**
+     * @var array
+     */
+    protected $attributes;
+    /**
+     * @var array
+     */
+    protected $mappings;
+
+    /**
+     * BaseWrapper constructor.
+     *
+     * @param array             $context
+     * @param \Twig_Environment $environment
+     */
+    public function __construct(array $context, \Twig_Environment $environment)
+    {
+        $this->context = $context;
+        $this->environment = $environment;
+
+        $this->attributes = [];
+        $this->mappings = $this->configureMappings();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMappings(): array
+    {
+        return $this->mappings;
+    }
+
+    /**
+     * @param array $mappings
+     */
+    public function setMappings(array $mappings)
+    {
+        $this->mappings = $mappings;
+    }
+
+    /**
+     * @return array
+     */
+    protected function configureMappings(): array
+    {
+        return [];
+    }
+
+    /**
      * Calls the matching mapping callable for each property.
      *
      * @param array       $properties

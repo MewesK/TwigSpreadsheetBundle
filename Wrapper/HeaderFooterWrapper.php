@@ -10,14 +10,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooter;
 class HeaderFooterWrapper extends BaseWrapper
 {
     /**
-     * @var array
-     */
-    protected $context;
-    /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
-    /**
      * @var SheetWrapper
      */
     protected $sheetWrapper;
@@ -26,14 +18,6 @@ class HeaderFooterWrapper extends BaseWrapper
      * @var null|HeaderFooter
      */
     protected $object;
-    /**
-     * @var array
-     */
-    protected $attributes;
-    /**
-     * @var array
-     */
-    protected $mappings;
     /**
      * @var array
      */
@@ -48,16 +32,12 @@ class HeaderFooterWrapper extends BaseWrapper
      */
     public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
-        $this->context = $context;
-        $this->environment = $environment;
+        parent::__construct($context, $environment);
+
         $this->sheetWrapper = $sheetWrapper;
 
         $this->object = null;
-        $this->attributes = [];
-        $this->mappings = [];
         $this->alignmentAttributes = [];
-
-        $this->initializeMappings();
     }
 
     /**
@@ -210,38 +190,6 @@ class HeaderFooterWrapper extends BaseWrapper
     /**
      * @return array
      */
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMappings(): array
-    {
-        return $this->mappings;
-    }
-
-    /**
-     * @param array $mappings
-     */
-    public function setMappings(array $mappings)
-    {
-        $this->mappings = $mappings;
-    }
-
-    /**
-     * @return array
-     */
     public function getAlignmentAttributes(): array
     {
         return $this->alignmentAttributes;
@@ -255,13 +203,14 @@ class HeaderFooterWrapper extends BaseWrapper
         $this->alignmentAttributes = $alignmentAttributes;
     }
 
-    protected function initializeMappings()
+    /**
+     * @return array
+     */
+    protected function configureMappings(): array
     {
-        $this->mappings['scaleWithDocument'] = function ($value) {
-            $this->object->setScaleWithDocument($value);
-        };
-        $this->mappings['alignWithMargins'] = function ($value) {
-            $this->object->setAlignWithMargins($value);
-        };
+        return [
+            'scaleWithDocument' => function ($value) { $this->object->setScaleWithDocument($value); },
+            'alignWithMargins' => function ($value) { $this->object->setAlignWithMargins($value); },
+        ];
     }
 }

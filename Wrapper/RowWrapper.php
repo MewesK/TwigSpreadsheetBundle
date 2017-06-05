@@ -8,14 +8,6 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 class RowWrapper extends BaseWrapper
 {
     /**
-     * @var array
-     */
-    protected $context;
-    /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
-    /**
      * @var SheetWrapper
      */
     protected $sheetWrapper;
@@ -29,8 +21,8 @@ class RowWrapper extends BaseWrapper
      */
     public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
-        $this->context = $context;
-        $this->environment = $environment;
+        parent::__construct($context, $environment);
+
         $this->sheetWrapper = $sheetWrapper;
     }
 

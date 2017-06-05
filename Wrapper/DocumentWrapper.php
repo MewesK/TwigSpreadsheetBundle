@@ -15,26 +15,9 @@ use Symfony\Bridge\Twig\AppVariable;
 class DocumentWrapper extends BaseWrapper
 {
     /**
-     * @var array
-     */
-    protected $context;
-    /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
-
-    /**
      * @var Spreadsheet|null
      */
     protected $object;
-    /**
-     * @var array
-     */
-    protected $attributes;
-    /**
-     * @var array
-     */
-    protected $mappings;
 
     /**
      * DocumentWrapper constructor.
@@ -44,14 +27,9 @@ class DocumentWrapper extends BaseWrapper
      */
     public function __construct(array $context, \Twig_Environment $environment)
     {
-        $this->context = $context;
-        $this->environment = $environment;
+        parent::__construct($context, $environment);
 
         $this->object = null;
-        $this->attributes = [];
-        $this->mappings = [];
-
-        $this->initializeMappings();
     }
 
     /**
@@ -171,94 +149,31 @@ class DocumentWrapper extends BaseWrapper
     /**
      * @return array
      */
-    public function getAttributes(): array
+    protected function configureMappings(): array
     {
-        return $this->attributes;
-    }
-
-    /**
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMappings(): array
-    {
-        return $this->mappings;
-    }
-
-    /**
-     * @param array $mappings
-     */
-    public function setMappings(array $mappings)
-    {
-        $this->mappings = $mappings;
-    }
-
-    protected function initializeMappings()
-    {
-        $this->mappings['category'] = function ($value) {
-            $this->object->getProperties()->setCategory($value);
-        };
-        $this->mappings['company'] = function ($value) {
-            $this->object->getProperties()->setCompany($value);
-        };
-        $this->mappings['created'] = function ($value) {
-            $this->object->getProperties()->setCreated($value);
-        };
-        $this->mappings['creator'] = function ($value) {
-            $this->object->getProperties()->setCreator($value);
-        };
-        $this->mappings['defaultStyle'] = function ($value) {
-            $this->object->getDefaultStyle()->applyFromArray($value);
-        };
-        $this->mappings['description'] = function ($value) {
-            $this->object->getProperties()->setDescription($value);
-        };
-        $this->mappings['format'] = function ($value) {
-            $this->attributes['format'] = $value;
-        };
-        $this->mappings['keywords'] = function ($value) {
-            $this->object->getProperties()->setKeywords($value);
-        };
-        $this->mappings['lastModifiedBy'] = function ($value) {
-            $this->object->getProperties()->setLastModifiedBy($value);
-        };
-        $this->mappings['manager'] = function ($value) {
-            $this->object->getProperties()->setManager($value);
-        };
-        $this->mappings['modified'] = function ($value) {
-            $this->object->getProperties()->setModified($value);
-        };
-        $this->mappings['security']['lockRevision'] = function ($value) {
-            $this->object->getSecurity()->setLockRevision($value);
-        };
-        $this->mappings['security']['lockStructure'] = function ($value) {
-            $this->object->getSecurity()->setLockStructure($value);
-        };
-        $this->mappings['security']['lockWindows'] = function ($value) {
-            $this->object->getSecurity()->setLockWindows($value);
-        };
-        $this->mappings['security']['revisionsPassword'] = function ($value) {
-            $this->object->getSecurity()->setRevisionsPassword($value);
-        };
-        $this->mappings['security']['workbookPassword'] = function ($value) {
-            $this->object->getSecurity()->setWorkbookPassword($value);
-        };
-        $this->mappings['subject'] = function ($value) {
-            $this->object->getProperties()->setSubject($value);
-        };
-        $this->mappings['template'] = function ($value) {
-            $this->attributes['template'] = $value;
-        };
-        $this->mappings['title'] = function ($value) {
-            $this->object->getProperties()->setTitle($value);
-        };
+        return [
+            'category' => function ($value) { $this->object->getProperties()->setCategory($value); },
+            'company' => function ($value) { $this->object->getProperties()->setCompany($value); },
+            'created' => function ($value) { $this->object->getProperties()->setCreated($value); },
+            'creator' => function ($value) { $this->object->getProperties()->setCreator($value); },
+            'defaultStyle' => function ($value) { $this->object->getDefaultStyle()->applyFromArray($value); },
+            'description' => function ($value) { $this->object->getProperties()->setDescription($value); },
+            'format' => function ($value) { $this->attributes['format'] = $value; },
+            'keywords' => function ($value) { $this->object->getProperties()->setKeywords($value); },
+            'lastModifiedBy' => function ($value) { $this->object->getProperties()->setLastModifiedBy($value); },
+            'manager' => function ($value) { $this->object->getProperties()->setManager($value); },
+            'modified' => function ($value) { $this->object->getProperties()->setModified($value); },
+            'security' => [
+                'lockRevision' => function ($value) { $this->object->getSecurity()->setLockRevision($value); },
+                'lockStructure' => function ($value) { $this->object->getSecurity()->setLockStructure($value); },
+                'lockWindows' => function ($value) { $this->object->getSecurity()->setLockWindows($value); },
+                'revisionsPassword' => function ($value) { $this->object->getSecurity()->setRevisionsPassword($value); },
+                'workbookPassword' => function ($value) { $this->object->getSecurity()->setWorkbookPassword($value); },
+            ],
+            'subject' => function ($value) { $this->object->getProperties()->setSubject($value); },
+            'template' => function ($value) { $this->attributes['template'] = $value; },
+            'title' => function ($value) { $this->object->getProperties()->setTitle($value); },
+        ];
     }
 
     /**
