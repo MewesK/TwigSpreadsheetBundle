@@ -1,5 +1,7 @@
-/tmp/
+/var/
 /vendor/
+/.php_cs
 /.php_cs.cache
 /composer.lock
+/phpunit.coverage.xml
 /phpunit.xml

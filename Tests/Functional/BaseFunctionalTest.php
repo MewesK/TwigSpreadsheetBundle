@@ -8,11 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AbstractControllerTest.
+ * Class BaseFunctionalTest.
  */
-abstract class AbstractControllerTest extends WebTestCase
+abstract class BaseFunctionalTest extends WebTestCase
 {
     protected static $ENVIRONMENT;
     protected static $TEMP_PATH;
@@ -33,12 +34,12 @@ abstract class AbstractControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     public static function setUpBeforeClass()
     {
         static::$fileSystem = new Filesystem();
-        static::$fileSystem->remove(__DIR__.static::$TEMP_PATH);
+        static::$fileSystem->remove(static::$TEMP_PATH);
     }
 
     /**
@@ -48,8 +49,8 @@ abstract class AbstractControllerTest extends WebTestCase
      */
     public static function tearDownAfterClass()
     {
-        if (in_array(getenv('DELETE_TEMP_FILES'), ['true', '1', 1, true], true)) {
-            static::$fileSystem->remove(__DIR__.static::$TEMP_PATH);
+        if (!getenv('TSB_KEEP_CACHE')) {
+            static::$fileSystem->remove(static::$TEMP_PATH);
         }
     }
 
@@ -81,39 +82,25 @@ abstract class AbstractControllerTest extends WebTestCase
      * @param string $uri
      * @param string $format
      *
-     * @throws \InvalidArgumentException
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      *
      * @return Spreadsheet
      */
     protected function getDocument(string $uri, string $format = 'xlsx'): Spreadsheet
     {
+        $format = strtolower($format);
+
         // generate source
-        static::$client->request('GET', $uri);
+        static::$client->request(Request::METHOD_GET, $uri);
         $source = static::$client->getResponse()->getContent();
 
-        // create paths
-        $tempDirPath = __DIR__.static::$TEMP_PATH;
-        $tempFilePath = $tempDirPath.'simple'.'.'.$format;
+        // create path for temp file
+        $path = sprintf('%s/simple.%s', static::$TEMP_PATH, $format);
 
         // save source
-        static::$fileSystem->dumpFile($tempFilePath, $source);
+        static::$fileSystem->dumpFile($path, $source);
 
         // load source
-        switch ($format) {
-            case 'ods':
-                $readerType = 'Ods';
-                break;
-            case 'xls':
-                $readerType = 'Xls';
-                break;
-            case 'xlsx':
-                $readerType = 'Xlsx';
-                break;
-            default:
-                throw new \InvalidArgumentException();
-        }
-
-        return IOFactory::createReader($readerType)->load($tempFilePath);
+        return IOFactory::createReader(ucfirst($format))->load($path);
     }
 }

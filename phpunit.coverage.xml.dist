@@ -6,30 +6,27 @@
          bootstrap="./vendor/autoload.php"
         >
     <php>
-        <env name="DELETE_TEMP_FILES" value="true"/>
-        <server name="KERNEL_DIR" value="./Tests/Fixtures/"/>
+        <env name="TSB_KEEP_CACHE" value="0"/>
+        <server name="KERNEL_CLASS" value="TestAppKernel"/>
     </php>
 
     <testsuites>
         <testsuite name="MewesKTwigSpreadsheetBundle Test Suite">
-            <directory>./Tests/</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
+            <directory>./src</directory>
             <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./tmp</directory>
-                <directory>./vendor</directory>
+                <directory>./src/Resources</directory>
             </exclude>
         </whitelist>
     </filter>
 
     <logging>
-        <log type="coverage-clover" target="tmp/logs/coverage.xml"/>
-        <log type="coverage-html" target="tmp/logs/report" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="./var/logs/coverage.xml"/>
+        <log type="coverage-html" target="./var/logs/report" lowUpperBound="35" highLowerBound="70"/>
     </logging>
 </phpunit>

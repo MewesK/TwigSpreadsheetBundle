@@ -7,7 +7,7 @@ build:
             -
                 command: vendor/bin/simple-phpunit -c phpunit.coverage.xml.dist
                 coverage:
-                    file: tmp/logs/coverage.xml
+                    file: var/logs/coverage.xml
                     format: clover
 
 checks:
@@ -15,4 +15,4 @@ checks:
 
 filter:
     excluded_paths:
-        - Tests/*
+        - tests/*

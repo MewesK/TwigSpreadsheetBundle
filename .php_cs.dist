@@ -27,8 +27,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->exclude('tmp')
-            ->exclude('vendor')
+            ->exclude('var')
             ->in(__DIR__)
     )
 ;

@@ -5,12 +5,12 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class DefaultControllerTest.
+ * Class BasicFunctionalTest.
  */
-class DefaultControllerTest extends AbstractControllerTest
+class BasicFunctionalTest extends BaseFunctionalTest
 {
-    protected static $ENVIRONMENT = 'controller';
-    protected static $TEMP_PATH = '/../../tmp/functional/controller/';
+    protected static $ENVIRONMENT = 'basic';
+    protected static $TEMP_PATH = __DIR__.'/../../var/cache/functional/basic';
 
     //
     // PhpUnit

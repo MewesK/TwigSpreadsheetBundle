@@ -6,8 +6,8 @@
          bootstrap="./vendor/autoload.php"
         >
     <php>
-        <env name="DELETE_TEMP_FILES" value="true"/>
-        <server name="KERNEL_DIR" value="./Tests/Fixtures/"/>
+        <env name="TSB_KEEP_CACHE" value="1"/>
+        <server name="KERNEL_CLASS" value="MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestAppKernel"/>
     </php>
 
     <testsuites>
@@ -18,11 +18,9 @@
 
     <filter>
         <whitelist>
-            <directory>./</directory>
+            <directory>./src</directory>
             <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
+                <directory>./src/Resources</directory>
             </exclude>
         </whitelist>
     </filter>

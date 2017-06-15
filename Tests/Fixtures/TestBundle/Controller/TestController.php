@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController.
+ * Class TestController.
  */
-class DefaultController extends Controller
+class TestController extends Controller
 {
     /**
      * @param $templateName
