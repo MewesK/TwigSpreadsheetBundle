@@ -18,18 +18,24 @@ class DocumentWrapper extends BaseWrapper
      * @var Spreadsheet|null
      */
     protected $object;
+    /**
+     * @var array
+     */
+    protected $attributes;
 
     /**
      * DocumentWrapper constructor.
      *
      * @param array             $context
      * @param \Twig_Environment $environment
+     * @param array             $attributes
      */
-    public function __construct(array $context, \Twig_Environment $environment)
+    public function __construct(array $context, \Twig_Environment $environment, array $attributes = [])
     {
         parent::__construct($context, $environment);
 
         $this->object = null;
+        $this->attributes = $attributes;
     }
 
     /**
@@ -60,14 +66,12 @@ class DocumentWrapper extends BaseWrapper
     }
 
     /**
-     * @param bool        $preCalculateFormulas
-     * @param null|string $diskCachingDirectory
-     *
      * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function end(bool $preCalculateFormulas = true, string $diskCachingDirectory = null)
+    public function end()
     {
         $format = null;
 
@@ -117,12 +121,24 @@ class DocumentWrapper extends BaseWrapper
         }
 
         if ($this->object !== null) {
+            if (
+                $this->attributes['diskCachingDirectory'] !== null &&
+                !file_exists($this->attributes['diskCachingDirectory'])
+            ) {
+                if (!@mkdir($this->attributes['diskCachingDirectory']) && !is_dir($this->attributes['diskCachingDirectory'])){
+                    throw new \RuntimeException('Error creating the PhpSpreadsheet cache directory');
+                }
+            }
+
             /**
              * @var BaseWriter $writer
              */
             $writer = IOFactory::createWriter($this->object, $writerType);
-            $writer->setPreCalculateFormulas($preCalculateFormulas);
-            $writer->setUseDiskCaching($diskCachingDirectory !== null, $diskCachingDirectory);
+            $writer->setPreCalculateFormulas($this->attributes['preCalculateFormulas'] ?? true);
+            $writer->setUseDiskCaching(
+                $this->attributes['diskCachingDirectory'] !== null,
+                $this->attributes['diskCachingDirectory'] ?? null
+            );
             $writer->save('php://output');
         }
 

@@ -51,10 +51,11 @@ class PhpSpreadsheetWrapper
      *
      * @param array             $context
      * @param \Twig_Environment $environment
+     * @param array             $attributes
      */
-    public function __construct(array $context, \Twig_Environment $environment)
+    public function __construct(array $context, \Twig_Environment $environment, array $attributes = [])
     {
-        $this->documentWrapper = new DocumentWrapper($context, $environment);
+        $this->documentWrapper = new DocumentWrapper($context, $environment, $attributes);
         $this->sheetWrapper = new SheetWrapper($context, $environment, $this->documentWrapper);
         $this->rowWrapper = new RowWrapper($context, $environment, $this->sheetWrapper);
         $this->cellWrapper = new CellWrapper($context, $environment, $this->sheetWrapper);

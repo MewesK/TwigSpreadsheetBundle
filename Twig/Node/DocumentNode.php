@@ -19,15 +19,13 @@ class DocumentNode extends BaseNode
             ->write('$documentProperties = ')
             ->subcompile($this->getNode('properties'))
             ->raw(';'.PHP_EOL)
-            ->write(self::CODE_INSTANCE.' = new '.PhpSpreadsheetWrapper::class.'($context, $this->env);'.PHP_EOL)
+            ->write(self::CODE_INSTANCE.' = new '.PhpSpreadsheetWrapper::class.'($context, $this->env, '.var_export($this->attributes, true).');'.PHP_EOL)
             ->write(self::CODE_INSTANCE.'->startDocument($documentProperties);'.PHP_EOL)
             ->write('unset($documentProperties);'.PHP_EOL)
             ->subcompile($this->getNode('body'))
             ->addDebugInfo($this)
             ->write("ob_end_clean();\n")
-            ->write(self::CODE_INSTANCE.'->endDocument('.
-                ($this->getAttribute('preCalculateFormulas') ? 'true' : 'false').', '.
-                ($this->getAttribute('diskCachingDirectory') ? '\''.$this->getAttribute('diskCachingDirectory').'\'' : 'null').');'.PHP_EOL)
+            ->write(self::CODE_INSTANCE.'->endDocument();'.PHP_EOL)
             ->write('unset('.self::CODE_INSTANCE.');'.PHP_EOL);
     }
 

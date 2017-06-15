@@ -39,6 +39,7 @@ class CustomConfigTest extends AbstractControllerTest
         static::assertNotNull($document, 'Document does not exist');
 
         static::assertFalse(static::$kernel->getContainer()->getParameter('mewes_k_twig_spreadsheet.pre_calculate_formulas'), 'Unexpected parameter');
-        static::assertStringEndsWith('tmp/phpSpreadsheet', static::$kernel->getContainer()->getParameter('mewes_k_twig_spreadsheet.disk_caching_directory'), 'Unexpected parameter');
+        static::assertStringEndsWith('tmp/cache/spreadsheet', static::$kernel->getContainer()->getParameter('mewes_k_twig_spreadsheet.disk_caching_directory'), 'Unexpected parameter');
+        static::assertDirectoryExists(static::$kernel->getContainer()->getParameter('mewes_k_twig_spreadsheet.disk_caching_directory'), 'Cache directory does not exist');
     }
 }
