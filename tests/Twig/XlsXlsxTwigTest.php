@@ -5,20 +5,14 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 use PhpOffice\PhpSpreadsheet\Shared\PasswordHasher;
 
 /**
- * Class XlsTwigTest.
+ * Class XlsXlsxTwigTest.
  */
-class XlsTwigTest extends BaseTwigTest
+class XlsXlsxTwigTest extends BaseTwigTest
 {
-    protected static $TEMP_PATH = '/../../tmp/xls/';
-
-    //
-    // PhpUnit
-    //
-
     /**
      * @return array
      */
-    public function formatProvider()
+    public function formatProvider(): array
     {
         return [['xls'], ['xlsx']];
     }

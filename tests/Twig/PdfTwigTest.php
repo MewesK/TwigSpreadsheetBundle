@@ -7,16 +7,10 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
  */
 class PdfTwigTest extends BaseTwigTest
 {
-    protected static $TEMP_PATH = '/../../tmp/pdf/';
-
-    //
-    // PhpUnit
-    //
-
     /**
      * @return array
      */
-    public function formatProvider()
+    public function formatProvider(): array
     {
         return [['pdf']];
     }
@@ -34,11 +28,6 @@ class PdfTwigTest extends BaseTwigTest
      */
     public function testBasic($format)
     {
-        // Skip PDF test for nightly builds of PHP since mPDF doesn't work
-        if (version_compare(PHP_VERSION, '7.0.0-dev', '>=')) {
-            return;
-        }
-
         $path = $this->getDocument('cellProperties', $format);
 
         static::assertFileExists($path, 'File does not exist');

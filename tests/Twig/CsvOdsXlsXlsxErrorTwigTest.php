@@ -3,22 +3,16 @@
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
 /**
- * Class ErrorTwigTest.
+ * Class CsvOdsXlsXlsxErrorTwigTest.
  */
-class ErrorTwigTest extends BaseTwigTest
+class CsvOdsXlsXlsxErrorTwigTest extends BaseTwigTest
 {
-    protected static $TEMP_PATH = '/../../tmp/error/';
-
-    //
-    // PhpUnit
-    //
-
     /**
      * @return array
      */
-    public function formatProvider()
+    public function formatProvider(): array
     {
-        return [['ods'], ['xls'], ['xlsx']];
+        return [['csv'], ['ods'], ['xls'], ['xlsx']];
     }
 
     //

@@ -184,7 +184,7 @@ class SheetWrapper extends BaseWrapper
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     protected function configureMappings(): array
     {

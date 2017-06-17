@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/4.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.0/phpunit.xsd"
          backupGlobals="false"
          colors="true"
          bootstrap="./vendor/autoload.php"
         >
     <php>
-        <env name="TSB_KEEP_CACHE" value="1"/>
-        <server name="KERNEL_CLASS" value="MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestAppKernel"/>
+        <server name="KERNEL_CLASS" value="MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestAppKernel"/>
     </php>
 
     <testsuites>

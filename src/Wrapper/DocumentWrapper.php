@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
+use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Settings;
@@ -67,9 +68,9 @@ class DocumentWrapper extends BaseWrapper
 
     /**
      * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     public function end()
     {
@@ -105,7 +106,7 @@ class DocumentWrapper extends BaseWrapper
                 break;
             case 'pdf':
                 $writerType = 'Pdf';
-                if (!class_exists('mPDF')) {
+                if (!class_exists('\Mpdf\Mpdf')) {
                     throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
                 }
                 Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
@@ -123,11 +124,9 @@ class DocumentWrapper extends BaseWrapper
         if ($this->object !== null) {
             if (
                 $this->attributes['diskCachingDirectory'] !== null &&
-                !file_exists($this->attributes['diskCachingDirectory'])
+                !Filesystem::exists($this->attributes['diskCachingDirectory'])
             ) {
-                if (!@mkdir($this->attributes['diskCachingDirectory']) && !is_dir($this->attributes['diskCachingDirectory'])){
-                    throw new \RuntimeException('Error creating the PhpSpreadsheet cache directory');
-                }
+                Filesystem::mkdir($this->attributes['diskCachingDirectory']);
             }
 
             /**
@@ -163,7 +162,7 @@ class DocumentWrapper extends BaseWrapper
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     protected function configureMappings(): array
     {

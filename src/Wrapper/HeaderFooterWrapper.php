@@ -204,7 +204,7 @@ class HeaderFooterWrapper extends BaseWrapper
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     protected function configureMappings(): array
     {

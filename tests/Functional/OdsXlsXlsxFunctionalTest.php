@@ -2,24 +2,20 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
-use Symfony\Component\HttpFoundation\Response;
-
 /**
- * Class BasicFunctionalTest.
+ * Class OdsXlsXlsxFunctionalTest.
  */
-class BasicFunctionalTest extends BaseFunctionalTest
+class OdsXlsXlsxFunctionalTest extends BaseFunctionalTest
 {
+    /**
+     * @var string
+     */
     protected static $ENVIRONMENT = 'basic';
-    protected static $TEMP_PATH = __DIR__.'/../../var/cache/functional/basic';
-
-    //
-    // PhpUnit
-    //
 
     /**
      * @return array
      */
-    public function formatProvider()
+    public function formatProvider(): array
     {
         return [['ods'], ['xls'], ['xlsx']];
     }
@@ -37,7 +33,7 @@ class BasicFunctionalTest extends BaseFunctionalTest
      */
     public function testSimple($format)
     {
-        $document = $this->getDocument(static::$router->generate('test_default', ['templateName' => 'simple', '_format' => $format]), $format);
+        $document = $this->getDocument('test_default', ['templateName' => 'simple', '_format' => $format], $format);
         static::assertNotNull($document, 'Document does not exist');
 
         $sheet = $document->getSheetByName('Test');
@@ -59,16 +55,7 @@ class BasicFunctionalTest extends BaseFunctionalTest
      */
     public function testCustomResponse($format)
     {
-        // Generate URI
-        $uri = static::$router->generate('test_custom_response', ['templateName' => 'simple', '_format' => $format]);
-
-        // Generate source
-        static::$client->request('GET', $uri);
-
-        /**
-         * @var Response
-         */
-        $response = static::$client->getResponse();
+        $response = $this->getResponse('test_custom_response', ['templateName' => 'simple', '_format' => $format]);
 
         static::assertNotNull($response, 'Response does not exist');
         static::assertEquals('attachment; filename="foobar.bin"', $response->headers->get('Content-Disposition'), 'Unexpected or missing header "Content-Disposition"');
@@ -84,7 +71,7 @@ class BasicFunctionalTest extends BaseFunctionalTest
      */
     public function testDocumentTemplatePath1($format)
     {
-        $document = $this->getDocument(static::$router->generate('test_default', ['templateName' => 'documentTemplatePath1', '_format' => $format]), $format);
+        $document = $this->getDocument('test_default', ['templateName' => 'documentTemplatePath1', '_format' => $format], $format);
         static::assertNotNull($document, 'Document does not exist');
 
         $sheet = $document->getSheet(0);
@@ -105,7 +92,7 @@ class BasicFunctionalTest extends BaseFunctionalTest
      */
     public function testDocumentTemplatePath2($format)
     {
-        $document = $this->getDocument(static::$router->generate('test_default', ['templateName' => 'documentTemplatePath2', '_format' => $format]), $format);
+        $document = $this->getDocument('test_default', ['templateName' => 'documentTemplatePath2', '_format' => $format], $format);
         static::assertNotNull($document, 'Document does not exist');
 
         $sheet = $document->getSheet(0);

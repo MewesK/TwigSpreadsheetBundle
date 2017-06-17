@@ -2,11 +2,11 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
+use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bridge\Twig\AppVariable;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -15,14 +15,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
 {
-    protected static $TEMP_PATH = '/../../tmp/';
-    protected static $RESOURCE_PATH = '/../Resources/views/';
-    protected static $TEMPLATE_PATH = '/../Resources/templates/';
+    const CACHE_PATH = './../../var/cache';
+    const RESULT_PATH = './../../var/result';
+    const RESOURCE_PATH = './Fixtures/views';
+    const TEMPLATE_PATH = './Fixtures/templates';
 
-    /**
-     * @var Filesystem
-     */
-    protected static $fileSystem;
     /**
      * @var \Twig_Environment
      */
@@ -35,40 +32,20 @@ abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        static::$fileSystem = new Filesystem();
+        $cachePath = sprintf('%s/%s/%s/twig', __DIR__, static::CACHE_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class));
 
-        $twigFileSystem = new \Twig_Loader_Filesystem([__DIR__.static::$RESOURCE_PATH]);
-        $twigFileSystem->addPath(__DIR__.static::$TEMPLATE_PATH, 'templates');
+        // remove temp files
+        Filesystem::remove($cachePath);
+        Filesystem::remove(sprintf('%s/%s/%s', __DIR__, static::RESULT_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
 
-        static::$environment = new \Twig_Environment($twigFileSystem, ['strict_variables' => true]);
+        // set up Twig environment
+        $twigFileSystem = new \Twig_Loader_Filesystem([sprintf('%s/%s', __DIR__, static::RESOURCE_PATH)]);
+        $twigFileSystem->addPath(sprintf('%s/%s', __DIR__, static::TEMPLATE_PATH), 'templates');
+
+        static::$environment = new \Twig_Environment($twigFileSystem, ['debug' => true, 'strict_variables' => true]);
         static::$environment->addExtension(new TwigSpreadsheetExtension());
-        static::$environment->setCache(__DIR__.static::$TEMP_PATH);
+        static::$environment->setCache($cachePath);
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
-     */
-    public static function tearDownAfterClass()
-    {
-        if (in_array(getenv('DELETE_TEMP_FILES'), ['true', '1', 1, true], true)) {
-            static::$fileSystem->remove(__DIR__.static::$TEMP_PATH);
-        }
-    }
-
-    //
-    // PhpUnit
-    //
-
-    /**
-     * @return array
-     */
-    abstract public function formatProvider();
-
-    //
-    // Helper
-    //
 
     /**
      * @param string $templateName
@@ -77,12 +54,13 @@ abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
      * @throws \Twig_Error_Syntax
      * @throws \Twig_Error_Loader
      * @throws \Symfony\Component\Filesystem\Exception\IOException
-     * @throws \InvalidArgumentException
      *
      * @return Spreadsheet|string
      */
     protected function getDocument($templateName, $format)
     {
+        $format = strtolower($format);
+
         // prepare global variables
         $request = new Request();
         $request->setRequestFormat($format);
@@ -96,33 +74,13 @@ abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
         // generate source from template
         $source = static::$environment->load($templateName.'.twig')->render(['app' => $appVariable]);
 
-        // create paths
-        $tempDirPath = __DIR__.static::$TEMP_PATH;
-        $tempFilePath = $tempDirPath.$templateName.'.'.$format;
+        // create path
+        $resultPath = sprintf('%s/%s/%s/%s.%s', __DIR__, static::RESULT_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class), $templateName, $format);
 
         // save source
-        static::$fileSystem->dumpFile($tempFilePath, $source);
+        Filesystem::dumpFile($resultPath, $source);
 
-        // load source
-        switch ($format) {
-            case 'ods':
-                $readerType = 'Ods';
-                break;
-            case 'xls':
-                $readerType = 'Xls';
-                break;
-            case 'xlsx':
-                $readerType = 'Xlsx';
-                break;
-            case 'pdf':
-            case 'csv':
-                return $tempFilePath;
-            default:
-                throw new \InvalidArgumentException();
-        }
-
-        $reader = IOFactory::createReader($readerType);
-
-        return $reader->load($tempFilePath);
+        // load source or return path for PDFs
+        return $format === 'pdf' ? $resultPath : IOFactory::createReader(ucfirst($format))->load($resultPath);
     }
 }

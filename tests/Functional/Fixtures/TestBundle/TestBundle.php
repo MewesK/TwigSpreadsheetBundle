@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Fixtures\TestBundle;
+namespace MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

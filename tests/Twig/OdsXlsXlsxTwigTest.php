@@ -5,16 +5,10 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
- * Class BasicTwigTest.
+ * Class OdsXlsXlsxTwigTest.
  */
-class BasicTwigTest extends BaseTwigTest
+class OdsXlsXlsxTwigTest extends BaseTwigTest
 {
-    protected static $TEMP_PATH = '/../../tmp/basic/';
-
-    //
-    // PhpUnit
-    //
-
     /**
      * @return array
      */
@@ -327,48 +321,6 @@ class BasicTwigTest extends BaseTwigTest
      *
      * @dataProvider formatProvider
      */
-    public function testDocumentSimple($format)
-    {
-        $document = $this->getDocument('documentSimple', $format);
-        static::assertNotNull($document, 'Document does not exist');
-
-        $sheet = $document->getSheetByName('Test');
-        static::assertNotNull($sheet, 'Sheet does not exist');
-
-        static::assertEquals('Foo', $sheet->getCell('A1')->getValue(), 'Unexpected value in A1');
-        static::assertEquals('Bar', $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
-        static::assertEquals('Hello', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
-        static::assertEquals('World', $sheet->getCell('B2')->getValue(), 'Unexpected value in B2');
-    }
-
-    /**
-     * @param string $format
-     *
-     * @throws \Exception
-     *
-     * @dataProvider formatProvider
-     */
-    public function testDocumentTemplate($format)
-    {
-        $document = $this->getDocument('documentTemplate.'.$format, $format);
-        static::assertNotNull($document, 'Document does not exist');
-
-        $sheet = $document->getSheet(0);
-        static::assertNotNull($sheet, 'Sheet does not exist');
-
-        static::assertEquals('Hello2', $sheet->getCell('A1')->getValue(), 'Unexpected value in A1');
-        static::assertEquals('World', $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
-        static::assertEquals('Foo', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
-        static::assertEquals('Bar2', $sheet->getCell('B2')->getValue(), 'Unexpected value in B2');
-    }
-
-    /**
-     * @param string $format
-     *
-     * @throws \Exception
-     *
-     * @dataProvider formatProvider
-     */
     public function testDocumentWhitespace($format)
     {
         $document = $this->getDocument('documentWhitespace', $format);
@@ -470,6 +422,24 @@ class BasicTwigTest extends BaseTwigTest
         static::assertEquals('Lorem', $sheet->getCell('A8')->getValue(), 'Unexpected value in A8');
         static::assertEquals('Ipsum', $sheet->getCell('A9')->getValue(), 'Unexpected value in A9');
         static::assertEquals('Hello', $sheet->getCell('A10')->getValue(), 'Unexpected value in A10');
+    }
+
+    /**
+     * @param string $format
+     *
+     * @throws \Exception
+     *
+     * @dataProvider formatProvider
+     */
+    public function testSheet($format)
+    {
+        $document = $this->getDocument('documentSimple', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
+        $sheet = $document->getSheetByName('Test');
+        static::assertNotNull($sheet, 'Sheet does not exist');
+        static::assertEquals($sheet, $document->getActiveSheet(), 'Sheets are not equal');
+        static::assertCount(1, $document->getAllSheets(), 'Unexpected sheet count');
     }
 
     /**

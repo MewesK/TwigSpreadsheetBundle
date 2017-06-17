@@ -2,34 +2,33 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 
+use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
+use MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestAppKernel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Client;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BaseFunctionalTest.
  */
 abstract class BaseFunctionalTest extends WebTestCase
 {
-    protected static $ENVIRONMENT;
-    protected static $TEMP_PATH;
+    const CACHE_PATH = './../../var/cache/twig';
+    const RESULT_PATH = './../../var/result';
 
     /**
-     * @var Filesystem
+     * @var string
      */
-    protected static $fileSystem;
+    protected static $ENVIRONMENT;
+
     /**
      * @var Client
      */
     protected static $client;
-    /**
-     * @var Router
-     */
-    protected static $router;
 
     /**
      * {@inheritdoc}
@@ -38,69 +37,74 @@ abstract class BaseFunctionalTest extends WebTestCase
      */
     public static function setUpBeforeClass()
     {
-        static::$fileSystem = new Filesystem();
-        static::$fileSystem->remove(static::$TEMP_PATH);
+        // remove temp files
+        Filesystem::remove(sprintf('%s/%s', static::CACHE_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
+        Filesystem::remove(sprintf('%s/%s', static::RESULT_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
-    public static function tearDownAfterClass()
+    public function setUp()
     {
-        if (!getenv('TSB_KEEP_CACHE')) {
-            static::$fileSystem->remove(static::$TEMP_PATH);
-        }
+        // create client
+        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    protected function setUp()
+    protected static function createKernel(array $options = [])
     {
-        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
-        static::$router = static::$kernel->getContainer()->get('router');
+        /**
+         * @var TestAppKernel $kernel
+         */
+        $kernel = parent::createKernel($options);
+        $kernel->setCacheDir(sprintf('%s/../../../var/cache/%s', $kernel->getRootDir(), str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
+        $kernel->setLogDir(sprintf('%s/../../../var/logs/%s', $kernel->getRootDir(), str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
+
+        return $kernel;
     }
 
-    //
-    // PhpUnit
-    //
-
     /**
-     * @return array
-     */
-    abstract public function formatProvider();
-
-    //
-    // Helper
-    //
-
-    /**
-     * @param string $uri
+     * @param string $routeName
+     * @param array  $routeParameters
      * @param string $format
      *
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      *
      * @return Spreadsheet
      */
-    protected function getDocument(string $uri, string $format = 'xlsx'): Spreadsheet
+    protected function getDocument(string $routeName, array $routeParameters = [], string $format = 'xlsx'): Spreadsheet
     {
-        $format = strtolower($format);
-
-        // generate source
-        static::$client->request(Request::METHOD_GET, $uri);
-        $source = static::$client->getResponse()->getContent();
+        // create document content
+        $content = $this->getResponse($routeName, $routeParameters)->getContent();
 
         // create path for temp file
-        $path = sprintf('%s/simple.%s', static::$TEMP_PATH, $format);
+        $format = strtolower($format);
+        $resultPath = sprintf('%s/%s/%s/%s.%s', __DIR__, static::RESULT_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class), static::$ENVIRONMENT, $format);
 
-        // save source
-        static::$fileSystem->dumpFile($path, $source);
+        // save content
+        Filesystem::dumpFile($resultPath, $content);
 
-        // load source
-        return IOFactory::createReader(ucfirst($format))->load($path);
+        // load document
+        return IOFactory::createReader(ucfirst($format))->load($resultPath);
+    }
+
+    /**
+     * @param string $routeName
+     * @param array  $routeParameters
+     *
+     * @return Response
+     */
+    protected function getResponse(string $routeName, array $routeParameters = []): Response
+    {
+        /**
+         * @var Router $router
+         */
+        $router = static::$kernel->getContainer()->get('router');
+        static::$client->request(Request::METHOD_GET, $router->generate($routeName, $routeParameters));
+
+        return static::$client->getResponse();
     }
 }

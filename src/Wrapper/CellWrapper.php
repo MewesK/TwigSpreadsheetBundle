@@ -97,7 +97,7 @@ class CellWrapper extends BaseWrapper
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     protected function configureMappings(): array
     {

@@ -24,7 +24,7 @@ class AddRequestFormatsListener implements EventSubscriberInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {

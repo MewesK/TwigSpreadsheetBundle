@@ -23,7 +23,7 @@ class CenterNode extends BaseNode
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getAllowedParents(): array
     {

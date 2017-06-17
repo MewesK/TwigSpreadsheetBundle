@@ -7,16 +7,10 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
  */
 class XlsxTwigTest extends BaseTwigTest
 {
-    protected static $TEMP_PATH = '/../../tmp/xlsx/';
-
-    //
-    // PhpUnit
-    //
-
     /**
      * @return array
      */
-    public function formatProvider()
+    public function formatProvider(): array
     {
         return [['xlsx']];
     }

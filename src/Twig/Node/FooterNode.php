@@ -29,7 +29,7 @@ class FooterNode extends BaseNode
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getAllowedParents(): array
     {

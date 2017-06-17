@@ -66,12 +66,9 @@ abstract class BaseTokenParser extends \Twig_TokenParser
     }
 
     /**
-     * @param \Twig_Token $token
+     * {@inheritdoc}
      *
-     * @throws \Twig_Error_Syntax
      * @throws \InvalidArgumentException
-     *
-     * @return \Twig_node
      */
     public function parse(\Twig_Token $token)
     {

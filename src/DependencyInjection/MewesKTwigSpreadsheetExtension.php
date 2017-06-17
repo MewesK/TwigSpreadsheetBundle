@@ -13,8 +13,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 class MewesKTwigSpreadsheetExtension extends ConfigurableExtension
 {
     /**
-     * @param array            $mergedConfig
-     * @param ContainerBuilder $container
+     * {@inheritdoc}
      *
      * @throws \Exception
      */
