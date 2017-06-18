@@ -29,9 +29,9 @@ class DrawingTokenParser extends BaseTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getNode(): string
+    public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node
     {
-        return DrawingNode::class;
+        return new DrawingNode($nodes, $this->getAttributes(), $lineNo, $this->getTag());
     }
 
     /**

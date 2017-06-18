@@ -5,10 +5,6 @@
          colors="true"
          bootstrap="./vendor/autoload.php"
         >
-    <php>
-        <server name="KERNEL_CLASS" value="MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestAppKernel"/>
-    </php>
-
     <testsuites>
         <testsuite name="MewesKTwigSpreadsheetBundle Test Suite">
             <directory>./tests</directory>

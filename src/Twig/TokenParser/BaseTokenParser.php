@@ -51,11 +51,14 @@ abstract class BaseTokenParser extends \Twig_TokenParser
     }
 
     /**
-     * The class name of the corresponding node.
+     * Create a concrete node.
      *
-     * @return string
+     * @param array $nodes
+     * @param int   $lineNo
+     *
+     * @return \Twig_Node
      */
-    abstract public function getNode(): string;
+    abstract public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node;
 
     /**
      * @return bool
@@ -80,10 +83,7 @@ abstract class BaseTokenParser extends \Twig_TokenParser
             $nodes['body'] = $this->parseBody();
         }
 
-        // return node
-        $nodeClass = $this->getNode();
-
-        return new $nodeClass($nodes, $this->getAttributes(), $token->getLine(), $this->getTag());
+        return $this->createNode($nodes, $token->getLine());
     }
 
     /**

@@ -25,7 +25,7 @@ class Filesystem
      */
     public static function mkdir($dirs, int $mode = 0777)
     {
-        static::getDelegate()->mkdir($dirs, $mode);
+        self::getDelegate()->mkdir($dirs, $mode);
     }
 
     /**
@@ -37,7 +37,7 @@ class Filesystem
      */
     public static function exists($files): bool
     {
-        return static::getDelegate()->exists($files);
+        return self::getDelegate()->exists($files);
     }
 
     /**
@@ -49,7 +49,7 @@ class Filesystem
      */
     public static function remove($files)
     {
-        static::getDelegate()->remove($files);
+        self::getDelegate()->remove($files);
     }
 
     /**
@@ -62,7 +62,7 @@ class Filesystem
      */
     public static function dumpFile(string $filename, string $content)
     {
-        static::getDelegate()->dumpFile($filename, $content);
+        self::getDelegate()->dumpFile($filename, $content);
     }
 
     /**
