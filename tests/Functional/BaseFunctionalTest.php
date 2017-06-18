@@ -43,12 +43,11 @@ abstract class BaseFunctionalTest extends WebTestCase
     }
 
     /**
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * {@inheritdoc}
      */
-    public function setUp()
+    protected static function getKernelClass()
     {
-        // create client
-        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
+        return TestAppKernel::class;
     }
 
     /**
@@ -64,6 +63,15 @@ abstract class BaseFunctionalTest extends WebTestCase
         $kernel->setLogDir(sprintf('%s/../../../var/logs/%s', $kernel->getRootDir(), str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
 
         return $kernel;
+    }
+
+    /**
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     */
+    public function setUp()
+    {
+        // create client
+        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
     }
 
     /**
