@@ -39,7 +39,9 @@ class AlignmentNode extends BaseNode
     {
         $compiler->addDebugInfo($this)
             ->write(self::CODE_FIX_CONTEXT)
-            ->write(self::CODE_INSTANCE.'->startAlignment(\''.$this->alignment.'\');'.PHP_EOL)
+            ->write(self::CODE_INSTANCE.'->startAlignment(')
+                ->repr($this->alignment)
+            ->raw(');'.PHP_EOL)
             ->write("ob_start();\n")
             ->subcompile($this->getNode('body'))
             ->write('$alignmentValue = trim(ob_get_clean());'.PHP_EOL)
@@ -53,7 +55,6 @@ class AlignmentNode extends BaseNode
     public function getAllowedParents(): array
     {
         return [
-            FooterNode::class,
             HeaderFooterNode::class,
         ];
     }

@@ -38,7 +38,7 @@ class HeaderFooterTokenParser extends BaseTokenParser
         return [
             'type' => [
                 'type' => self::PARAMETER_TYPE_VALUE,
-                'default' => new \Twig_Node_Expression_Constant($this->baseType, $token->getLine()),
+                'default' => new \Twig_Node_Expression_Constant(null, $token->getLine()),
             ],
             'properties' => [
                 'type' => self::PARAMETER_TYPE_ARRAY,

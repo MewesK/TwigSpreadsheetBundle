@@ -14,14 +14,10 @@ class DrawingNode extends BaseNode
     {
         $compiler->addDebugInfo($this)
             ->write(self::CODE_FIX_CONTEXT)
-            ->write('$drawingPath = ')
-            ->subcompile($this->getNode('path'))
-            ->raw(';'.PHP_EOL)
-            ->write('$drawingProperties = ')
-            ->subcompile($this->getNode('properties'))
-            ->raw(';'.PHP_EOL)
-            ->write(self::CODE_INSTANCE.'->startDrawing($drawingPath, $drawingProperties);'.PHP_EOL)
-            ->write('unset($drawingPath, $drawingProperties);'.PHP_EOL)
+            ->write(self::CODE_INSTANCE.'->startDrawing(')
+                ->subcompile($this->getNode('path'))->raw(', ')
+                ->subcompile($this->getNode('properties'))
+            ->raw(');'.PHP_EOL)
             ->write(self::CODE_INSTANCE.'->endDrawing();'.PHP_EOL);
     }
 

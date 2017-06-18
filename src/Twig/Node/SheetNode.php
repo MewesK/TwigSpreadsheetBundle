@@ -14,20 +14,12 @@ class SheetNode extends BaseNode
     {
         $compiler->addDebugInfo($this)
             ->write(self::CODE_FIX_CONTEXT)
-            ->write('$sheetIndex = ')
-            ->subcompile($this->getNode('index'))
-            ->raw(';'.PHP_EOL)
-            ->write('$sheetProperties = ')
-            ->subcompile($this->getNode('properties'))
-            ->raw(';'.PHP_EOL)
-            ->write(self::CODE_INSTANCE.'->startSheet($sheetIndex, $sheetProperties);'.PHP_EOL)
-            ->write('unset($sheetIndex, $sheetProperties);'.PHP_EOL);
-
-        if ($this->hasNode('body')) {
-            $compiler->subcompile($this->getNode('body'));
-        }
-
-        $compiler->addDebugInfo($this)
+            ->write(self::CODE_INSTANCE.'->startSheet(')
+                ->subcompile($this->getNode('index'))->raw(', ')
+                ->subcompile($this->getNode('properties'))
+            ->raw(');'.PHP_EOL)
+            ->subcompile($this->getNode('body'))
+            ->addDebugInfo($this)
             ->write(self::CODE_INSTANCE.'->endSheet();'.PHP_EOL);
     }
 

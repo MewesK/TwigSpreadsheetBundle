@@ -66,38 +66,23 @@ class DrawingWrapper extends BaseWrapper
             $location = '';
 
             switch (strtolower($this->headerFooterWrapper->getAlignmentParameters()['type'])) {
-                case 'left':
-                    $location .= 'L';
-                    $headerFooterParameters['value']['left'] .= '&G';
-                    break;
-                case 'center':
+                case HeaderFooterWrapper::ALIGNMENT_CENTER:
                     $location .= 'C';
-                    $headerFooterParameters['value']['center'] .= '&G';
+                    $headerFooterParameters['value'][HeaderFooterWrapper::ALIGNMENT_CENTER] .= '&G';
                     break;
-                case 'right':
+                case HeaderFooterWrapper::ALIGNMENT_LEFT:
+                    $location .= 'L';
+                    $headerFooterParameters['value'][HeaderFooterWrapper::ALIGNMENT_LEFT] .= '&G';
+                    break;
+                case HeaderFooterWrapper::ALIGNMENT_RIGHT:
                     $location .= 'R';
-                    $headerFooterParameters['value']['right'] .= '&G';
+                    $headerFooterParameters['value'][HeaderFooterWrapper::ALIGNMENT_RIGHT] .= '&G';
                     break;
                 default:
                     throw new \InvalidArgumentException(sprintf('Unknown alignment type "%s"', $this->headerFooterWrapper->getAlignmentParameters()['type']));
             }
 
-            switch (strtolower($headerFooterParameters['type'])) {
-                case 'header':
-                case 'oddheader':
-                case 'evenheader':
-                case 'firstheader':
-                    $location .= 'H';
-                    break;
-                case 'footer':
-                case 'oddfooter':
-                case 'evenfooter':
-                case 'firstfooter':
-                    $location .= 'F';
-                    break;
-                default:
-                    throw new \InvalidArgumentException(sprintf('Unknown type "%s"', $headerFooterParameters['type']));
-            }
+            $location .= $headerFooterParameters['baseType'] === HeaderFooterWrapper::BASETYPE_HEADER ? 'H' : 'F';
 
             $this->object = new HeaderFooterDrawing();
             $this->object->setPath($tempPath);
