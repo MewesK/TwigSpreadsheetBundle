@@ -29,9 +29,9 @@ class SheetTokenParser extends BaseTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getNode(): string
+    public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node
     {
-        return SheetNode::class;
+        return new SheetNode($nodes, $this->getAttributes(), $lineNo, $this->getTag());
     }
 
     /**

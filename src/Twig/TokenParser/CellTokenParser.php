@@ -29,9 +29,9 @@ class CellTokenParser extends BaseTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getNode(): string
+    public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node
     {
-        return CellNode::class;
+        return new CellNode($nodes, $this->getAttributes(), $lineNo, $this->getTag());
     }
 
     /**

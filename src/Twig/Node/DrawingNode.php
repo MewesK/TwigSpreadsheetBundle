@@ -32,9 +32,7 @@ class DrawingNode extends BaseNode
     {
         return [
             SheetNode::class,
-            LeftNode::class,
-            CenterNode::class,
-            RightNode::class,
+            AlignmentNode::class,
         ];
     }
 }

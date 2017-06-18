@@ -4,16 +4,14 @@ namespace MewesK\TwigSpreadsheetBundle\Twig;
 
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\MacroContextNodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\AlignmentTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\CellTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\CenterTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\DocumentTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\DrawingTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\FooterTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\HeaderTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\LeftTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RightTokenParser;
+use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\HeaderFooterTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RowTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\SheetTokenParser;
+use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
 
 /**
  * Class TwigSpreadsheetExtension.
@@ -30,6 +28,8 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     private $diskCachingDirectory;
 
     /**
+     * TwigSpreadsheetExtension constructor.
+     *
      * @param bool        $preCalculateFormulas
      * @param null|string $diskCachingDirectory
      */
@@ -51,21 +51,23 @@ class TwigSpreadsheetExtension extends \Twig_Extension
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \InvalidArgumentException
      */
     public function getTokenParsers()
     {
         return [
+            new AlignmentTokenParser([], HeaderFooterWrapper::ALIGNMENT_CENTER),
+            new AlignmentTokenParser([], HeaderFooterWrapper::ALIGNMENT_LEFT),
+            new AlignmentTokenParser([], HeaderFooterWrapper::ALIGNMENT_RIGHT),
             new CellTokenParser(),
-            new CenterTokenParser(),
             new DocumentTokenParser([
                 'preCalculateFormulas' => $this->preCalculateFormulas,
                 'diskCachingDirectory' => $this->diskCachingDirectory,
             ]),
             new DrawingTokenParser(),
-            new FooterTokenParser(),
-            new HeaderTokenParser(),
-            new LeftTokenParser(),
-            new RightTokenParser(),
+            new HeaderFooterTokenParser([], HeaderFooterWrapper::BASETYPE_FOOTER),
+            new HeaderFooterTokenParser([], HeaderFooterWrapper::BASETYPE_HEADER),
             new RowTokenParser(),
             new SheetTokenParser(),
         ];

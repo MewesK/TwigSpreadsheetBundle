@@ -101,6 +101,7 @@ class PhpSpreadsheetWrapper
      * @throws \InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      */
     public function endDocument()
     {
@@ -154,16 +155,17 @@ class PhpSpreadsheetWrapper
     }
 
     /**
-     * @param string $type
-     * @param array  $properties
+     * @param string      $baseType
+     * @param string|null $type
+     * @param array       $properties
      *
      * @throws \LogicException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function startHeaderFooter(string $type, array $properties = [])
+    public function startHeaderFooter(string $baseType, string $type = null, array $properties = [])
     {
-        $this->headerFooterWrapper->start($type, $properties);
+        $this->headerFooterWrapper->start($baseType, $type, $properties);
     }
 
     public function endHeaderFooter()
@@ -176,6 +178,7 @@ class PhpSpreadsheetWrapper
      * @param array       $properties
      *
      * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
     public function startAlignment(string $type = null, array $properties = [])
     {
@@ -186,6 +189,7 @@ class PhpSpreadsheetWrapper
      * @param null|string $value
      *
      * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
     public function endAlignment(string $value = null)
     {

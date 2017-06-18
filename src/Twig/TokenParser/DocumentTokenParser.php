@@ -25,9 +25,9 @@ class DocumentTokenParser extends BaseTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getNode(): string
+    public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node
     {
-        return DocumentNode::class;
+        return new DocumentNode($nodes, $this->getAttributes(), $lineNo, $this->getTag());
     }
 
     /**

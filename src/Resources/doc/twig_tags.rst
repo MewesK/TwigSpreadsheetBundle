@@ -252,8 +252,8 @@ Example
         {# ... #}
     {% endxlssheet %}
 
-xlsheader
----------
+xlsheader, xlsfooter
+--------------------
 
 .. code-block:: twig
 
@@ -261,7 +261,11 @@ xlsheader
         ...
     {% endxlsheader %}
 
-- May contain one 'xlsleft', 'xlscenter' and 'xlsright' tag
+    {% xlsfooter [type:string] [properties:array] %}
+        ...
+    {% endxlsfooter %}
+
+- May contain one 'xlsleft', 'xlscenter' and 'xlsright' tag each
 - Not supported by the OpenDocument writer
 
 Parameters
@@ -270,7 +274,7 @@ Parameters
 ==========  ======  ========  ===========
 Name        Type    Optional  Description
 ==========  ======  ========  ===========
-type        string  X         Possible types are 'header' (default), 'oddHeader' (xlsx), 'evenHeader' (xlsx), 'firstHeader' (xlsx)
+type        string  X         Possible types are null (default), 'odd' (xlsx), 'even' (xlsx), 'first' (xlsx)
 properties  array   X
 ==========  ======  ========  ===========
 
@@ -289,31 +293,17 @@ Example
 
 .. code-block:: twig
 
-    {% xlsheader 'firstHeader' %}
+    {% xlsheader 'even' %}
         {# ... #}
     {% endxlsheader %}
 
-xlsfooter
----------
+    {% xlsheader 'odd' %}
+        {# ... #}
+    {% endxlsheader %}
 
-.. code-block:: twig
-
-    {% xlsfooter [type:string] [properties:array] %}
-        ...
+    {% xlsfooter %}
+        {# ... #}
     {% endxlsfooter %}
-
-- May contain one 'xlsleft', 'xlscenter' and 'xlsright' tag
-- Not supported by the OpenDocument writer
-
-Parameters
-``````````
-
-==========  ======  ========  ===========
-Name        Type    Optional  Description
-==========  ======  ========  ===========
-type        string  X         Possible types are 'footer' (default), 'oddFooter' (xlsx), 'evenFooter' (xlsx), 'firstFooter' (xlsx)
-properties  array   X
-==========  ======  ========  ===========
 
 Properties
 ``````````

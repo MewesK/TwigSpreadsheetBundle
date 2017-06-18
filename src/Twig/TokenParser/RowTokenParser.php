@@ -25,9 +25,9 @@ class RowTokenParser extends BaseTokenParser
     /**
      * {@inheritdoc}
      */
-    public function getNode(): string
+    public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node
     {
-        return RowNode::class;
+        return new RowNode($nodes, $this->getAttributes(), $lineNo, $this->getTag());
     }
 
     /**
