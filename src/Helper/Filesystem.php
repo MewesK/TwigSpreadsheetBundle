@@ -68,12 +68,12 @@ class Filesystem
     /**
      * @return BaseFilesystem
      */
-    private static function getDelegate(): BaseFilesystem
+    public static function getDelegate(): BaseFilesystem
     {
-        if (!static::$delegate) {
-            static::$delegate = new BaseFilesystem();
+        if (!self::$delegate) {
+            self::$delegate = new BaseFilesystem();
         }
 
-        return static::$delegate;
+        return self::$delegate;
     }
 }

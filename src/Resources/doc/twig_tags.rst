@@ -305,25 +305,6 @@ Example
         {# ... #}
     {% endxlsfooter %}
 
-Properties
-``````````
-
-=======================  ========  ===  ===  ===========
-Name                     Type      XLS  ODS  Description
-=======================  ========  ===  ===  ===========
-scaleWithDocument        boolean
-alignWithMargins         boolean
-=======================  ========  ===  ===  ===========
-
-Example
-```````
-
-.. code-block:: twig
-
-    {% xlsfooter 'firstFooter' %}
-        {# ... #}
-    {% endxlsfooter %}
-
 xlsleft, xlscenter, xlsright
 ----------------------------
 

@@ -36,7 +36,7 @@ The following software is required to use PhpSpreadsheet/TwigSpreadsheetBundle.
 
 The source of the documentation is stored in the Resources/doc/ folder in this bundle:
     
-[Resources/doc/index.rst](https://github.com/MewesK/TwigSpreadsheetBundle/blob/master/Resources/doc/index.rst)
+[Resources/doc/index.rst](https://github.com/MewesK/TwigSpreadsheetBundle/blob/master/src/Resources/doc/index.rst)
 
 You can find a prettier version on [readthedocs.org](httsp://readthedocs.org):
 
