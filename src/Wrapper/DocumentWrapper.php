@@ -106,7 +106,7 @@ class DocumentWrapper extends BaseWrapper
 
         // set up mPDF
         if ($format === 'pdf') {
-            if (!class_exists('\Mpdf\Mpdf')) {
+            if (!class_exists('mPDF')) {
                 throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
             }
             Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
