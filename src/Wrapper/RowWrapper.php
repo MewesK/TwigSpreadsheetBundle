@@ -44,8 +44,15 @@ class RowWrapper extends BaseWrapper
         }
     }
 
+    /**
+     * @throws \LogicException
+     */
     public function end()
     {
+        if ($this->sheetWrapper->getObject() === null) {
+            throw new \LogicException();
+        }
+
         $this->sheetWrapper->setColumn(null);
     }
 }

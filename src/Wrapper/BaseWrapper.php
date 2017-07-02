@@ -98,7 +98,7 @@ abstract class BaseWrapper
 
         foreach ($properties as $key => $value) {
             if (!isset($mappings[$key])) {
-                throw new \RuntimeException(sprintf('No mapping found for key "%s"', $key));
+                throw new \RuntimeException(sprintf('Missing mapping for key "%s"', $key));
             }
 
             if (is_array($value) && is_array($mappings[$key])) {

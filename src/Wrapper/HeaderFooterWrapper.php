@@ -26,7 +26,7 @@ class HeaderFooterWrapper extends BaseWrapper
     protected $sheetWrapper;
 
     /**
-     * @var null|HeaderFooter
+     * @var HeaderFooter|null
      */
     protected $object;
     /**
@@ -121,7 +121,7 @@ class HeaderFooterWrapper extends BaseWrapper
      */
     public function end()
     {
-        if (!$this->object) {
+        if ($this->object === null) {
             throw new \LogicException();
         }
 
@@ -178,7 +178,7 @@ class HeaderFooterWrapper extends BaseWrapper
      */
     public function startAlignment(string $alignment, array $properties = [])
     {
-        if (!$this->object) {
+        if ($this->object === null) {
             throw new \LogicException();
         }
 
@@ -208,7 +208,7 @@ class HeaderFooterWrapper extends BaseWrapper
      */
     public function endAlignment($value)
     {
-        if (!$this->object || !isset($this->alignmentParameters['type'])) {
+        if ($this->object === null || !isset($this->alignmentParameters['type'])) {
             throw new \LogicException();
         }
 

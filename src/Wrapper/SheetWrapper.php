@@ -27,7 +27,7 @@ class SheetWrapper extends BaseWrapper
     protected $documentWrapper;
 
     /**
-     * @var Worksheet
+     * @var Worksheet|null
      */
     protected $object;
     /**
@@ -59,13 +59,18 @@ class SheetWrapper extends BaseWrapper
 
     /**
      * @param int|string|null $index
-     * @param array           $properties
+     * @param array $properties
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function start($index, array $properties = [])
     {
+        if ($this->documentWrapper->getObject() === null) {
+            throw new \LogicException();
+        }
+
         if (is_int($index) && $index < $this->documentWrapper->getObject()->getSheetCount()) {
             $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex($index);
         } elseif (is_string($index)) {
@@ -88,9 +93,14 @@ class SheetWrapper extends BaseWrapper
 
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \LogicException
      */
     public function end()
     {
+        if ($this->object === null) {
+            throw new \LogicException();
+        }
+
         // auto-size columns
         if (
             isset($this->parameters['properties']['columnDimension']) &&
