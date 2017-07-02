@@ -29,7 +29,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "suggest": {
-        "mpdf/mpdf": "Add support for PDF rendering, requires ~7.0"
+        "mpdf/mpdf": "Add support for PDF rendering, requires ~6.1"
     },
     "autoload": {
         "psr-4": { "MewesK\\TwigSpreadsheetBundle\\": "src/" }
