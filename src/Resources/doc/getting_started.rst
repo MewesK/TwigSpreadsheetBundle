@@ -19,11 +19,11 @@ Step 1: Create your controller
     {
         /**
          * @Route("/hello.{_format}", defaults={"_format"="xls"}, requirements={"_format"="csv|xls|xlsx"})
-         * @Template("AcmeHelloBundle:Hello:index.xls.twig")
+         * @Template("AcmeHelloBundle:Hello:spreadsheet.twig")
          */
         public function indexAction($name)
         {
-            return ['data' => ['La', 'Le', 'Lu']];
+            return ['data' => ['F', 'o', 'o'];
         }
     }
 
@@ -32,7 +32,7 @@ Step 2: Create your template
 
 .. code-block:: twig
 
-    {# src/Acme/HelloBundle/Resources/views/Hello/index.xls.twig #}
+    {# src/Acme/HelloBundle/Resources/views/Hello/spreadsheet.twig #}
 
     {% xlsdocument %}
         {% xlssheet 'Worksheet' %}

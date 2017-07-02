@@ -22,7 +22,7 @@ class MewesKTwigSpreadsheetExtension extends ConfigurableExtension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('mewes_k_twig_spreadsheet.pre_calculate_formulas', $mergedConfig['pre_calculate_formulas']);
-        $container->setParameter('mewes_k_twig_spreadsheet.disk_caching_directory', $mergedConfig['disk_caching_directory']);
+        $definition = $container->getDefinition('mewes_k_twig_spreadsheet.twig_spreadsheet_extension');
+        $definition->replaceArgument(0, $mergedConfig);
     }
 }

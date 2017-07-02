@@ -3,4 +3,5 @@ imports:
 
 mewes_k_twig_spreadsheet:
     pre_calculate_formulas: false
-    disk_caching_directory: "%kernel.cache_dir%/spreadsheet"
+    cache:
+        xml: "%kernel.cache_dir%/spreadsheet/xml"

@@ -71,9 +71,14 @@ class DocumentWrapper extends BaseWrapper
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \LogicException
      */
     public function end()
     {
+        if ($this->object === null) {
+            throw new \LogicException();
+        }
+
         $format = null;
 
         // try document property
@@ -95,51 +100,31 @@ class DocumentWrapper extends BaseWrapper
         // set default
         if ($format === null || !is_string($format)) {
             $format = 'xlsx';
+        } else {
+            $format = strtolower($format);
         }
 
-        switch (strtolower($format)) {
-            case 'csv':
-                $writerType = 'Csv';
-                break;
-            case 'ods':
-                $writerType = 'Ods';
-                break;
-            case 'pdf':
-                $writerType = 'Pdf';
-                if (!class_exists('\Mpdf\Mpdf')) {
-                    throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
-                }
-                Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
-                break;
-            case 'xls':
-                $writerType = 'Xls';
-                break;
-            case 'xlsx':
-                $writerType = 'Xlsx';
-                break;
-            default:
-                throw new \InvalidArgumentException(sprintf('Unknown format "%s"', $format));
-        }
-
-        if ($this->object !== null) {
-            if (
-                $this->attributes['diskCachingDirectory'] !== null &&
-                !Filesystem::exists($this->attributes['diskCachingDirectory'])
-            ) {
-                Filesystem::mkdir($this->attributes['diskCachingDirectory']);
+        // set up mPDF
+        if ($format === 'pdf') {
+            if (!class_exists('\Mpdf\Mpdf')) {
+                throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
             }
-
-            /**
-             * @var BaseWriter $writer
-             */
-            $writer = IOFactory::createWriter($this->object, $writerType);
-            $writer->setPreCalculateFormulas($this->attributes['preCalculateFormulas'] ?? true);
-            $writer->setUseDiskCaching(
-                $this->attributes['diskCachingDirectory'] !== null,
-                $this->attributes['diskCachingDirectory'] ?? null
-            );
-            $writer->save('php://output');
+            Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
         }
+
+        /**
+         * @var BaseWriter $writer
+         */
+        $writer = IOFactory::createWriter($this->object, ucfirst($format));
+        $writer->setPreCalculateFormulas($this->attributes['preCalculateFormulas'] ?? true);
+
+        // set up xml cache
+        if ($this->attributes['cache']['xml'] !== false) {
+            Filesystem::mkdir($this->attributes['cache']['xml']);
+            $writer->setUseDiskCaching(true, $this->attributes['cache']['xml']);
+        }
+
+        $writer->save('php://output');
 
         $this->object = null;
         $this->parameters = [];
@@ -212,7 +197,7 @@ class DocumentWrapper extends BaseWrapper
                 if (mb_strpos($path, $namespace) === 1) {
                     foreach ($loader->getPaths($namespace) as $namespacePath) {
                         $expandedPathAttribute = str_replace('@'.$namespace, $namespacePath, $path);
-                        if (file_exists($expandedPathAttribute)) {
+                        if (Filesystem::exists($expandedPathAttribute)) {
                             return $expandedPathAttribute;
                         }
                     }

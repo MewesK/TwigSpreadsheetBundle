@@ -19,24 +19,26 @@ use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
 class TwigSpreadsheetExtension extends \Twig_Extension
 {
     /**
-     * @var bool
+     * @var array
      */
-    private $preCalculateFormulas;
-    /**
-     * @var null|string
-     */
-    private $diskCachingDirectory;
+    private $attributes;
 
     /**
      * TwigSpreadsheetExtension constructor.
      *
-     * @param bool        $preCalculateFormulas
-     * @param null|string $diskCachingDirectory
+     * @param array $attributes
      */
-    public function __construct($preCalculateFormulas = true, $diskCachingDirectory = null)
+    public function __construct(array $attributes = [])
     {
-        $this->preCalculateFormulas = $preCalculateFormulas;
-        $this->diskCachingDirectory = $diskCachingDirectory;
+        $this->attributes = $attributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
     }
 
     /**
@@ -61,10 +63,7 @@ class TwigSpreadsheetExtension extends \Twig_Extension
             new AlignmentTokenParser([], HeaderFooterWrapper::ALIGNMENT_LEFT),
             new AlignmentTokenParser([], HeaderFooterWrapper::ALIGNMENT_RIGHT),
             new CellTokenParser(),
-            new DocumentTokenParser([
-                'preCalculateFormulas' => $this->preCalculateFormulas,
-                'diskCachingDirectory' => $this->diskCachingDirectory,
-            ]),
+            new DocumentTokenParser($this->attributes),
             new DrawingTokenParser(),
             new HeaderFooterTokenParser([], HeaderFooterWrapper::BASETYPE_FOOTER),
             new HeaderFooterTokenParser([], HeaderFooterWrapper::BASETYPE_HEADER),

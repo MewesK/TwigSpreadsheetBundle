@@ -2,11 +2,13 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
+use MewesK\TwigSpreadsheetBundle\DependencyInjection\Configuration;
 use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -32,7 +34,7 @@ abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        $cachePath = sprintf('%s/%s/%s/twig', __DIR__, static::CACHE_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class));
+        $cachePath = sprintf('%s/%s/%s', __DIR__, static::CACHE_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class));
 
         // remove temp files
         Filesystem::remove($cachePath);
@@ -43,8 +45,14 @@ abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
         $twigFileSystem->addPath(sprintf('%s/%s', __DIR__, static::TEMPLATE_PATH), 'templates');
 
         static::$environment = new \Twig_Environment($twigFileSystem, ['debug' => true, 'strict_variables' => true]);
-        static::$environment->addExtension(new TwigSpreadsheetExtension());
-        static::$environment->setCache($cachePath);
+        static::$environment->addExtension(new TwigSpreadsheetExtension([
+            'pre_calculate_formulas' => true,
+            'cache' => [
+                'bitmap' => $cachePath.'/spreadsheet/bitmap',
+                'xml' => false
+            ],
+        ]));
+        static::$environment->setCache($cachePath.'/twig');
     }
 
     /**

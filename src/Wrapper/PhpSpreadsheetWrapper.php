@@ -60,7 +60,7 @@ class PhpSpreadsheetWrapper
         $this->rowWrapper = new RowWrapper($context, $environment, $this->sheetWrapper);
         $this->cellWrapper = new CellWrapper($context, $environment, $this->sheetWrapper);
         $this->headerFooterWrapper = new HeaderFooterWrapper($context, $environment, $this->sheetWrapper);
-        $this->drawingWrapper = new DrawingWrapper($context, $environment, $this->sheetWrapper, $this->headerFooterWrapper);
+        $this->drawingWrapper = new DrawingWrapper($context, $environment, $this->sheetWrapper, $this->headerFooterWrapper, $attributes);
     }
 
     /**

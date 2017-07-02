@@ -13,6 +13,7 @@ User Documentation
 
     installation
     getting_started
+    configuration
     examples
     twig_functions
     twig_tags
@@ -23,5 +24,5 @@ User Documentation
    :target: https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/?branch=master
 .. |ScrutinizerCoverage| image:: https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/badges/coverage.png?b=master
    :target: https://scrutinizer-ci.com/g/MewesK/TwigSpreadsheetBundle/?branch=master
-.. |SensioLabsInsight| image:: https://insight.sensiolabs.com/projects/283cfe57-6ee4-4102-8fff-da3f6e668e8f/mini.png
-   :target: https://insight.sensiolabs.com/projects/283cfe57-6ee4-4102-8fff-da3f6e668e8f
+.. |SensioLabsInsight| image:: https://insight.sensiolabs.com/projects/f5c25ebe-0cbc-4be1-a094-4ef87d48ea1b/mini.png
+   :target: https://insight.sensiolabs.com/projects/f5c25ebe-0cbc-4be1-a094-4ef87d48ea1b

@@ -22,8 +22,25 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('pre_calculate_formulas')->defaultTrue()->info('Pre-calculating formulas can be slow in certain cases. Disabling this option can improve the performance but the resulting documents won\'t show the result of any formulas when opened in an external spreadsheet software.')->end()
-                ->scalarNode('disk_caching_directory')->defaultNull()->info('Using disk caching can improve memory consumption by writing data to disk temporary. Works only for .XLSX and .ODS documents.')->example('"%kernel.cache_dir%/spreadsheet"')->end()
+                ->booleanNode('pre_calculate_formulas')
+                    ->defaultTrue()
+                    ->info('Disabling formula calculations can improve the performance but the resulting documents won\'t immediately show formula results in external programs.')
+                ->end()
+                ->arrayNode('cache')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('bitmap')
+                            ->defaultValue('"%kernel.cache_dir%/spreadsheet/bitmap"')
+                            ->cannotBeEmpty()
+                            ->info('Using a bitmap cache is necessary, PhpSpreadsheet supports only local files.')
+                        ->end()
+                        ->scalarNode('xml')
+                            ->defaultFalse()
+                            ->example('"%kernel.cache_dir%/spreadsheet/xml"')
+                            ->info('Using XML caching can improve memory consumption by writing data to disk. Works only for .xlsx and .ods documents.')
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
+use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 
@@ -20,9 +21,13 @@ class DrawingWrapper extends BaseWrapper
     protected $headerFooterWrapper;
 
     /**
-     * @var Drawing | HeaderFooterDrawing
+     * @var Drawing|HeaderFooterDrawing|null
      */
     protected $object;
+    /**
+     * @var array
+     */
+    protected $attributes;
 
     /**
      * DrawingWrapper constructor.
@@ -31,8 +36,9 @@ class DrawingWrapper extends BaseWrapper
      * @param \Twig_Environment   $environment
      * @param SheetWrapper        $sheetWrapper
      * @param HeaderFooterWrapper $headerFooterWrapper
+     * @param array             $attributes
      */
-    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper, HeaderFooterWrapper $headerFooterWrapper)
+    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper, HeaderFooterWrapper $headerFooterWrapper, array $attributes = [])
     {
         parent::__construct($context, $environment);
 
@@ -40,6 +46,7 @@ class DrawingWrapper extends BaseWrapper
         $this->headerFooterWrapper = $headerFooterWrapper;
 
         $this->object = null;
+        $this->attributes = $attributes;
     }
 
     /**
@@ -63,9 +70,10 @@ class DrawingWrapper extends BaseWrapper
         // add to header/footer
         if ($this->headerFooterWrapper->getObject()) {
             $headerFooterParameters = $this->headerFooterWrapper->getParameters();
+            $alignment = $this->headerFooterWrapper->getAlignmentParameters()['type'];
             $location = '';
 
-            switch (strtolower($this->headerFooterWrapper->getAlignmentParameters()['type'])) {
+            switch ($alignment) {
                 case HeaderFooterWrapper::ALIGNMENT_CENTER:
                     $location .= 'C';
                     $headerFooterParameters['value'][HeaderFooterWrapper::ALIGNMENT_CENTER] .= '&G';
@@ -79,7 +87,7 @@ class DrawingWrapper extends BaseWrapper
                     $headerFooterParameters['value'][HeaderFooterWrapper::ALIGNMENT_RIGHT] .= '&G';
                     break;
                 default:
-                    throw new \InvalidArgumentException(sprintf('Unknown alignment type "%s"', $this->headerFooterWrapper->getAlignmentParameters()['type']));
+                    throw new \InvalidArgumentException(sprintf('Unknown alignment type "%s"', $alignment));
             }
 
             $location .= $headerFooterParameters['baseType'] === HeaderFooterWrapper::BASETYPE_HEADER ? 'H' : 'F';
@@ -152,32 +160,25 @@ class DrawingWrapper extends BaseWrapper
     /**
      * @param string $path
      *
-     * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      *
      * @return string
      */
     private function createTempCopy(string $path): string
     {
         // create temp path
-        $pathExtension = pathinfo($path, PATHINFO_EXTENSION);
-        $tempPath = sys_get_temp_dir().DIRECTORY_SEPARATOR.'xlsdrawing'.'_'.md5($path).($pathExtension ? '.'.$pathExtension : '');
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $tempPath = sprintf('%s/tsb_%s%s', $this->attributes['cache']['bitmap'], md5($path), $extension ? '.'.$extension : '');
 
         // create local copy
-        if (!file_exists($tempPath)) {
+        if (!Filesystem::exists($tempPath)) {
             $data = file_get_contents($path);
             if ($data === false) {
                 throw new \InvalidArgumentException($path.' does not exist.');
             }
-            $temp = fopen($tempPath, 'wb+');
-            if ($temp === false) {
-                throw new \RuntimeException('Cannot open '.$tempPath);
-            }
-            fwrite($temp, $data);
-            if (fclose($temp) === false) {
-                throw new \RuntimeException('Cannot close '.$tempPath);
-            }
-            unset($data, $temp);
+            Filesystem::dumpFile($tempPath, $data);
+            unset($data);
         }
 
         return $tempPath;

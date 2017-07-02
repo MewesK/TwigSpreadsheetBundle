@@ -6,6 +6,6 @@ services:
 
     mewes_k_twig_spreadsheet.twig_spreadsheet_extension:
         class: MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension
-        arguments: ['%mewes_k_twig_spreadsheet.pre_calculate_formulas%', '%mewes_k_twig_spreadsheet.disk_caching_directory%']
+        arguments: [ null ] # config placeholder
         tags:
             - { name: twig.extension }
