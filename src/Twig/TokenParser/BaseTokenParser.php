@@ -150,16 +150,9 @@ abstract class BaseTokenParser extends \Twig_TokenParser
      */
     private function parseBody(): \Twig_Node
     {
-        // parse body
-        $body = $this->parser->subparse(function (\Twig_Token $token) {
-            return $token->test('end'.$this->getTag());
-        },
-            true
-        );
-
-        // end of body
+        // parse till matching end tag is found
+        $body = $this->parser->subparse(function (\Twig_Token $token) { return $token->test('end'.$this->getTag()); }, true);
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
-
         return $body;
     }
 }
