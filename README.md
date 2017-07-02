@@ -7,6 +7,12 @@
 
 This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.
 
+## Features
+
+ * Easy to use Twig integration including ``macro`` and ``include`` support
+ * Use existing spreadsheet files as templates. The easiest way to customize fonts, colors, etc.
+ * ...
+
 ## Supported output formats
 
 The supported output formats are directly based on the capabilities of PhpSpreadsheet.
@@ -15,7 +21,7 @@ The supported output formats are directly based on the capabilities of PhpSpread
  * Office Open XML (.xlsx) Excel 2007 and above
  * BIFF 8 (.xls) Excel 97 and above
  * CSV
- * PDF (using tcPDF, DomPDF or mPDF, which need to be installed separately)
+ * PDF (using mPDF, which need to be installed separately)
 
 ## Software requirements
 
@@ -24,7 +30,7 @@ The following software is required to use PhpSpreadsheet/TwigSpreadsheetBundle.
 **Required by this bundle:**
 
  * PHP 7.0 or newer
- * Symfony 3.0 or newer
+ * Symfony 3.2 or newer
 
 **Required by PhpSpreadsheet:**
 
