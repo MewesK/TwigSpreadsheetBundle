@@ -3,7 +3,7 @@
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
 use PhpOffice\PhpSpreadsheet\Exception;
-use PhpOffice\PhpSpreadsheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\ColumnDimension;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowDimension;
 
@@ -15,7 +15,7 @@ class SheetWrapper extends BaseWrapper
     /**
      * @var int
      */
-    const COLUMN_DEFAULT = 0;
+    const COLUMN_DEFAULT = 1;
     /**
      * @var int
      */
