@@ -2,7 +2,8 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 
-use PhpOffice\PhpSpreadsheet\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 /**
  * Class CellWrapper.
@@ -121,7 +122,7 @@ class CellWrapper extends BaseWrapper
             ],
             'merge' => function ($value) {
                 if (is_int($value)) {
-                    $value = Cell::stringFromColumnIndex($value).$this->sheetWrapper->getRow();
+                    $value = Coordinate::stringFromColumnIndex($value).$this->sheetWrapper->getRow();
                 }
                 $this->sheetWrapper->getObject()->mergeCells(sprintf('%s:%s', $this->object->getCoordinate(), $value));
             },
