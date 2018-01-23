@@ -1,9 +1,9 @@
 {
     "name": "mewesk/twig-spreadsheet-bundle",
     "type": "symfony-bundle",
-    "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.",
+    "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig. Forked by technetium to get bugfixes in",
     "keywords": ["excel","phpexcel","spreadsheet","phpspreadsheet","twig","symfony"],
-    "homepage": "https://github.com/MewesK/TwigSpreadsheetBundle",
+    "homepage": "https://github.com/technetium/TwigSpreadsheetBundle",
     "license": "MIT",
     "authors": [
         {
@@ -12,7 +12,7 @@
         },
         {
             "name": "Community Contributors",
-            "homepage": "https://github.com/MewesK/TwigSpreadsheetBundle/graphs/contributors"
+            "homepage": "https://github.com/technetium/TwigSpreadsheetBundle/graphs/contributors"
         }
     ],
     "require": {
@@ -39,7 +39,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.0.0.1-dev"
         }
     }
 }
