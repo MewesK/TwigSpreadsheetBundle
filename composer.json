@@ -1,5 +1,5 @@
 {
-    "name": "mewesk/twig-spreadsheet-bundle",
+    "name": "technetium/twig-spreadsheet-bundle",
     "type": "symfony-bundle",
     "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig. Forked by technetium to get bugfixes in",
     "keywords": ["excel","phpexcel","spreadsheet","phpspreadsheet","twig","symfony"],
