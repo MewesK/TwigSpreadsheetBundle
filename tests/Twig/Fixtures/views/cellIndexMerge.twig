@@ -2,14 +2,14 @@
     {% xlssheet 'Test' %}
         {% xlsrow %}
             {% xlscell %}Foo{% endxlscell %}
-            {% xlscell 2 %}Bar{% endxlscell %}
-            {% xlscell 2 %}Lorem{% endxlscell %}
+            {% xlscell 3 %}Bar{% endxlscell %}
+            {% xlscell 3 %}Lorem{% endxlscell %}
             {% xlscell %}Ipsum{% endxlscell %}
-            {% xlscell 1 %}Hello{% endxlscell %}
-            {% xlscell 4 %}World{% endxlscell %}
+            {% xlscell 2 %}Hello{% endxlscell %}
+            {% xlscell 5 %}World{% endxlscell %}
         {% endxlsrow %}
         {% xlsrow %}
-            {% xlscell { 'merge': 2 } %}Foo{% endxlscell %}
+            {% xlscell { 'merge': 3 } %}Foo{% endxlscell %}
         {% endxlsrow %}
         {% xlsrow %}
             {% xlscell { 'merge': 'C3' } %}Foo{% endxlscell %}

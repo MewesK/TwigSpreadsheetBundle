@@ -385,7 +385,7 @@ xlscell
         ...
     {% endxlscell %}
 
-- If 'index' is not defined it will default to 0 for the first usage per row
+- If 'index' is not defined it will default to 1 for the first usage per row
 - For each further usage it will increase the index by 1 automatically (0, 1, 2, ...)
 - Formulas are supported (e.g. ``=SUM(A1:F1)`` or ``=A1+B1``)
 
@@ -395,7 +395,7 @@ Parameters
 ==========  ======  ========  ===========
 Name        Type    Optional  Description
 ==========  ======  ========  ===========
-index       int     X         A column index >=0
+index       int     X         A column index >=1
 properties  array   X
 ==========  ======  ========  ===========
 
@@ -421,7 +421,7 @@ dataValidation           array
  \+ showErrorMessage     boolean
  \+ showInputMessage     boolean
  \+ type                 string                Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
-merge                    int|string  X         Merge a cell range. Allows zero-based cell index or cell coordinates like 'A3'
+merge                    int|string  X         Merge a cell range. Allows cell index >=1 or cell coordinates like 'A3'
 style                    array       X         Standard PhpSpreadsheet style array
 url                      string      X
 =======================  ==========  ===  ===  ===========
@@ -431,7 +431,7 @@ Example
 
 .. code-block:: twig
 
-    {% xlscell 0 {
+    {% xlscell 1 {
         break: 1,
         dataValidation: {
             allowBlank: false,
@@ -448,7 +448,7 @@ Example
             showInputMessage: false,
             type: 'none',
         },
-        merge: 2,
+        merge: 3,
         style: {
             borders: {
                 bottom: {

@@ -195,6 +195,7 @@ class SheetWrapper extends BaseWrapper
 
     /**
      * {@inheritdoc}
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function configureMappings(): array
     {
