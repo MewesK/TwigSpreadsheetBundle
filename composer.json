@@ -18,7 +18,7 @@
     "require": {
         "symfony/framework-bundle": "~3.2|~4.0",
         "twig/twig": "~2.0",
-        "phpoffice/phpspreadsheet": "dev-develop"
+        "phpoffice/phpspreadsheet": "1.0.0-beta2"
     },
     "require-dev": {
         "symfony/symfony": "~3.2|~4.0",
@@ -26,8 +26,6 @@
         "sensio/framework-extra-bundle": "~3.2|~4.0",
         "mpdf/mpdf": "~6.1"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "suggest": {
         "mpdf/mpdf": "Add support for PDF rendering, requires ~6.1"
     },

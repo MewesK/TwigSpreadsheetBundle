@@ -1,5 +1,8 @@
 language: php
 
+dist: trusty
+sudo: false
+
 php:
   - '7.0'
   - '7.1'
@@ -17,8 +20,10 @@ matrix:
       env: SYMFONY_VERSION='3.4.*'
     - php: '7.1'
       env: SYMFONY_VERSION='4.0.*'
-
-sudo: false
+    - php: '7.2'
+      env: SYMFONY_VERSION='3.4.*'
+    - php: '7.2'
+      env: SYMFONY_VERSION='4.0.*'
 
 before_install:
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require --dev --no-update symfony/symfony=$SYMFONY_VERSION; fi
