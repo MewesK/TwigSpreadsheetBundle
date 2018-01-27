@@ -71,7 +71,7 @@ abstract class BaseFunctionalTest extends WebTestCase
     public function setUp()
     {
         // create client
-        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
+        static::$client = static::createClient(['environment' => static::$ENVIRONMENT, 'debug' => false]);
     }
 
     /**
