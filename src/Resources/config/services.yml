@@ -6,6 +6,7 @@ services:
 
     mewes_k_twig_spreadsheet.twig_spreadsheet_extension:
         class: MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension
+        public: true
         arguments: [ null ] # config placeholder
         tags:
             - { name: twig.extension }
