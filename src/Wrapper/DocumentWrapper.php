@@ -5,9 +5,9 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 use Symfony\Bridge\Twig\AppVariable;
 
 /**
@@ -106,10 +106,10 @@ class DocumentWrapper extends BaseWrapper
 
         // set up mPDF
         if ($format === 'pdf') {
-            if (!class_exists('mPDF')) {
+            if (!class_exists('\Mpdf\Mpdf')) {
                 throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
             }
-            Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+            IOFactory::registerWriter('Pdf', Mpdf::class);
         }
 
         /**
