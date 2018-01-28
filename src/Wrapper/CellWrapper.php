@@ -99,6 +99,7 @@ class CellWrapper extends BaseWrapper
 
     /**
      * {@inheritdoc}
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function configureMappings(): array
     {

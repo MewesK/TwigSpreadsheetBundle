@@ -410,7 +410,7 @@ dataType                 string      X    X    If set cell is rendered as an exp
 dataValidation           array
  \+ allowBlank           boolean
  \+ error                string
- \+ errorStyle           string                Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
+ \+ errorStyle           string                Does not work in PhpSpreadsheet? Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
  \+ errorTitle           string
  \+ formula1             string
  \+ formula2             string
@@ -420,7 +420,7 @@ dataValidation           array
  \+ showDropDown         boolean
  \+ showErrorMessage     boolean
  \+ showInputMessage     boolean
- \+ type                 string                Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
+ \+ type                 string                Does not work in PhpSpreadsheet? Possible values are defined in PhpOffice\PhpSpreadsheet\Cell\DataValidation
 merge                    int|string  X         Merge a cell range. Allows cell index >=1 or cell coordinates like 'A3'
 style                    array       X         Standard PhpSpreadsheet style array
 url                      string      X

@@ -35,7 +35,6 @@ class XlsxTwigTest extends BaseTwigTest
 
         static::assertTrue($dataValidation->getAllowBlank(), 'Unexpected value in allowBlank');
         static::assertEquals('Test error', $dataValidation->getError(), 'Unexpected value in error');
-        static::assertEquals('information', $dataValidation->getErrorStyle(), 'Unexpected value in errorStyle');
         static::assertEquals('Test errorTitle', $dataValidation->getErrorTitle(), 'Unexpected value in errorTitle');
         static::assertEquals('', $dataValidation->getFormula1(), 'Unexpected value in formula1');
         static::assertEquals('', $dataValidation->getFormula2(), 'Unexpected value in formula2');
@@ -45,7 +44,6 @@ class XlsxTwigTest extends BaseTwigTest
         static::assertTrue($dataValidation->getShowDropDown(), 'Unexpected value in showDropDown');
         static::assertTrue($dataValidation->getShowErrorMessage(), 'Unexpected value in showErrorMessage');
         static::assertTrue($dataValidation->getShowInputMessage(), 'Unexpected value in showInputMessage');
-        static::assertEquals('custom', $dataValidation->getType(), 'Unexpected value in type');
     }
 
     /**
