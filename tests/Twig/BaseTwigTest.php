@@ -2,20 +2,19 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
 
-use MewesK\TwigSpreadsheetBundle\DependencyInjection\Configuration;
 use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Twig\AppVariable;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class BaseTwigTest.
  */
-abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
+abstract class BaseTwigTest extends TestCase
 {
     const CACHE_PATH = './../../var/cache';
     const RESULT_PATH = './../../var/result';
@@ -64,6 +63,8 @@ abstract class BaseTwigTest extends \PHPUnit_Framework_TestCase
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      *
      * @return Spreadsheet|string
+     * @throws \Twig_Error_Runtime
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
     protected function getDocument($templateName, $format)
     {

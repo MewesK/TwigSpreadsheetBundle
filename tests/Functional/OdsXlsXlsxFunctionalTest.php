@@ -58,7 +58,7 @@ class OdsXlsXlsxFunctionalTest extends BaseFunctionalTest
         $response = $this->getResponse('test_custom_response', ['templateName' => 'simple', '_format' => $format]);
 
         static::assertNotNull($response, 'Response does not exist');
-        static::assertEquals('attachment; filename="foobar.bin"', $response->headers->get('Content-Disposition'), 'Unexpected or missing header "Content-Disposition"');
+        static::assertContains('foobar.bin', $response->headers->get('Content-Disposition'), 'Unexpected or missing header "Content-Disposition"');
         static::assertEquals(600, $response->getMaxAge(), 'Unexpected value in maxAge');
     }
 

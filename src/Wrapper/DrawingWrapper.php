@@ -51,8 +51,9 @@ class DrawingWrapper extends BaseWrapper
 
     /**
      * @param string $path
-     * @param array  $properties
+     * @param array $properties
      *
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException

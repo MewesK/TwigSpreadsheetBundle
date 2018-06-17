@@ -99,6 +99,7 @@ class CellWrapper extends BaseWrapper
 
     /**
      * {@inheritdoc}
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function configureMappings(): array
@@ -122,7 +123,7 @@ class CellWrapper extends BaseWrapper
                 'type' => function ($value) { $this->object->getDataValidation()->setType($value); },
             ],
             'merge' => function ($value) {
-                if (is_int($value)) {
+                if (\is_int($value)) {
                     $value = Coordinate::stringFromColumnIndex($value).$this->sheetWrapper->getRow();
                 }
                 $this->sheetWrapper->getObject()->mergeCells(sprintf('%s:%s', $this->object->getCoordinate(), $value));

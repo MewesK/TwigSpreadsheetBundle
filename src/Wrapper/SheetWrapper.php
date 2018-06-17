@@ -71,9 +71,9 @@ class SheetWrapper extends BaseWrapper
             throw new \LogicException();
         }
 
-        if (is_int($index) && $index < $this->documentWrapper->getObject()->getSheetCount()) {
+        if (\is_int($index) && $index < $this->documentWrapper->getObject()->getSheetCount()) {
             $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex($index);
-        } elseif (is_string($index)) {
+        } elseif (\is_string($index)) {
             if (!$this->documentWrapper->getObject()->sheetNameExists($index)) {
                 // create new sheet with a name
                 $this->documentWrapper->getObject()->createSheet()->setTitle($index);
@@ -92,7 +92,7 @@ class SheetWrapper extends BaseWrapper
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \Exception
      * @throws \LogicException
      */
     public function end()
@@ -104,7 +104,7 @@ class SheetWrapper extends BaseWrapper
         // auto-size columns
         if (
             isset($this->parameters['properties']['columnDimension']) &&
-            is_array($this->parameters['properties']['columnDimension'])
+            \is_array($this->parameters['properties']['columnDimension'])
         ) {
             /**
              * @var array $columnDimension
@@ -195,6 +195,7 @@ class SheetWrapper extends BaseWrapper
 
     /**
      * {@inheritdoc}
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function configureMappings(): array

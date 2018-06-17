@@ -12,7 +12,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @return array
      */
-    public function formatProvider()
+    public function formatProvider(): array
     {
         return [['ods'], ['xls'], ['xlsx']];
     }

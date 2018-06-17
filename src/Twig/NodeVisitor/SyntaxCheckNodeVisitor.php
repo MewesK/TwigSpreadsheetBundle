@@ -42,7 +42,7 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
             throw $e;
         }
 
-        $this->path[] = $node !== null ? get_class($node) : null;
+        $this->path[] = $node !== null ? \get_class($node) : null;
 
         return $node;
     }
@@ -114,6 +114,6 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
             }
         }
 
-        throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed inside of Node "%s".', get_class($node), $parentName));
+        throw new \Twig_Error_Syntax(sprintf('Node "%s" is not allowed inside of Node "%s".', \get_class($node), $parentName));
     }
 }

@@ -76,10 +76,11 @@ abstract class BaseFunctionalTest extends WebTestCase
 
     /**
      * @param string $routeName
-     * @param array  $routeParameters
+     * @param array $routeParameters
      * @param string $format
      *
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      *
      * @return Spreadsheet
      */

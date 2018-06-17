@@ -67,11 +67,12 @@ class DocumentWrapper extends BaseWrapper
     }
 
     /**
+     * @throws \LogicException
+     * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Symfony\Component\Filesystem\Exception\IOException
-     * @throws \LogicException
      */
     public function end()
     {
@@ -98,7 +99,7 @@ class DocumentWrapper extends BaseWrapper
         }
 
         // set default
-        if ($format === null || !is_string($format)) {
+        if ($format === null || !\is_string($format)) {
             $format = 'xlsx';
         } else {
             $format = strtolower($format);
@@ -107,7 +108,7 @@ class DocumentWrapper extends BaseWrapper
         // set up mPDF
         if ($format === 'pdf') {
             if (!class_exists('\Mpdf\Mpdf')) {
-                throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
+                throw new \RuntimeException('Error loading mPDF. Is mPDF correctly installed?');
             }
             IOFactory::registerWriter('Pdf', Mpdf::class);
         }
@@ -148,6 +149,8 @@ class DocumentWrapper extends BaseWrapper
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function configureMappings(): array
     {

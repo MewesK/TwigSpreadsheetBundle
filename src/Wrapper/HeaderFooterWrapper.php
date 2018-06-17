@@ -60,7 +60,7 @@ class HeaderFooterWrapper extends BaseWrapper
      */
     public static function validateAlignment(string $alignment): string
     {
-        if (!in_array($alignment, [self::ALIGNMENT_CENTER, self::ALIGNMENT_LEFT, self::ALIGNMENT_RIGHT], true)) {
+        if (!\in_array($alignment, [self::ALIGNMENT_CENTER, self::ALIGNMENT_LEFT, self::ALIGNMENT_RIGHT], true)) {
             throw new \InvalidArgumentException(sprintf('Unknown alignment "%s"', $alignment));
         }
 
@@ -76,7 +76,7 @@ class HeaderFooterWrapper extends BaseWrapper
      */
     public static function validateBaseType(string $baseType): string
     {
-        if (!in_array($baseType, [self::BASETYPE_FOOTER, self::BASETYPE_HEADER], true)) {
+        if (!\in_array($baseType, [self::BASETYPE_FOOTER, self::BASETYPE_HEADER], true)) {
             throw new \InvalidArgumentException(sprintf('Unknown base type "%s"', $baseType));
         }
 
@@ -101,7 +101,7 @@ class HeaderFooterWrapper extends BaseWrapper
         if ($type !== null) {
             $type = strtolower($type);
 
-            if (!in_array($type, [self::TYPE_EVEN, self::TYPE_FIRST, self::TYPE_ODD], true)) {
+            if (!\in_array($type, [self::TYPE_EVEN, self::TYPE_FIRST, self::TYPE_ODD], true)) {
                 throw new \InvalidArgumentException(sprintf('Unknown type "%s"', $type));
             }
         }
