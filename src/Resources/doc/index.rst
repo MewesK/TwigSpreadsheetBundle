@@ -1,11 +1,6 @@
 TwigSpreadsheetBundle Documentation
 ===================================
 
-.. _dev-docs:
-
-User Documentation
-------------------
-
 .. toctree::
     :maxdepth: 2
 
