@@ -36,10 +36,5 @@
     },
     "autoload-dev": {
         "psr-4": { "MewesK\\TwigSpreadsheetBundle\\Tests\\": "tests/" }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
     }
 }
