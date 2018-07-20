@@ -93,7 +93,7 @@ class TwigSpreadsheetExtension extends \Twig_Extension
      */
     public function mergeStyles(array $style1, array $style2): array
     {
-        if (!is_array($style1) || !is_array($style2)) {
+        if (!\is_array($style1) || !\is_array($style2)) {
             throw new \Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
         }
 

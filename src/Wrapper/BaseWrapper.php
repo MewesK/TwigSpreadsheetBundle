@@ -101,7 +101,7 @@ abstract class BaseWrapper
                 throw new \RuntimeException(sprintf('Missing mapping for key "%s"', $key));
             }
 
-            if (is_array($value) && is_array($mappings[$key])) {
+            if (\is_array($value) && \is_array($mappings[$key])) {
                 // recursion
                 if (isset($mappings[$key]['__multi'])) {
                     // handle multi target structure (with columns)
@@ -115,7 +115,7 @@ abstract class BaseWrapper
                     // handle single target structure
                     $this->setProperties($value, $mappings[$key]);
                 }
-            } elseif (is_callable($mappings[$key])) {
+            } elseif (\is_callable($mappings[$key])) {
                 // call single and multi target mapping
                 // if column is set it is used to get object from the callback in __multi
                 $mappings[$key](

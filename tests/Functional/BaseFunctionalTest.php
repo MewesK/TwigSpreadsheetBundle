@@ -71,15 +71,16 @@ abstract class BaseFunctionalTest extends WebTestCase
     public function setUp()
     {
         // create client
-        static::$client = static::createClient(['environment' => static::$ENVIRONMENT]);
+        static::$client = static::createClient(['environment' => static::$ENVIRONMENT, 'debug' => false]);
     }
 
     /**
      * @param string $routeName
-     * @param array  $routeParameters
+     * @param array $routeParameters
      * @param string $format
      *
      * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      *
      * @return Spreadsheet
      */

@@ -36,7 +36,8 @@ The following software is required to use PhpSpreadsheet/TwigSpreadsheetBundle.
 
  * PHP extension php_zip enabled
  * PHP extension php_xml enabled
- * PHP extension php_gd2 enabled (optional, but required for exact column width autocalculation)
+ * PHP extension php_fileinfo enabled
+ * PHP extension php_gd2 enabled (optional, but required for exact calculation of the column width)
 
 ## Documentation
 

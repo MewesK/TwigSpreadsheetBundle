@@ -5,9 +5,9 @@ namespace MewesK\TwigSpreadsheetBundle\Wrapper;
 use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 use Symfony\Bridge\Twig\AppVariable;
 
 /**
@@ -67,11 +67,12 @@ class DocumentWrapper extends BaseWrapper
     }
 
     /**
+     * @throws \LogicException
+     * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Symfony\Component\Filesystem\Exception\IOException
-     * @throws \LogicException
      */
     public function end()
     {
@@ -98,7 +99,7 @@ class DocumentWrapper extends BaseWrapper
         }
 
         // set default
-        if ($format === null || !is_string($format)) {
+        if ($format === null || !\is_string($format)) {
             $format = 'xlsx';
         } else {
             $format = strtolower($format);
@@ -106,10 +107,10 @@ class DocumentWrapper extends BaseWrapper
 
         // set up mPDF
         if ($format === 'pdf') {
-            if (!class_exists('mPDF')) {
-                throw new Exception('Error loading mPDF. Is mPDF correctly installed?');
+            if (!class_exists('\Mpdf\Mpdf')) {
+                throw new \RuntimeException('Error loading mPDF. Is mPDF correctly installed?');
             }
-            Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+            IOFactory::registerWriter('Pdf', Mpdf::class);
         }
 
         /**
@@ -118,7 +119,7 @@ class DocumentWrapper extends BaseWrapper
         $writer = IOFactory::createWriter($this->object, ucfirst($format));
         $writer->setPreCalculateFormulas($this->attributes['preCalculateFormulas'] ?? true);
 
-        // set up xml cache
+        // set up XML cache
         if ($this->attributes['cache']['xml'] !== false) {
             Filesystem::mkdir($this->attributes['cache']['xml']);
             $writer->setUseDiskCaching(true, $this->attributes['cache']['xml']);
@@ -148,6 +149,8 @@ class DocumentWrapper extends BaseWrapper
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function configureMappings(): array
     {

@@ -2,20 +2,20 @@
     {% xlssheet 'Test' %}
         {% xlsrow %}
             {% xlscell %}Foo{% endxlscell %}
-            {% xlscell 2 %}Bar{% endxlscell %}
-            {% xlscell 2 %}Lorem{% endxlscell %}
+            {% xlscell 3 %}Bar{% endxlscell %}
+            {% xlscell 3 %}Lorem{% endxlscell %}
             {% xlscell %}Ipsum{% endxlscell %}
-            {% xlscell 1 %}Hello{% endxlscell %}
-            {% xlscell 4 %}World{% endxlscell %}
+            {% xlscell 2 %}Hello{% endxlscell %}
+            {% xlscell 5 %}World{% endxlscell %}
         {% endxlsrow %}
         {% xlsrow %}
-            {% xlscell 0 %}Foo{% endxlscell %}
-            {% xlscell 1.0 %}Bar{% endxlscell %}
-            {% xlscell '2' %}Lorem{% endxlscell %}
-            {% set index = 3 %}
+            {% xlscell 1 %}Foo{% endxlscell %}
+            {% xlscell 2.0 %}Bar{% endxlscell %}
+            {% xlscell '3' %}Lorem{% endxlscell %}
+            {% set index = 4 %}
             {% xlscell index %}Ipsum{% endxlscell %}
-            {% xlscell 2 + 2 %}Hello{% endxlscell %}
-            {% xlscell '5'|upper %}World{% endxlscell %}
+            {% xlscell 3 + 2 %}Hello{% endxlscell %}
+            {% xlscell '6'|upper %}World{% endxlscell %}
         {% endxlsrow %}
     {% endxlssheet %}
 {% endxlsdocument %}

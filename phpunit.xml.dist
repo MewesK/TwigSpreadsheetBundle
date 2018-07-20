@@ -5,6 +5,10 @@
          colors="true"
          bootstrap="./vendor/autoload.php"
         >
+    <php>
+        <env name="SYMFONY_PHPUNIT_VERSION" value="6.5"/>
+    </php>
+
     <testsuites>
         <testsuite name="MewesKTwigSpreadsheetBundle Test Suite">
             <directory>./tests</directory>

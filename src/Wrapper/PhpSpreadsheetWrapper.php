@@ -70,7 +70,7 @@ class PhpSpreadsheetWrapper
      */
     public static function fixContext(array $context): array
     {
-        if (!isset($context[self::INSTANCE_KEY]) && isset($context['varargs']) && is_array($context['varargs'])) {
+        if (!isset($context[self::INSTANCE_KEY]) && isset($context['varargs']) && \is_array($context['varargs'])) {
             /**
              * @var array $args
              */
@@ -98,6 +98,7 @@ class PhpSpreadsheetWrapper
     }
 
     /**
+     * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
@@ -110,8 +111,9 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param int|string|null $index
-     * @param array           $properties
+     * @param array $properties
      *
+     * @throws \LogicException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \RuntimeException
      */
@@ -120,16 +122,26 @@ class PhpSpreadsheetWrapper
         $this->sheetWrapper->start($index, $properties);
     }
 
+    /**
+     * @throws \LogicException
+     * @throws \Exception
+     */
     public function endSheet()
     {
         $this->sheetWrapper->end();
     }
 
+    /**
+     * @throws \LogicException
+     */
     public function startRow()
     {
         $this->rowWrapper->start($this->rowIndex);
     }
 
+    /**
+     * @throws \LogicException
+     */
     public function endRow()
     {
         $this->rowWrapper->end();
@@ -168,6 +180,10 @@ class PhpSpreadsheetWrapper
         $this->headerFooterWrapper->start($baseType, $type, $properties);
     }
 
+    /**
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     */
     public function endHeaderFooter()
     {
         $this->headerFooterWrapper->end();
@@ -198,8 +214,9 @@ class PhpSpreadsheetWrapper
 
     /**
      * @param string $path
-     * @param array  $properties
+     * @param array $properties
      *
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @throws \RuntimeException

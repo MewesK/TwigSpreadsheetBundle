@@ -16,30 +16,25 @@
         }
     ],
     "require": {
+        "php": ">=7.0",
         "symfony/framework-bundle": "~3.2|~4.0",
         "twig/twig": "~2.0",
-        "phpoffice/phpspreadsheet": "dev-develop"
+        "phpoffice/phpspreadsheet": "1.3.1"
     },
     "require-dev": {
         "symfony/symfony": "~3.2|~4.0",
-        "symfony/phpunit-bridge": "~3.2|~4.0",
         "sensio/framework-extra-bundle": "~3.2|~4.0",
-        "mpdf/mpdf": "~6.1"
+        "symfony/phpunit-bridge": "~4.0",
+        "phpunit/phpunit": "^6.5",
+        "mpdf/mpdf": "~7.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "suggest": {
-        "mpdf/mpdf": "Add support for PDF rendering, requires ~6.1"
+        "mpdf/mpdf": "Add support for PDF rendering, requires ~7.0"
     },
     "autoload": {
         "psr-4": { "MewesK\\TwigSpreadsheetBundle\\": "src/" }
     },
     "autoload-dev": {
         "psr-4": { "MewesK\\TwigSpreadsheetBundle\\Tests\\": "tests/" }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
     }
 }

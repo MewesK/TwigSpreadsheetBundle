@@ -71,6 +71,7 @@ abstract class BaseTokenParser extends \Twig_TokenParser
     /**
      * {@inheritdoc}
      *
+     * @throws \Exception
      * @throws \InvalidArgumentException
      */
     public function parse(\Twig_Token $token)
@@ -89,6 +90,7 @@ abstract class BaseTokenParser extends \Twig_TokenParser
     /**
      * @param array $parameterConfiguration
      *
+     * @throws \Exception
      * @throws \InvalidArgumentException
      * @throws \Twig_Error_Syntax
      *
@@ -138,7 +140,7 @@ abstract class BaseTokenParser extends \Twig_TokenParser
             $parameters[$parameterName] = $parameterOptions['default'];
         }
 
-        if (count($expressions) > 0) {
+        if (\count($expressions) > 0) {
             throw new \Twig_Error_Syntax('Too many parameters');
         }
 
@@ -147,6 +149,7 @@ abstract class BaseTokenParser extends \Twig_TokenParser
 
     /**
      * @return \Twig_Node
+     * @throws \Twig_Error_Syntax
      */
     private function parseBody(): \Twig_Node
     {
