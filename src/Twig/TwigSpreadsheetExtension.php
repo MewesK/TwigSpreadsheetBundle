@@ -12,6 +12,8 @@ use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\HeaderFooterTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RowTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\SheetTokenParser;
 use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+
 
 /**
  * Class TwigSpreadsheetExtension.
