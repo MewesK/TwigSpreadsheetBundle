@@ -263,16 +263,4 @@ class PhpSpreadsheetWrapper
     {
         $this->rowIndex = $rowIndex;
     }
-
-    /**
-     * Returns the current row of the sheet.
-     *
-     * Since the row property of this PhpSpreadsheetWrapper remains null,
-     * a helper function that gets the row from SheetWrapper is used.
-     *
-     * @return int|null
-     */
-    public function getSheetRow() {
-        return $this->sheetWrapper->getRow();
-    }
 }
