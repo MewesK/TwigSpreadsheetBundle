@@ -118,7 +118,7 @@ class DocumentWrapper extends BaseWrapper
          * @var BaseWriter $writer
          */
         $writer = IOFactory::createWriter($this->object, ucfirst($format));
-        $writer->setPreCalculateFormulas($this->attributes['preCalculateFormulas'] ?? true);
+        $writer->setPreCalculateFormulas($this->attributes['pre_calculate_formulas'] ?? true);
 
         // set up XML cache
         if ($this->attributes['cache']['xml'] !== false) {

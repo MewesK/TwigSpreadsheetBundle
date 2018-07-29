@@ -29,6 +29,8 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
         $extension = static::$kernel->getContainer()->get('mewes_k_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertFalse($extension->getAttributes()['pre_calculate_formulas'], 'Unexpected attribute');
+
+        // TODO: check result
     }
 
     /**
@@ -65,5 +67,7 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
         static::assertEquals("\r\n", $extension->getAttributes()['csv_writer']['line_ending'], 'Unexpected attribute');
         static::assertEquals(0, $extension->getAttributes()['csv_writer']['sheet_index'], 'Unexpected attribute');
         static::assertTrue($extension->getAttributes()['csv_writer']['use_bom'], 'Unexpected attribute');
+
+        // TODO: check result
     }
 }

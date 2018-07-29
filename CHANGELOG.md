@@ -1,6 +1,7 @@
 ## 1.1
 
  * Fixed issue #13 'Incorrect cache directory for images' (technetium)
+ * Fixed issue #15 'bug pre_calculate_formulas' (mikysan)
  * Fixed 'xlsmergestyles' which merged non-array values instead of overriding them
  * Added 'xlscellindex' and 'xlsrowindex' functions to get the current position
  * Added advanced CSV writer configurations like custom value separators etc
