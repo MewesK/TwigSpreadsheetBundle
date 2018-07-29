@@ -50,6 +50,15 @@ abstract class BaseTwigTest extends TestCase
                 'bitmap' => $cachePath.'/spreadsheet/bitmap',
                 'xml' => false
             ],
+            'csv_writer' => [
+                'delimiter' => ',',
+                'enclosure' => '"',
+                'excel_compatibility' => false,
+                'include_separator_line' => false,
+                'line_ending' => PHP_EOL,
+                'sheet_index' => 0,
+                'use_bom' => true
+            ]
         ]));
         static::$environment->setCache($cachePath.'/twig');
     }

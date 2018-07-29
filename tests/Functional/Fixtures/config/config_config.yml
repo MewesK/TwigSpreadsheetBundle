@@ -2,6 +2,14 @@ imports:
     - { resource: config.yml }
 
 mewes_k_twig_spreadsheet:
-    pre_calculate_formulas: false
+    pre_calculate_formulas:     false
     cache:
-        xml: "%kernel.cache_dir%/spreadsheet/xml"
+        xml:                    "%kernel.cache_dir%/spreadsheet/xml"
+    csv_writer:
+        delimiter:              ";"
+        enclosure:              "'"
+        excel_compatibility:    false
+        include_separator_line: false
+        line_ending:            "\r\n"
+        sheet_index:            0
+        use_bom:                true

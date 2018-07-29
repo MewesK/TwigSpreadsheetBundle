@@ -45,8 +45,10 @@ Example
     {% xlsrow %}
         {% set cellIndex = xlscellindex() %}
         {% xlscell %}
-            {{ cellIndex }}{# cell index is null, because it was read before the first cell was initialized #}
-            {{ xlscellindex() }}{# cell index is 1, because it was read after the first cell was initialized #}
+            {# cell index is null, because it was read before the first cell was initialized #}
+            {{ cellIndex }}
+            {# cell index is 1, because it was read after the first cell was initialized #}
+            {{ xlscellindex() }}
         {% endxlscell %}
     {% endxlsrow %}
 
@@ -68,8 +70,10 @@ Example
         {% set rowIndex = xlsrowindex() %}
         {% xlsrow %}
             {% xlscell %}
-                {{ rowIndex }}{# row index is null, because it was read before the first row was initialized #}
-                {{ xlsrowindex() }}{# row index is 1, because it was read after the first row was initialized #}
+                {# row index is null, because it was read before the first row was initialized #}
+                {{ rowIndex }}
+                {# row index is 1, because it was read after the first row was initialized #}
+                {{ xlsrowindex() }}
             {% endxlscell %}
         {% endxlsrow %}
     {% endxlssheet %}

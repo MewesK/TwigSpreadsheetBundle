@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 use Symfony\Bridge\Twig\AppVariable;
 
@@ -123,6 +124,20 @@ class DocumentWrapper extends BaseWrapper
         if ($this->attributes['cache']['xml'] !== false) {
             Filesystem::mkdir($this->attributes['cache']['xml']);
             $writer->setUseDiskCaching(true, $this->attributes['cache']['xml']);
+        }
+
+        // set special CSV writer attributes
+        if ($writer instanceof Csv) {
+            /**
+             * @var Csv $writer
+             */
+            $writer->setDelimiter($this->attributes['csv_writer']['delimiter']);
+            $writer->setEnclosure($this->attributes['csv_writer']['enclosure']);
+            $writer->setExcelCompatibility($this->attributes['csv_writer']['excel_compatibility']);
+            $writer->setIncludeSeparatorLine($this->attributes['csv_writer']['include_separator_line']);
+            $writer->setLineEnding($this->attributes['csv_writer']['line_ending']);
+            $writer->setSheetIndex($this->attributes['csv_writer']['sheet_index']);
+            $writer->setUseBOM($this->attributes['csv_writer']['use_bom']);
         }
 
         $writer->save('php://output');
