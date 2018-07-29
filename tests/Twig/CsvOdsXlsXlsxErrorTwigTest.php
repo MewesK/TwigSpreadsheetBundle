@@ -26,21 +26,6 @@ class CsvOdsXlsXlsxErrorTwigTest extends BaseTwigTest
      *
      * @dataProvider formatProvider
      */
-    public function testCellIndexError($format)
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::setCellIndex() must be of the type integer');
-
-        $this->getDocument('cellIndexError', $format);
-    }
-
-    /**
-     * @param string $format
-     *
-     * @throws \Exception
-     *
-     * @dataProvider formatProvider
-     */
     public function testDocumentError($format)
     {
         $this->expectException(\Twig_Error_Syntax::class);
@@ -86,10 +71,25 @@ class CsvOdsXlsXlsxErrorTwigTest extends BaseTwigTest
      *
      * @dataProvider formatProvider
      */
-    public function testRowIndexError($format)
+    public function testStartCellIndexError($format)
     {
         $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::setRowIndex() must be of the type integer');
+        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::startCell() must be of the type integer or null');
+
+        $this->getDocument('cellIndexError', $format);
+    }
+
+    /**
+     * @param string $format
+     *
+     * @throws \Exception
+     *
+     * @dataProvider formatProvider
+     */
+    public function testStartRowIndexError($format)
+    {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Argument 1 passed to MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper::startRow() must be of the type integer or null');
 
         $this->getDocument('rowIndexError', $format);
     }

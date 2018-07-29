@@ -166,6 +166,28 @@ class XlsXlsxTwigTest extends BaseTwigTest
      *
      * @dataProvider formatProvider
      */
+    public function testFunctionMergeStyles($format)
+    {
+        $document = $this->getDocument('functionMergeStyles', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
+        $sheet = $document->getSheet(0);
+        static::assertNotNull($sheet, 'Sheet does not exist');
+
+        static::assertEquals('Verdana', $sheet->getCell('A1')->getStyle()->getFont()->getName(), 'Unexpected value in A1');
+        static::assertEquals(18, $sheet->getCell('A1')->getStyle()->getFont()->getSize(), 'Unexpected value in A1');
+        static::assertEquals(18, $sheet->getCell('A2')->getStyle()->getFont()->getSize(), 'Unexpected value in A2');
+        static::assertEquals(18, $sheet->getCell('A3')->getStyle()->getFont()->getSize(), 'Unexpected value in A3');
+        static::assertEquals(18, $sheet->getCell('A4')->getStyle()->getFont()->getSize(), 'Unexpected value in B3');
+    }
+
+    /**
+     * @param string $format
+     *
+     * @throws \Exception
+     *
+     * @dataProvider formatProvider
+     */
     public function testHeaderFooterComplex($format)
     {
         $document = $this->getDocument('headerFooterComplex', $format);

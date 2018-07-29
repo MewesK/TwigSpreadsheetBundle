@@ -2,6 +2,7 @@
 
 namespace MewesK\TwigSpreadsheetBundle\Twig;
 
+use MewesK\TwigSpreadsheetBundle\Helper\Arrays;
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\MacroContextNodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\AlignmentTokenParser;
@@ -50,7 +51,8 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles']),
-            new \Twig_SimpleFunction('xlsrowindex', [$this, 'getRowIndex'], ['needs_context' => true]),
+            new \Twig_SimpleFunction('xlscellindex', [$this, 'getCurrentColumn'], ['needs_context' => true]),
+            new \Twig_SimpleFunction('xlsrowindex', [$this, 'getCurrentRow'], ['needs_context' => true]),
         ];
     }
 
@@ -99,15 +101,34 @@ class TwigSpreadsheetExtension extends \Twig_Extension
         if (!\is_array($style1) || !\is_array($style2)) {
             throw new \Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
         }
-
-        return array_merge_recursive($style1, $style2);
+        return Arrays::mergeRecursive($style1, $style2);
     }
 
     /**
      * @param array $context
+     *
+     * @throws \Twig_Error_Runtime
+     *
      * @return int|null
      */
-    public function getRowIndex(array $context) {
-        return $context[PhpSpreadsheetWrapper::INSTANCE_KEY]->getSheetRow();
+    public function getCurrentColumn(array $context) {
+        if (!isset($context[PhpSpreadsheetWrapper::INSTANCE_KEY])) {
+            throw new \Twig_Error_Runtime('The PhpSpreadsheetWrapper instance is missing.');
+        }
+        return $context[PhpSpreadsheetWrapper::INSTANCE_KEY]->getCurrentColumn();
+    }
+
+    /**
+     * @param array $context
+     *
+     * @throws \Twig_Error_Runtime
+     *
+     * @return int|null
+     */
+    public function getCurrentRow(array $context) {
+        if (!isset($context[PhpSpreadsheetWrapper::INSTANCE_KEY])) {
+            throw new \Twig_Error_Runtime('The PhpSpreadsheetWrapper instance is missing.');
+        }
+        return $context[PhpSpreadsheetWrapper::INSTANCE_KEY]->getCurrentRow();
     }
 }

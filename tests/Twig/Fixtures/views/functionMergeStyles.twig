@@ -1,0 +1,20 @@
+{% xlsdocument %}
+    {% xlssheet 'Test' %}
+        {% xlsrow %}
+            {% set mergedStyle = xlsmergestyles({ 'font': { 'name': 'Verdana' } }, { 'font': { 'size': 18.0 } }) %}
+            {% xlscell { 'style': mergedStyle } %}Foo{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% set mergedStyle = xlsmergestyles({ 'font': { 'size': 16.0 } }, { 'font': { 'size': 18.0 } }) %}
+            {% xlscell { 'style': mergedStyle } %}Bar{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% set mergedStyle = xlsmergestyles({}, { 'font': { 'size': 18.0 } }) %}
+            {% xlscell { 'style': mergedStyle } %}Hello{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% set mergedStyle = xlsmergestyles({ 'font': { 'size': 18.0 } }, {}) %}
+            {% xlscell { 'style': mergedStyle } %}World{% endxlscell %}
+        {% endxlsrow %}
+    {% endxlssheet %}
+{% endxlsdocument %}

@@ -1,9 +1,9 @@
 {
-    "name": "technetium/twig-spreadsheet-bundle",
+    "name": "mewesk/twig-spreadsheet-bundle",
     "type": "symfony-bundle",
-    "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig. Forked by technetium to get bugfixes in",
+    "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.",
     "keywords": ["excel","phpexcel","spreadsheet","phpspreadsheet","twig","symfony"],
-    "homepage": "https://github.com/technetium/TwigSpreadsheetBundle",
+    "homepage": "https://github.com/MewesK/TwigSpreadsheetBundle",
     "license": "MIT",
     "authors": [
         {
@@ -12,14 +12,14 @@
         },
         {
             "name": "Community Contributors",
-            "homepage": "https://github.com/technetium/TwigSpreadsheetBundle/graphs/contributors"
+            "homepage": "https://github.com/MewesK/TwigSpreadsheetBundle/graphs/contributors"
         }
     ],
     "require": {
         "php": ">=7.0",
         "symfony/framework-bundle": "~3.2|~4.0",
         "twig/twig": "~2.0",
-        "phpoffice/phpspreadsheet": "1.3.1"
+        "phpoffice/phpspreadsheet": "~1.3.1"
     },
     "require-dev": {
         "symfony/symfony": "~3.2|~4.0",

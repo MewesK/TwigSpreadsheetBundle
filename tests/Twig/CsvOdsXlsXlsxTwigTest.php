@@ -60,4 +60,25 @@ class CsvOdsXlsXlsxTwigTest extends BaseTwigTest
         static::assertEquals('Foo', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
         static::assertEquals('Bar2', $sheet->getCell('B2')->getValue(), 'Unexpected value in B2');
     }
+
+    /**
+     * @param string $format
+     *
+     * @throws \Exception
+     *
+     * @dataProvider formatProvider
+     */
+    public function testFunctionIndex($format)
+    {
+        $document = $this->getDocument('functionIndex', $format);
+        static::assertNotNull($document, 'Document does not exist');
+
+        $sheet = $document->getSheet(0);
+        static::assertNotNull($sheet, 'Sheet does not exist');
+
+        static::assertEquals('NULL', $sheet->getCell('A1')->getValue(), 'Unexpected value in A1');
+        static::assertEquals(1, $sheet->getCell('B1')->getValue(), 'Unexpected value in B1');
+        static::assertEquals('NULL', $sheet->getCell('A2')->getValue(), 'Unexpected value in A2');
+        static::assertEquals(2, $sheet->getCell('B2')->getValue(), 'Unexpected value in B2');
+    }
 }

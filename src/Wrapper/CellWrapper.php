@@ -37,16 +37,14 @@ class CellWrapper extends BaseWrapper
     }
 
     /**
-     * @param int|null   $index
-     * @param mixed|null $value
-     * @param array      $properties
+     * @param int|null $index
+     * @param array $properties
      *
      * @throws \InvalidArgumentException
      * @throws \LogicException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \RuntimeException
      */
-    public function start(int $index = null, $value = null, array $properties = [])
+    public function start(int $index = null, array $properties = [])
     {
         if ($this->sheetWrapper->getObject() === null) {
             throw new \LogicException();
@@ -58,21 +56,31 @@ class CellWrapper extends BaseWrapper
             $this->sheetWrapper->setColumn($index);
         }
 
-        $this->object = $this->sheetWrapper->getObject()->getCellByColumnAndRow($this->sheetWrapper->getColumn(),
+        $this->object = $this->sheetWrapper->getObject()->getCellByColumnAndRow(
+            $this->sheetWrapper->getColumn(),
             $this->sheetWrapper->getRow());
 
+        $this->parameters['value'] = null;
+        $this->parameters['properties'] = $properties;
+        $this->setProperties($properties);
+    }
+
+    /**
+     * @param mixed|null $value
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    public function value($value = null)
+    {
         if ($value !== null) {
-            if (isset($properties['dataType'])) {
-                $this->object->setValueExplicit($value, $properties['dataType']);
+            if (isset($this->parameters['properties']['dataType'])) {
+                $this->object->setValueExplicit($value, $this->parameters['properties']['dataType']);
             } else {
                 $this->object->setValue($value);
             }
         }
 
         $this->parameters['value'] = $value;
-        $this->parameters['properties'] = $properties;
-
-        $this->setProperties($properties);
     }
 
     public function end()

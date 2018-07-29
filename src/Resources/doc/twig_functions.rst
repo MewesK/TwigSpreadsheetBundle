@@ -26,9 +26,29 @@ Example
 
 .. code-block:: twig
 
-    {% set mergedStyle = xlsmergestyles({ font: { name: 'Verdana' } }, { font: { size: '18' } }) %}
+    {% set mergedStyle = xlsmergestyles({ font: { name: 'Verdana' } }, { font: { size: 18.0 } }) %}
 
+xlscellindex
+-----------
 
+.. code-block:: twig
+
+    xlscellindex()
+
+- Returns the current cell index or null if no cell is initialized
+
+Example
+```````
+
+.. code-block:: twig
+
+    {% xlsrow %}
+        {% set cellIndex = xlscellindex() %}
+        {% xlscell %}
+            {{ cellIndex }}{# cell index is null, because it was read before the first cell was initialized #}
+            {{ xlscellindex() }}{# cell index is 1, because it was read after the first cell was initialized #}
+        {% endxlscell %}
+    {% endxlsrow %}
 
 xlsrowindex
 -----------
@@ -37,23 +57,20 @@ xlsrowindex
 
     xlsrowindex()
 
-- Returns the current row index
-
-When you don't want to recalculate the location of merged cells and images
-after inserting or deleting rows.
+- Returns the current row index or null if no row is initialized
 
 Example
 ```````
 
 .. code-block:: twig
 
-    {% xlsrow %}{% set row = xlsrowindex() %}{% xlscell %}Image there ==>{% endxlscell %}{% endxlsrow %}
-    {% xlsdrawing 'directory_name/image.png' {
-        coordinates: 'B' ~ row,
-    } %}
-
-	{% xlsrow %}
-		{% set row = xlsrowindex() %}
-		{% xlscell { merge: 'A'~(row+1) } %}A cell over two lines{% endxlscell %}
-	{% endxlsrow %}
+    {% xlssheet 'Test' %}
+        {% set rowIndex = xlsrowindex() %}
+        {% xlsrow %}
+            {% xlscell %}
+                {{ rowIndex }}{# row index is null, because it was read before the first row was initialized #}
+                {{ xlsrowindex() }}{# row index is 1, because it was read after the first row was initialized #}
+            {% endxlscell %}
+        {% endxlsrow %}
+    {% endxlssheet %}
 

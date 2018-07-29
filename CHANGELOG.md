@@ -1,4 +1,12 @@
-## 1.x
+## 1.1
+
+ * Fixed issue #13 'Incorrect cache directory for images' (technetium)
+ * Fixed 'xlsmergestyles' which merged non-array values instead of overriding them
+ * Added 'xlscellindex' and 'xlsrowindex' functions to get the current position
+ * Improved internal index handling
+ * Improved code performance
+
+## 1.0
 
  * Removed xlsblock, xlsinclude and xlsmacro. The native Twig functions do work now like they are supposed to do!
  * Removed explicitValue cell property. Use dataType instead. However PhpSpread is handling leading zeros properly now so you probably don't have to use this property anyway.

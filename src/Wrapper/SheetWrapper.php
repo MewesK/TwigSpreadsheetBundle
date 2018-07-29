@@ -130,9 +130,10 @@ class SheetWrapper extends BaseWrapper
             }
         }
 
-        $this->object = null;
         $this->parameters = [];
+        $this->object = null;
         $this->row = null;
+        $this->column = null;
     }
 
     public function increaseRow()
@@ -203,10 +204,10 @@ class SheetWrapper extends BaseWrapper
         return [
             'autoFilter' => function ($value) { $this->object->setAutoFilter($value); },
             'columnDimension' => [
-                '__multi' => function ($column = 'default'): ColumnDimension {
-                    return $column === 'default' ?
+                '__multi' => function ($index = 'default'): ColumnDimension {
+                    return $index === 'default' ?
                         $this->object->getDefaultColumnDimension() :
-                        $this->object->getColumnDimension($column);
+                        $this->object->getColumnDimension($index);
                 },
                 'autoSize' => function ($value, ColumnDimension $object) { $object->setAutoSize($value); },
                 'collapsed' => function ($value, ColumnDimension $object) { $object->setCollapsed($value); },
@@ -257,10 +258,10 @@ class SheetWrapper extends BaseWrapper
             ],
             'rightToLeft' => function ($value) { $this->object->setRightToLeft($value); },
             'rowDimension' => [
-                '__multi' => function ($column = 'default'): RowDimension {
-                    return $column === 'default' ?
+                '__multi' => function ($index = 'default'): RowDimension {
+                    return $index === 'default' ?
                         $this->object->getDefaultRowDimension() :
-                        $this->object->getRowDimension($column);
+                        $this->object->getRowDimension($index);
                 },
                 'collapsed' => function ($value, RowDimension $object) { $object->setCollapsed($value); },
                 'outlineLevel' => function ($value, RowDimension $object) { $object->setOutlineLevel($value); },

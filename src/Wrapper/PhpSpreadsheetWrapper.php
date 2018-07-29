@@ -13,6 +13,28 @@ class PhpSpreadsheetWrapper
     const INSTANCE_KEY = '_tsb';
 
     /**
+     * Copies the PhpSpreadsheetWrapper instance from 'varargs' to '_tsb'. This is necessary for all Twig code running
+     * in sub-functions (e.g. block, macro, ...) since the root context is lost. To fix the sub-context a reference to
+     * the PhpSpreadsheetWrapper instance is included in all function calls.
+     *
+     * @param array $context
+     *
+     * @return array
+     */
+    public static function fixContext(array $context): array
+    {
+        if (!isset($context[self::INSTANCE_KEY]) && isset($context['varargs']) && \is_array($context['varargs'])) {
+            foreach ($context['varargs'] as $arg) {
+                if ($arg instanceof self) {
+                    $context[self::INSTANCE_KEY] = $arg;
+                    break;
+                }
+            }
+        }
+        return $context;
+    }
+
+    /**
      * @var DocumentWrapper
      */
     private $documentWrapper;
@@ -38,15 +60,6 @@ class PhpSpreadsheetWrapper
     private $drawingWrapper;
 
     /**
-     * @var int|null
-     */
-    private $cellIndex;
-    /**
-     * @var int|null
-     */
-    private $rowIndex;
-
-    /**
      * PhpSpreadsheetWrapper constructor.
      *
      * @param array             $context
@@ -64,25 +77,19 @@ class PhpSpreadsheetWrapper
     }
 
     /**
-     * @param array $context
-     *
-     * @return array
+     * @return int|null
      */
-    public static function fixContext(array $context): array
+    public function getCurrentColumn()
     {
-        if (!isset($context[self::INSTANCE_KEY]) && isset($context['varargs']) && \is_array($context['varargs'])) {
-            /**
-             * @var array $args
-             */
-            $args = $context['varargs'];
-            foreach ($args as $arg) {
-                if ($arg instanceof self) {
-                    $context[self::INSTANCE_KEY] = $arg;
-                }
-            }
-        }
+        return $this->sheetWrapper->getColumn();
+    }
 
-        return $context;
+    /**
+     * @return int|null
+     */
+    public function getCurrentRow()
+    {
+        return $this->sheetWrapper->getRow();
     }
 
     /**
@@ -98,6 +105,7 @@ class PhpSpreadsheetWrapper
     }
 
     /**
+     * @throws \RuntimeException
      * @throws \LogicException
      * @throws \InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
@@ -132,11 +140,13 @@ class PhpSpreadsheetWrapper
     }
 
     /**
+     * @param int|null $index
+     *
      * @throws \LogicException
      */
-    public function startRow()
+    public function startRow(int $index = null)
     {
-        $this->rowWrapper->start($this->rowIndex);
+        $this->rowWrapper->start($index);
     }
 
     /**
@@ -148,17 +158,26 @@ class PhpSpreadsheetWrapper
     }
 
     /**
-     * @param null|mixed $value
+     * @param int|null   $index
      * @param array      $properties
      *
      * @throws \InvalidArgumentException
      * @throws \LogicException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \RuntimeException
      */
-    public function startCell($value = null, array $properties = [])
+    public function startCell(int $index = null, array $properties = [])
     {
-        $this->cellWrapper->start($this->cellIndex, $value, $properties);
+        $this->cellWrapper->start($index, $properties);
+    }
+
+    /**
+     * @param null|mixed $value
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    public function setCellValue($value = null)
+    {
+        $this->cellWrapper->value($value);
     }
 
     public function endCell()
@@ -230,49 +249,5 @@ class PhpSpreadsheetWrapper
     public function endDrawing()
     {
         $this->drawingWrapper->end();
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getCellIndex()
-    {
-        return $this->cellIndex;
-    }
-
-    /**
-     * @param int|null $cellIndex
-     */
-    public function setCellIndex(int $cellIndex = null)
-    {
-        $this->cellIndex = $cellIndex;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getRowIndex()
-    {
-        return $this->rowIndex;
-    }
-
-    /**
-     * @param int|null $rowIndex
-     */
-    public function setRowIndex(int $rowIndex = null)
-    {
-        $this->rowIndex = $rowIndex;
-    }
-
-    /**
-     * Returns the current row of the sheet.
-     *
-     * Since the row property of this PhpSpreadsheetWrapper remains null,
-     * a helper function that gets the row from SheetWrapper is used.
-     *
-     * @return int|null
-     */
-    public function getSheetRow() {
-        return $this->sheetWrapper->getRow();
     }
 }

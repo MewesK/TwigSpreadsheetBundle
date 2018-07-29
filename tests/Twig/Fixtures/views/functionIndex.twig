@@ -1,0 +1,14 @@
+{% xlsdocument %}
+    {% xlssheet 'Test' %}
+        {% set rowIndex = xlsrowindex() %}
+        {% xlsrow %}
+            {% xlscell %}{{ rowIndex is null ? 'NULL' : 'NOT NULL' }}{% endxlscell %}
+            {% xlscell %}{{ xlsrowindex() }}{% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% set cellIndex = xlscellindex() %}
+            {% xlscell %}{{ cellIndex is null ? 'NULL' : 'NOT NULL' }}{% endxlscell %}
+            {% xlscell %}{{ xlscellindex() }}{% endxlscell %}
+        {% endxlsrow %}
+    {% endxlssheet %}
+{% endxlsdocument %}
