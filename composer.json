@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "symfony/symfony": "~3.2|~4.0",
-        "sensio/framework-extra-bundle": "~3.2|~4.0",
+        "sensio/framework-extra-bundle": "~3.0|~4.0",
         "symfony/phpunit-bridge": "~4.0",
         "phpunit/phpunit": "^6.5",
         "mpdf/mpdf": "~7.0"
