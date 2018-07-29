@@ -12,6 +12,8 @@ use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\HeaderFooterTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RowTokenParser;
 use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\SheetTokenParser;
 use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+
 
 /**
  * Class TwigSpreadsheetExtension.
@@ -48,6 +50,7 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles']),
+            new \Twig_SimpleFunction('xlsrowindex', [$this, 'getRowIndex'], ['needs_context' => true]),
         ];
     }
 
@@ -98,5 +101,13 @@ class TwigSpreadsheetExtension extends \Twig_Extension
         }
 
         return array_merge_recursive($style1, $style2);
+    }
+
+    /**
+     * @param array $context
+     * @return int|null
+     */
+    public function getRowIndex(array $context) {
+        return $context[PhpSpreadsheetWrapper::INSTANCE_KEY]->getSheetRow();
     }
 }

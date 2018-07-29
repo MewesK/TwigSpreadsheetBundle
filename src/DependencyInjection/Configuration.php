@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('bitmap')
-                            ->defaultValue('"%kernel.cache_dir%/spreadsheet/bitmap"')
+                            ->defaultValue('%kernel.cache_dir%/spreadsheet/bitmap')
                             ->cannotBeEmpty()
                             ->info('Using a bitmap cache is necessary, PhpSpreadsheet supports only local files.')
                         ->end()
