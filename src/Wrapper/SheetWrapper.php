@@ -275,6 +275,7 @@ class SheetWrapper extends BaseWrapper
             'showGridlines' => function ($value) { $this->object->setShowGridlines($value); },
             'tabColor' => function ($value) { $this->object->getTabColor()->setRGB($value); },
             'zoomScale' => function ($value) { $this->object->getSheetView()->setZoomScale($value); },
+            'freezePane' => function ($value) { $this->object->freezePane($value); },
         ];
     }
 }
