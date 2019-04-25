@@ -1,10 +1,10 @@
 services:
-    mywheels_twig_spreadsheet.add_request_formats_listener:
+    my_wheels_twig_spreadsheet.add_request_formats_listener:
         class: MyWheels\TwigSpreadsheetBundle\EventListener\AddRequestFormatsListener
         tags:
             - { name: kernel.event_subscriber }
 
-    mywheels_twig_spreadsheet.twig_spreadsheet_extension:
+    my_wheels_twig_spreadsheet.twig_spreadsheet_extension:
         class: MyWheels\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension
         public: true
         arguments: [ null ] # config placeholder

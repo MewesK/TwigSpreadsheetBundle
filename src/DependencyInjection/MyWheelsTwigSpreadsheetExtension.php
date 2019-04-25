@@ -22,7 +22,7 @@ class MyWheelsTwigSpreadsheetExtension extends ConfigurableExtension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $definition = $container->getDefinition('mywheels_twig_spreadsheet.twig_spreadsheet_extension');
+        $definition = $container->getDefinition('my_wheels_twig_spreadsheet.twig_spreadsheet_extension');
         $definition->replaceArgument(0, $mergedConfig);
     }
 }

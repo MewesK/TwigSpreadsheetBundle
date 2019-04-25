@@ -26,7 +26,7 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
         /**
          * @var TwigSpreadsheetExtension $extension
          */
-        $extension = static::$kernel->getContainer()->get('mywheels_twig_spreadsheet.twig_spreadsheet_extension');
+        $extension = static::$kernel->getContainer()->get('my_wheels_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertFalse($extension->getAttributes()['pre_calculate_formulas'], 'Unexpected attribute');
 
@@ -45,7 +45,7 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
         /**
          * @var TwigSpreadsheetExtension $extension
          */
-        $extension = static::$kernel->getContainer()->get('mywheels_twig_spreadsheet.twig_spreadsheet_extension');
+        $extension = static::$kernel->getContainer()->get('my_wheels_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertDirectoryExists($extension->getAttributes()['cache']['xml'], 'Cache directory does not exist');
     }
@@ -58,7 +58,7 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
         /**
          * @var TwigSpreadsheetExtension $extension
          */
-        $extension = static::$kernel->getContainer()->get('mywheels_twig_spreadsheet.twig_spreadsheet_extension');
+        $extension = static::$kernel->getContainer()->get('my_wheels_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertEquals(';', $extension->getAttributes()['csv_writer']['delimiter'], 'Unexpected attribute');
         static::assertEquals('\'', $extension->getAttributes()['csv_writer']['enclosure'], 'Unexpected attribute');

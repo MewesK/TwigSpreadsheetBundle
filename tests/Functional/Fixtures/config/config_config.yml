@@ -1,7 +1,7 @@
 imports:
     - { resource: config.yml }
 
-mywheels_twig_spreadsheet:
+my_wheels_twig_spreadsheet:
     pre_calculate_formulas:     false
     cache:
         xml:                    "%kernel.cache_dir%/spreadsheet/xml"

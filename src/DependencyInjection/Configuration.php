@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mywheels_twig_spreadsheet');
+        $rootNode = $treeBuilder->root('my_wheels_twig_spreadsheet');
 
         $rootNode
             ->children()

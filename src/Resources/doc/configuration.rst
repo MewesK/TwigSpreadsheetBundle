@@ -4,7 +4,7 @@ Configuration
 .. code-block:: yaml
 
     # Default configuration for "MyWheelsTwigSpreadsheetBundle"
-    mywheels_twig_spreadsheet:
+    my_wheels_twig_spreadsheet:
 
         # Disabling formula calculations can improve the performance but the resulting documents
         # won't immediately show formula results in external programs.
