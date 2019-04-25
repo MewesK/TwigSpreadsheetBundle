@@ -8,6 +8,8 @@
 
 This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.
 
+composer require mywheels/twig-spreadsheet-bundle
+
 ## Features
 
  * Easy to use Twig integration including ``macro`` and ``include`` support
