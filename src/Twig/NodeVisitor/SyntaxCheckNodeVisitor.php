@@ -1,9 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
-use MewesK\TwigSpreadsheetBundle\Twig\Node\BaseNode;
-use MewesK\TwigSpreadsheetBundle\Twig\Node\DocumentNode;
+use MyWheels\TwigSpreadsheetBundle\Twig\Node\BaseNode;
+use MyWheels\TwigSpreadsheetBundle\Twig\Node\DocumentNode;
 
 /**
  * Class SyntaxCheckNodeVisitor.
@@ -96,7 +96,7 @@ class SyntaxCheckNodeVisitor extends \Twig_BaseNodeVisitor
 
         // find first parent from this bundle
         foreach (array_reverse($this->path) as $className) {
-            if (strpos($className, 'MewesK\\TwigSpreadsheetBundle\\Twig\\Node\\') === 0) {
+            if (strpos($className, 'MyWheels\\TwigSpreadsheetBundle\\Twig\\Node\\') === 0) {
                 $parentName = $className;
                 break;
             }

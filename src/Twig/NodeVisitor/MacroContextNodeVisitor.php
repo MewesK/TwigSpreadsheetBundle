@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\NodeVisitor;
 
-use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+use MyWheels\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 
 /**
  * Class MacroContextNodeVisitor.

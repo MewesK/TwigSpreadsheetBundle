@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\Node;
 
 /**
  * Class SheetNode.

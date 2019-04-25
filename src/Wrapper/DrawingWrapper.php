@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace MyWheels\TwigSpreadsheetBundle\Wrapper;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
+use MyWheels\TwigSpreadsheetBundle\Helper\Filesystem;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
 

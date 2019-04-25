@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\TokenParser;
 
-use MewesK\TwigSpreadsheetBundle\Twig\Node\SheetNode;
+use MyWheels\TwigSpreadsheetBundle\Twig\Node\SheetNode;
 
 /**
  * Class SheetTokenParser.

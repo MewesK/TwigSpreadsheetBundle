@@ -6,7 +6,7 @@
          bootstrap="./vendor/autoload.php"
         >
     <testsuites>
-        <testsuite name="MewesKTwigSpreadsheetBundle Test Suite">
+        <testsuite name="MyWheelsTwigSpreadsheetBundle Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

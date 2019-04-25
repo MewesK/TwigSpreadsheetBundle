@@ -1,9 +1,9 @@
 {
-    "name": "mewesk/twig-spreadsheet-bundle",
+    "name": "mywheels/twig-spreadsheet-bundle",
     "type": "symfony-bundle",
     "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.",
     "keywords": ["excel","phpexcel","spreadsheet","phpspreadsheet","twig","symfony"],
-    "homepage": "https://github.com/MewesK/TwigSpreadsheetBundle",
+    "homepage": "https://github.com/MyWheels/TwigSpreadsheetBundle",
     "license": "MIT",
     "authors": [
         {
@@ -32,9 +32,9 @@
         "mpdf/mpdf": "Add support for PDF rendering, requires ~7.0"
     },
     "autoload": {
-        "psr-4": { "MewesK\\TwigSpreadsheetBundle\\": "src/" }
+        "psr-4": { "MyWheels\\TwigSpreadsheetBundle\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "MewesK\\TwigSpreadsheetBundle\\Tests\\": "tests/" }
+        "psr-4": { "MyWheels\\TwigSpreadsheetBundle\\Tests\\": "tests/" }
     }
 }

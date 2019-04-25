@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\TokenParser;
 
 /**
  * Class BaseTokenParser.

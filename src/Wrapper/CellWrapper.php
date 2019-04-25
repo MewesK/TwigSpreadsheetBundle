@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace MyWheels\TwigSpreadsheetBundle\Wrapper;
 
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;

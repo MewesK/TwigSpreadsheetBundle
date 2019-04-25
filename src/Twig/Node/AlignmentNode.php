@@ -1,8 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\Node;
 
-use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use MyWheels\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
 
 /**
  * Class AlignmentNode.

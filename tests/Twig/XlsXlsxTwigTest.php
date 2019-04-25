@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace MyWheels\TwigSpreadsheetBundle\Tests\Twig;
 
 use PhpOffice\PhpSpreadsheet\Shared\PasswordHasher;
 

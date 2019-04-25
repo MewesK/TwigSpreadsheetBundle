@@ -30,7 +30,7 @@ Step 2: Enable the Bundle
             $bundles = array(
                 // ...
 
-                new MewesK\TwigSpreadsheetBundle\MewesKTwigSpreadsheetBundle(),
+                new MyWheels\TwigSpreadsheetBundle\MyWheelsTwigSpreadsheetBundle(),
             );
 
             // ...

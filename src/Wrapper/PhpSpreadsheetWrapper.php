@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace MyWheels\TwigSpreadsheetBundle\Wrapper;
 
 /**
  * Class PhpSpreadsheetWrapper.

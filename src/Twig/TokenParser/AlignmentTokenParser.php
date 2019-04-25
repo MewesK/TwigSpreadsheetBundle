@@ -1,9 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
+namespace MyWheels\TwigSpreadsheetBundle\Twig\TokenParser;
 
-use MewesK\TwigSpreadsheetBundle\Twig\Node\AlignmentNode;
-use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use MyWheels\TwigSpreadsheetBundle\Twig\Node\AlignmentNode;
+use MyWheels\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
 
 /**
  * Class AlignmentTokenParser.

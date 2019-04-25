@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
+namespace MyWheels\TwigSpreadsheetBundle\Tests\Functional;
 
 /**
  * Class OdsXlsXlsxFunctionalTest.

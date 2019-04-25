@@ -1,6 +1,6 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle\Controller;
+namespace MyWheels\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;

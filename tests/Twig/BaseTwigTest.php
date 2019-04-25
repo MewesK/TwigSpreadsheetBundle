@@ -1,9 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace MyWheels\TwigSpreadsheetBundle\Tests\Twig;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
-use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
+use MyWheels\TwigSpreadsheetBundle\Helper\Filesystem;
+use MyWheels\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PHPUnit\Framework\TestCase;
