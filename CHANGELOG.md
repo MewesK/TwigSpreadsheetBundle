@@ -1,3 +1,7 @@
+## 1.2
+
+ * Upgrade phpoffice/phpspreadsheet from ~1.3.1 to ~1.6.0
+
 ## 1.1
 
  * Fixed issue #13 'Incorrect cache directory for images' (technetium)
