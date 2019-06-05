@@ -5,10 +5,12 @@ namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
 use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
 use MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestAppKernel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,7 +35,7 @@ abstract class BaseFunctionalTest extends WebTestCase
     /**
      * {@inheritdoc}
      *
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws IOException
      */
     public static function setUpBeforeClass()
     {
@@ -66,7 +68,7 @@ abstract class BaseFunctionalTest extends WebTestCase
     }
 
     /**
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws IOException
      */
     public function setUp()
     {
@@ -79,8 +81,8 @@ abstract class BaseFunctionalTest extends WebTestCase
      * @param array $routeParameters
      * @param string $format
      *
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws IOException
+     * @throws Exception
      *
      * @return Spreadsheet
      */
