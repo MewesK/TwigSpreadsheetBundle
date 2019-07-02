@@ -1,9 +1,15 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace Erelke\TwigSpreadsheetBundle\Wrapper;
 
+use InvalidArgumentException;
+use function is_int;
+use LogicException;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Exception;
+use RuntimeException;
+use Twig\Environment as Twig_Environment;
 
 /**
  * Class CellWrapper.
@@ -24,10 +30,10 @@ class CellWrapper extends BaseWrapper
      * CellWrapper constructor.
      *
      * @param array             $context
-     * @param \Twig_Environment $environment
+     * @param Twig_Environment $environment
      * @param SheetWrapper      $sheetWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
+    public function __construct(array $context, Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
         parent::__construct($context, $environment);
 
@@ -40,14 +46,14 @@ class CellWrapper extends BaseWrapper
      * @param int|null $index
      * @param array $properties
      *
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws LogicException
+     * @throws RuntimeException
      */
     public function start(int $index = null, array $properties = [])
     {
         if ($this->sheetWrapper->getObject() === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         if ($index === null) {
@@ -68,7 +74,7 @@ class CellWrapper extends BaseWrapper
     /**
      * @param mixed|null $value
      *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws Exception
      */
     public function value($value = null)
     {
@@ -105,11 +111,11 @@ class CellWrapper extends BaseWrapper
         $this->object = $object;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     */
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array
+	 */
     protected function configureMappings(): array
     {
         return [
@@ -131,7 +137,7 @@ class CellWrapper extends BaseWrapper
                 'type' => function ($value) { $this->object->getDataValidation()->setType($value); },
             ],
             'merge' => function ($value) {
-                if (\is_int($value)) {
+                if (is_int($value)) {
                     $value = Coordinate::stringFromColumnIndex($value).$this->sheetWrapper->getRow();
                 }
                 $this->sheetWrapper->getObject()->mergeCells(sprintf('%s:%s', $this->object->getCoordinate(), $value));

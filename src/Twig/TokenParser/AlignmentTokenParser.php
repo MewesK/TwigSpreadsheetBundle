@@ -1,9 +1,11 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\TokenParser;
+namespace Erelke\TwigSpreadsheetBundle\Twig\TokenParser;
 
-use MewesK\TwigSpreadsheetBundle\Twig\Node\AlignmentNode;
-use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use Erelke\TwigSpreadsheetBundle\Twig\Node\AlignmentNode;
+use Erelke\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use InvalidArgumentException;
+use Twig\Node\Node as Twig_Node;
 
 /**
  * Class AlignmentTokenParser.
@@ -21,7 +23,7 @@ class AlignmentTokenParser extends BaseTokenParser
      * @param array  $attributes optional attributes for the corresponding node
      * @param string $alignment
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(array $attributes = [], string $alignment = HeaderFooterWrapper::ALIGNMENT_CENTER)
     {
@@ -33,9 +35,9 @@ class AlignmentTokenParser extends BaseTokenParser
     /**
      * {@inheritdoc}
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function createNode(array $nodes = [], int $lineNo = 0): \Twig_Node
+    public function createNode(array $nodes = [], int $lineNo = 0): Twig_Node
     {
         return new AlignmentNode($nodes, $this->getAttributes(), $lineNo, $this->getTag(), $this->alignment);
     }

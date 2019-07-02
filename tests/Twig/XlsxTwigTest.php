@@ -1,6 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Twig;
+
+use Exception;
 
 /**
  * Class XlsxTwigTest.
@@ -22,7 +24,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -31,6 +33,7 @@ class XlsxTwigTest extends BaseTwigTest
         $document = $this->getDocument('cellProperties', $format);
         $sheet = $document->getSheetByName('Test');
         $cell = $sheet->getCell('A1');
+        print_r($cell->getValue());
         $dataValidation = $cell->getDataValidation();
 
         static::assertTrue($dataValidation->getAllowBlank(), 'Unexpected value in allowBlank');
@@ -56,7 +59,7 @@ class XlsxTwigTest extends BaseTwigTest
      *
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -72,7 +75,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -114,7 +117,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -149,7 +152,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -180,7 +183,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -220,7 +223,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -249,7 +252,7 @@ class XlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */

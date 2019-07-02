@@ -1,8 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
+namespace Erelke\TwigSpreadsheetBundle\Twig\Node;
 
-use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+use Erelke\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+use Twig\Compiler as Twig_Compiler;
 
 /**
  * Class DocumentNode.
@@ -10,9 +11,9 @@ use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
 class DocumentNode extends BaseNode
 {
     /**
-     * @param \Twig_Compiler $compiler
+     * @param Twig_Compiler $compiler
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
             ->write("ob_start();\n")

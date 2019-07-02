@@ -1,7 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Twig;
 
+use DateTime;
+use Exception;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
@@ -24,7 +26,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -45,7 +47,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -66,7 +68,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -87,7 +89,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -108,7 +110,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -129,7 +131,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -153,7 +155,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -183,7 +185,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -235,7 +237,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -282,7 +284,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
      *
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -303,9 +305,18 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
         static::assertNotNull($defaultStyle, 'DefaultStyle does not exist');
 
         static::assertEquals('Test description', $properties->getDescription(), 'Unexpected value in description');
-        // +/- 24h range to allow possible timezone differences (946684800)
-        static::assertGreaterThanOrEqual(946598400, $properties->getModified(), 'Unexpected value in modified');
-        static::assertLessThanOrEqual(946771200, $properties->getModified(), 'Unexpected value in modified');
+
+        if ($format === 'ods') {
+	        // +/- 60s range
+	        $now = new DateTime();
+	        $timestamp = $now->getTimestamp();
+	        static::assertGreaterThanOrEqual($timestamp - 60, $properties->getModified(), 'Unexpected value in modified');
+	        static::assertLessThanOrEqual($timestamp + 60, $properties->getModified(), 'Unexpected value in modified');
+        } else {
+	        // +/- 24h range to allow possible timezone differences (946684800)
+	        static::assertGreaterThanOrEqual(946598400, $properties->getModified(), 'Unexpected value in modified');
+	        static::assertLessThanOrEqual(946771200, $properties->getModified(), 'Unexpected value in modified');
+        }
 
         $security = $document->getSecurity();
         static::assertNotNull($security, 'Security does not exist');
@@ -317,7 +328,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -338,7 +349,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -365,7 +376,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -398,7 +409,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -427,7 +438,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -445,7 +456,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -486,7 +497,7 @@ class OdsXlsXlsxTwigTest extends BaseTwigTest
      *
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */

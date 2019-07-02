@@ -5,3 +5,4 @@
 /composer.lock
 /phpunit.coverage.xml
 /phpunit.xml
+/.idea

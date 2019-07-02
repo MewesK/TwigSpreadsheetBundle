@@ -1,7 +1,7 @@
 imports:
     - { resource: config.yml }
 
-mewes_k_twig_spreadsheet:
+erelke_twig_spreadsheet:
     pre_calculate_formulas:     false
     cache:
         xml:                    "%kernel.cache_dir%/spreadsheet/xml"

@@ -1,10 +1,16 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace Erelke\TwigSpreadsheetBundle\Wrapper;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
+use Erelke\TwigSpreadsheetBundle\Helper\Filesystem;
+use InvalidArgumentException;
+use LogicException;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooterDrawing;
+use RuntimeException;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Twig\Environment as Twig_Environment;
 
 /**
  * Class DrawingWrapper.
@@ -33,12 +39,12 @@ class DrawingWrapper extends BaseWrapper
      * DrawingWrapper constructor.
      *
      * @param array               $context
-     * @param \Twig_Environment   $environment
+     * @param Twig_Environment   $environment
      * @param SheetWrapper        $sheetWrapper
      * @param HeaderFooterWrapper $headerFooterWrapper
      * @param array             $attributes
      */
-    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper, HeaderFooterWrapper $headerFooterWrapper, array $attributes = [])
+    public function __construct(array $context, Twig_Environment $environment, SheetWrapper $sheetWrapper, HeaderFooterWrapper $headerFooterWrapper, array $attributes = [])
     {
         parent::__construct($context, $environment);
 
@@ -53,16 +59,16 @@ class DrawingWrapper extends BaseWrapper
      * @param string $path
      * @param array $properties
      *
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
-     * @throws \LogicException
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws IOException
+     * @throws LogicException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws Exception
      */
     public function start(string $path, array $properties = [])
     {
         if ($this->sheetWrapper->getObject() === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         // create local copy of the asset
@@ -88,7 +94,7 @@ class DrawingWrapper extends BaseWrapper
                     $headerFooterParameters['value'][HeaderFooterWrapper::ALIGNMENT_RIGHT] .= '&G';
                     break;
                 default:
-                    throw new \InvalidArgumentException(sprintf('Unknown alignment type "%s"', $alignment));
+                    throw new InvalidArgumentException(sprintf('Unknown alignment type "%s"', $alignment));
             }
 
             $location .= $headerFooterParameters['baseType'] === HeaderFooterWrapper::BASETYPE_HEADER ? 'H' : 'F';
@@ -161,8 +167,8 @@ class DrawingWrapper extends BaseWrapper
     /**
      * @param string $path
      *
-     * @throws \InvalidArgumentException
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws InvalidArgumentException
+     * @throws IOException
      *
      * @return string
      */
@@ -176,7 +182,7 @@ class DrawingWrapper extends BaseWrapper
         if (!Filesystem::exists($tempPath)) {
             $data = file_get_contents($path);
             if ($data === false) {
-                throw new \InvalidArgumentException($path.' does not exist.');
+                throw new InvalidArgumentException($path.' does not exist.');
             }
             Filesystem::dumpFile($tempPath, $data);
             unset($data);

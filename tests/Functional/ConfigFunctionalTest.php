@@ -1,8 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Functional;
 
-use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
+use Erelke\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
+use Exception;
 
 /**
  * Class ConfigFunctionalTest.
@@ -19,14 +20,14 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
     //
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testPreCalculateFormulas()
     {
         /**
          * @var TwigSpreadsheetExtension $extension
          */
-        $extension = static::$kernel->getContainer()->get('mewes_k_twig_spreadsheet.twig_spreadsheet_extension');
+        $extension = static::$kernel->getContainer()->get('erelke_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertFalse($extension->getAttributes()['pre_calculate_formulas'], 'Unexpected attribute');
 
@@ -34,31 +35,31 @@ class ConfigFunctionalTest extends OdsXlsXlsxFunctionalTest
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testXmlCacheDirectory()
     {
         // make request to fill the disk cache
-        $response = $this->getResponse('test_default', ['templateName' => 'simple']);
+        $response = $this->_getResponse('test_default', ['templateName' => 'simple']);
         static::assertNotNull($response, 'Response does not exist');
 
         /**
          * @var TwigSpreadsheetExtension $extension
          */
-        $extension = static::$kernel->getContainer()->get('mewes_k_twig_spreadsheet.twig_spreadsheet_extension');
+        $extension = static::$kernel->getContainer()->get('erelke_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertDirectoryExists($extension->getAttributes()['cache']['xml'], 'Cache directory does not exist');
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCsvWriterAttributes()
     {
         /**
          * @var TwigSpreadsheetExtension $extension
          */
-        $extension = static::$kernel->getContainer()->get('mewes_k_twig_spreadsheet.twig_spreadsheet_extension');
+        $extension = static::$kernel->getContainer()->get('erelke_twig_spreadsheet.twig_spreadsheet_extension');
 
         static::assertEquals(';', $extension->getAttributes()['csv_writer']['delimiter'], 'Unexpected attribute');
         static::assertEquals('\'', $extension->getAttributes()['csv_writer']['enclosure'], 'Unexpected attribute');

@@ -1,28 +1,29 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\DependencyInjection;
+namespace Erelke\TwigSpreadsheetBundle\DependencyInjection;
 
+use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 /**
- * Class MewesKTwigSpreadsheetExtension.
+ * Class ErelkeTwigSpreadsheetExtension.
  */
-class MewesKTwigSpreadsheetExtension extends ConfigurableExtension
+class ErelkeTwigSpreadsheetExtension extends ConfigurableExtension
 {
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $definition = $container->getDefinition('mewes_k_twig_spreadsheet.twig_spreadsheet_extension');
+        $definition = $container->getDefinition('erelke_twig_spreadsheet.twig_spreadsheet_extension');
         $definition->replaceArgument(0, $mergedConfig);
     }
 }

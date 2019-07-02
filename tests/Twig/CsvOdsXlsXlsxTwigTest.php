@@ -1,6 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Twig;
+
+use Exception;
 
 /**
  * Class CsvOdsXlsXlsxTwigTest.
@@ -22,7 +24,7 @@ class CsvOdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -43,7 +45,7 @@ class CsvOdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -64,7 +66,7 @@ class CsvOdsXlsXlsxTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */

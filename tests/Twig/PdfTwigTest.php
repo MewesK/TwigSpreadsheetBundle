@@ -1,6 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Twig;
+
+use Exception;
 
 /**
  * Class PdfTwigTest.
@@ -22,12 +24,14 @@ class PdfTwigTest extends BaseTwigTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
     public function testBasic($format)
     {
+    	$this->markTestSkipped('We don\'t use pdf, now...');
+
         $path = $this->getDocument('cellProperties', $format);
 
         static::assertFileExists($path, 'File does not exist');

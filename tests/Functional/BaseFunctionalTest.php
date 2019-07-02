@@ -1,9 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Functional;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
-use MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestAppKernel;
+use Erelke\TwigSpreadsheetBundle\Helper\Filesystem;
+use Erelke\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestAppKernel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -89,7 +89,7 @@ abstract class BaseFunctionalTest extends WebTestCase
     protected function getDocument(string $routeName, array $routeParameters = [], string $format = 'xlsx'): Spreadsheet
     {
         // create document content
-        $content = $this->getResponse($routeName, $routeParameters)->getContent();
+        $content = $this->_getResponse($routeName, $routeParameters)->getContent();
 
         // create path for temp file
         $format = strtolower($format);
@@ -108,7 +108,7 @@ abstract class BaseFunctionalTest extends WebTestCase
      *
      * @return Response
      */
-    protected function getResponse(string $routeName, array $routeParameters = []): Response
+    protected function _getResponse(string $routeName, array $routeParameters = []): Response
     {
         /**
          * @var Router $router

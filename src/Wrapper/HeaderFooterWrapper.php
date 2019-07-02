@@ -1,8 +1,13 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace Erelke\TwigSpreadsheetBundle\Wrapper;
 
+use function in_array;
+use InvalidArgumentException;
+use LogicException;
 use PhpOffice\PhpSpreadsheet\Worksheet\HeaderFooter;
+use RuntimeException;
+use twig\Environment as Twig_Environment;
 
 /**
  * Class HeaderFooterWrapper.
@@ -38,10 +43,10 @@ class HeaderFooterWrapper extends BaseWrapper
      * HeaderFooterWrapper constructor.
      *
      * @param array             $context
-     * @param \Twig_Environment $environment
+     * @param Twig_Environment $environment
      * @param SheetWrapper      $sheetWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
+    public function __construct(array $context, Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
         parent::__construct($context, $environment);
 
@@ -54,14 +59,14 @@ class HeaderFooterWrapper extends BaseWrapper
     /**
      * @param string $alignment
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return string
      */
     public static function validateAlignment(string $alignment): string
     {
-        if (!\in_array($alignment, [self::ALIGNMENT_CENTER, self::ALIGNMENT_LEFT, self::ALIGNMENT_RIGHT], true)) {
-            throw new \InvalidArgumentException(sprintf('Unknown alignment "%s"', $alignment));
+        if (!in_array($alignment, [self::ALIGNMENT_CENTER, self::ALIGNMENT_LEFT, self::ALIGNMENT_RIGHT], true)) {
+            throw new InvalidArgumentException(sprintf('Unknown alignment "%s"', $alignment));
         }
 
         return $alignment;
@@ -70,14 +75,14 @@ class HeaderFooterWrapper extends BaseWrapper
     /**
      * @param string $baseType
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return string
      */
     public static function validateBaseType(string $baseType): string
     {
-        if (!\in_array($baseType, [self::BASETYPE_FOOTER, self::BASETYPE_HEADER], true)) {
-            throw new \InvalidArgumentException(sprintf('Unknown base type "%s"', $baseType));
+        if (!in_array($baseType, [self::BASETYPE_FOOTER, self::BASETYPE_HEADER], true)) {
+            throw new InvalidArgumentException(sprintf('Unknown base type "%s"', $baseType));
         }
 
         return $baseType;
@@ -88,21 +93,21 @@ class HeaderFooterWrapper extends BaseWrapper
      * @param string|null $type
      * @param array       $properties
      *
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws LogicException
+     * @throws RuntimeException
      */
     public function start(string $baseType, string $type = null, array $properties = [])
     {
         if ($this->sheetWrapper->getObject() === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         if ($type !== null) {
             $type = strtolower($type);
 
-            if (!\in_array($type, [self::TYPE_EVEN, self::TYPE_FIRST, self::TYPE_ODD], true)) {
-                throw new \InvalidArgumentException(sprintf('Unknown type "%s"', $type));
+            if (!in_array($type, [self::TYPE_EVEN, self::TYPE_FIRST, self::TYPE_ODD], true)) {
+                throw new InvalidArgumentException(sprintf('Unknown type "%s"', $type));
             }
         }
 
@@ -116,13 +121,13 @@ class HeaderFooterWrapper extends BaseWrapper
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
+     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function end()
     {
         if ($this->object === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         $value = implode('', $this->parameters['value']);
@@ -173,13 +178,13 @@ class HeaderFooterWrapper extends BaseWrapper
      * @param string $alignment
      * @param array  $properties
      *
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
+     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function startAlignment(string $alignment, array $properties = [])
     {
         if ($this->object === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         $alignment = self::validateAlignment(strtolower($alignment));
@@ -203,13 +208,13 @@ class HeaderFooterWrapper extends BaseWrapper
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException
-     * @throws \LogicException
+     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function endAlignment($value)
     {
         if ($this->object === null || !isset($this->alignmentParameters['type'])) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         if (strpos($this->parameters['value'][$this->alignmentParameters['type']], '&G') === false) {

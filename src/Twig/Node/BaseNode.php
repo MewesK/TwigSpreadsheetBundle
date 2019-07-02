@@ -1,13 +1,14 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
+namespace Erelke\TwigSpreadsheetBundle\Twig\Node;
 
-use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+use Erelke\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+use Twig\Node\Node as Twig_Node;
 
 /**
  * Class BaseNode.
  */
-abstract class BaseNode extends \Twig_Node
+abstract class BaseNode extends Twig_Node
 {
     /**
      * @var string

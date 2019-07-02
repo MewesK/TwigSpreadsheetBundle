@@ -3,8 +3,8 @@ Configuration
 
 .. code-block:: yaml
 
-    # Default configuration for "MewesKTwigSpreadsheetBundle"
-    mewes_k_twig_spreadsheet:
+    # Default configuration for "ErelkeTwigSpreadsheetBundle"
+    erelke_twig_spreadsheet:
 
         # Disabling formula calculations can improve the performance but the resulting documents
         # won't immediately show formula results in external programs.

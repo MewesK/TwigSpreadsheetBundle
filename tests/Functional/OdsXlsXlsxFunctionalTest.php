@@ -1,6 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Functional;
+
+use Exception;
 
 /**
  * Class OdsXlsXlsxFunctionalTest.
@@ -27,7 +29,7 @@ class OdsXlsXlsxFunctionalTest extends BaseFunctionalTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -49,13 +51,13 @@ class OdsXlsXlsxFunctionalTest extends BaseFunctionalTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
     public function testCustomResponse($format)
     {
-        $response = $this->getResponse('test_custom_response', ['templateName' => 'simple', '_format' => $format]);
+        $response = $this->_getResponse('test_custom_response', ['templateName' => 'simple', '_format' => $format]);
 
         static::assertNotNull($response, 'Response does not exist');
         static::assertContains('foobar.bin', $response->headers->get('Content-Disposition'), 'Unexpected or missing header "Content-Disposition"');
@@ -65,7 +67,7 @@ class OdsXlsXlsxFunctionalTest extends BaseFunctionalTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */
@@ -86,7 +88,7 @@ class OdsXlsXlsxFunctionalTest extends BaseFunctionalTest
     /**
      * @param string $format
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @dataProvider formatProvider
      */

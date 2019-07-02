@@ -1,6 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace Erelke\TwigSpreadsheetBundle\Wrapper;
+
+use LogicException;
+use Twig\Environment as Twig_Environment;
 
 /**
  * Class SheetWrapper.
@@ -16,10 +19,10 @@ class RowWrapper extends BaseWrapper
      * RowWrapper constructor.
      *
      * @param array             $context
-     * @param \Twig_Environment $environment
+     * @param Twig_Environment $environment
      * @param SheetWrapper      $sheetWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, SheetWrapper $sheetWrapper)
+    public function __construct(array $context, Twig_Environment $environment, SheetWrapper $sheetWrapper)
     {
         parent::__construct($context, $environment);
 
@@ -29,12 +32,12 @@ class RowWrapper extends BaseWrapper
     /**
      * @param null|int $index
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function start(int $index = null)
     {
         if ($this->sheetWrapper->getObject() === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         if ($index === null) {
@@ -45,12 +48,12 @@ class RowWrapper extends BaseWrapper
     }
 
     /**
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function end()
     {
         if ($this->sheetWrapper->getObject() === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         $this->sheetWrapper->setColumn(null);

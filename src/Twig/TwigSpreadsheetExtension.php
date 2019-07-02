@@ -1,25 +1,29 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig;
+namespace Erelke\TwigSpreadsheetBundle\Twig;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Arrays;
-use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\MacroContextNodeVisitor;
-use MewesK\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\AlignmentTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\CellTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\DocumentTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\DrawingTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\HeaderFooterTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\RowTokenParser;
-use MewesK\TwigSpreadsheetBundle\Twig\TokenParser\SheetTokenParser;
-use MewesK\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
-use MewesK\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
-
+use Erelke\TwigSpreadsheetBundle\Helper\Arrays;
+use Erelke\TwigSpreadsheetBundle\Twig\NodeVisitor\MacroContextNodeVisitor;
+use Erelke\TwigSpreadsheetBundle\Twig\NodeVisitor\SyntaxCheckNodeVisitor;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\AlignmentTokenParser;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\CellTokenParser;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\DocumentTokenParser;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\DrawingTokenParser;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\HeaderFooterTokenParser;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\RowTokenParser;
+use Erelke\TwigSpreadsheetBundle\Twig\TokenParser\SheetTokenParser;
+use Erelke\TwigSpreadsheetBundle\Wrapper\HeaderFooterWrapper;
+use Erelke\TwigSpreadsheetBundle\Wrapper\PhpSpreadsheetWrapper;
+use InvalidArgumentException;
+use function is_array;
+use Twig\Error\RuntimeError as Twig_Error_Runtime;
+use Twig\Extension\AbstractExtension as Twig_Extension;
+use Twig\TwigFunction as Twig_SimpleFunction;
 
 /**
  * Class TwigSpreadsheetExtension.
  */
-class TwigSpreadsheetExtension extends \Twig_Extension
+class TwigSpreadsheetExtension extends Twig_Extension
 {
     /**
      * @var array
@@ -50,16 +54,16 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles']),
-            new \Twig_SimpleFunction('xlscellindex', [$this, 'getCurrentColumn'], ['needs_context' => true]),
-            new \Twig_SimpleFunction('xlsrowindex', [$this, 'getCurrentRow'], ['needs_context' => true]),
+            new Twig_SimpleFunction('xlsmergestyles', [$this, 'mergeStyles']),
+            new Twig_SimpleFunction('xlscellindex', [$this, 'getCurrentColumn'], ['needs_context' => true]),
+            new Twig_SimpleFunction('xlsrowindex', [$this, 'getCurrentRow'], ['needs_context' => true]),
         ];
     }
 
     /**
      * {@inheritdoc}
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getTokenParsers()
     {
@@ -92,14 +96,14 @@ class TwigSpreadsheetExtension extends \Twig_Extension
      * @param array $style1
      * @param array $style2
      *
-     * @throws \Twig_Error_Runtime
+     * @throws Twig_Error_Runtime
      *
      * @return array
      */
     public function mergeStyles(array $style1, array $style2): array
     {
-        if (!\is_array($style1) || !\is_array($style2)) {
-            throw new \Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
+        if (!is_array($style1) || !is_array($style2)) {
+            throw new Twig_Error_Runtime('The xlsmergestyles function only works with arrays.');
         }
         return Arrays::mergeRecursive($style1, $style2);
     }
@@ -107,13 +111,13 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     /**
      * @param array $context
      *
-     * @throws \Twig_Error_Runtime
+     * @throws Twig_Error_Runtime
      *
      * @return int|null
      */
     public function getCurrentColumn(array $context) {
         if (!isset($context[PhpSpreadsheetWrapper::INSTANCE_KEY])) {
-            throw new \Twig_Error_Runtime('The PhpSpreadsheetWrapper instance is missing.');
+            throw new Twig_Error_Runtime('The PhpSpreadsheetWrapper instance is missing.');
         }
         return $context[PhpSpreadsheetWrapper::INSTANCE_KEY]->getCurrentColumn();
     }
@@ -121,13 +125,13 @@ class TwigSpreadsheetExtension extends \Twig_Extension
     /**
      * @param array $context
      *
-     * @throws \Twig_Error_Runtime
+     * @throws Twig_Error_Runtime
      *
      * @return int|null
      */
     public function getCurrentRow(array $context) {
         if (!isset($context[PhpSpreadsheetWrapper::INSTANCE_KEY])) {
-            throw new \Twig_Error_Runtime('The PhpSpreadsheetWrapper instance is missing.');
+            throw new Twig_Error_Runtime('The PhpSpreadsheetWrapper instance is missing.');
         }
         return $context[PhpSpreadsheetWrapper::INSTANCE_KEY]->getCurrentRow();
     }

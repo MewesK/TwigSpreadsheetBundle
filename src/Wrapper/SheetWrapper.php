@@ -1,11 +1,17 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace Erelke\TwigSpreadsheetBundle\Wrapper;
 
+use function is_array;
+use function is_int;
+use function is_string;
+use LogicException;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\ColumnDimension;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowDimension;
+use RuntimeException;
+use Twig\Environment as Twig_Environment;
 
 /**
  * Class SheetWrapper.
@@ -43,10 +49,10 @@ class SheetWrapper extends BaseWrapper
      * SheetWrapper constructor.
      *
      * @param array             $context
-     * @param \Twig_Environment $environment
+     * @param Twig_Environment $environment
      * @param DocumentWrapper   $documentWrapper
      */
-    public function __construct(array $context, \Twig_Environment $environment, DocumentWrapper $documentWrapper)
+    public function __construct(array $context, Twig_Environment $environment, DocumentWrapper $documentWrapper)
     {
         parent::__construct($context, $environment);
 
@@ -61,19 +67,19 @@ class SheetWrapper extends BaseWrapper
      * @param int|string|null $index
      * @param array $properties
      *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \RuntimeException
-     * @throws \LogicException
+     * @throws Exception
+     * @throws RuntimeException
+     * @throws LogicException
      */
     public function start($index, array $properties = [])
     {
         if ($this->documentWrapper->getObject() === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
-        if (\is_int($index) && $index < $this->documentWrapper->getObject()->getSheetCount()) {
+        if (is_int($index) && $index < $this->documentWrapper->getObject()->getSheetCount()) {
             $this->object = $this->documentWrapper->getObject()->setActiveSheetIndex($index);
-        } elseif (\is_string($index)) {
+        } elseif (is_string($index)) {
             if (!$this->documentWrapper->getObject()->sheetNameExists($index)) {
                 // create new sheet with a name
                 $this->documentWrapper->getObject()->createSheet()->setTitle($index);
@@ -93,18 +99,18 @@ class SheetWrapper extends BaseWrapper
 
     /**
      * @throws \Exception
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function end()
     {
         if ($this->object === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         // auto-size columns
         if (
             isset($this->parameters['properties']['columnDimension']) &&
-            \is_array($this->parameters['properties']['columnDimension'])
+            is_array($this->parameters['properties']['columnDimension'])
         ) {
             /**
              * @var array $columnDimension
@@ -194,11 +200,11 @@ class SheetWrapper extends BaseWrapper
         $this->column = $column;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     */
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array
+	 */
     protected function configureMappings(): array
     {
         return [

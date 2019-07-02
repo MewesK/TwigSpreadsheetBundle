@@ -1,15 +1,24 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Wrapper;
+namespace Erelke\TwigSpreadsheetBundle\Wrapper;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
+use Erelke\TwigSpreadsheetBundle\Helper\Filesystem;
+use InvalidArgumentException;
+use function is_string;
+use LogicException;
 use PhpOffice\PhpSpreadsheet\Exception;
+use \PhpOffice\PhpSpreadsheet\Reader\Exception as Reader_Exception;
+use \PhpOffice\PhpSpreadsheet\Writer\Exception as Writer_Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\BaseWriter;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+use RuntimeException;
 use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Twig\Environment as Twig_Environment;
+use Twig\Loader\FilesystemLoader as Twig_Loader_Filesystem;
 
 /**
  * Class DocumentWrapper.
@@ -29,10 +38,10 @@ class DocumentWrapper extends BaseWrapper
      * DocumentWrapper constructor.
      *
      * @param array             $context
-     * @param \Twig_Environment $environment
+     * @param Twig_Environment $environment
      * @param array             $attributes
      */
-    public function __construct(array $context, \Twig_Environment $environment, array $attributes = [])
+    public function __construct(array $context, Twig_Environment $environment, array $attributes = [])
     {
         parent::__construct($context, $environment);
 
@@ -43,9 +52,9 @@ class DocumentWrapper extends BaseWrapper
     /**
      * @param array $properties
      *
-     * @throws \RuntimeException
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws RuntimeException
+     * @throws Reader_Exception
+     * @throws Exception
      */
     public function start(array $properties = [])
     {
@@ -68,17 +77,17 @@ class DocumentWrapper extends BaseWrapper
     }
 
     /**
-     * @throws \LogicException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws LogicException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws Writer_Exception
+     * @throws IOException
      */
     public function end()
     {
         if ($this->object === null) {
-            throw new \LogicException();
+            throw new LogicException();
         }
 
         $format = null;
@@ -100,7 +109,7 @@ class DocumentWrapper extends BaseWrapper
         }
 
         // set default
-        if ($format === null || !\is_string($format)) {
+        if ($format === null || !is_string($format)) {
             $format = 'xlsx';
         } else {
             $format = strtolower($format);
@@ -109,7 +118,7 @@ class DocumentWrapper extends BaseWrapper
         // set up mPDF
         if ($format === 'pdf') {
             if (!class_exists('\Mpdf\Mpdf')) {
-                throw new \RuntimeException('Error loading mPDF. Is mPDF correctly installed?');
+                throw new RuntimeException('Error loading mPDF. Is mPDF correctly installed?');
             }
             IOFactory::registerWriter('Pdf', Mpdf::class);
         }
@@ -162,11 +171,11 @@ class DocumentWrapper extends BaseWrapper
         $this->object = $object;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     */
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array
+	 */
     protected function configureMappings(): array
     {
         return [
@@ -207,9 +216,9 @@ class DocumentWrapper extends BaseWrapper
     {
         $loader = $this->environment->getLoader();
 
-        if ($loader instanceof \Twig_Loader_Filesystem && mb_strpos($path, '@') === 0) {
+        if ($loader instanceof Twig_Loader_Filesystem && mb_strpos($path, '@') === 0) {
             /*
-             * @var \Twig_Loader_Filesystem
+             * @var Twig_Loader_Filesystem
              */
             foreach ($loader->getNamespaces() as $namespace) {
                 if (mb_strpos($path, $namespace) === 1) {

@@ -1,15 +1,21 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Twig;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Twig;
 
-use MewesK\TwigSpreadsheetBundle\Helper\Filesystem;
-use MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
+use Erelke\TwigSpreadsheetBundle\Helper\Filesystem;
+use Erelke\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Error\LoaderError as Twig_Error_Loader;
+use Twig\Environment as Twig_Environment;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Loader\FilesystemLoader as Twig_Loader_Filesystem;
 
 /**
  * Class BaseTwigTest.
@@ -22,14 +28,14 @@ abstract class BaseTwigTest extends TestCase
     const TEMPLATE_PATH = './Fixtures/templates';
 
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     protected static $environment;
 
     /**
      * {@inheritdoc}
      *
-     * @throws \Twig_Error_Loader
+     * @throws Twig_Error_Loader
      */
     public static function setUpBeforeClass()
     {
@@ -40,10 +46,10 @@ abstract class BaseTwigTest extends TestCase
         Filesystem::remove(sprintf('%s/%s/%s', __DIR__, static::RESULT_PATH, str_replace('\\', DIRECTORY_SEPARATOR, static::class)));
 
         // set up Twig environment
-        $twigFileSystem = new \Twig_Loader_Filesystem([sprintf('%s/%s', __DIR__, static::RESOURCE_PATH)]);
+        $twigFileSystem = new Twig_Loader_Filesystem([sprintf('%s/%s', __DIR__, static::RESOURCE_PATH)]);
         $twigFileSystem->addPath(sprintf('%s/%s', __DIR__, static::TEMPLATE_PATH), 'templates');
 
-        static::$environment = new \Twig_Environment($twigFileSystem, ['debug' => true, 'strict_variables' => true]);
+        static::$environment = new Twig_Environment($twigFileSystem, ['debug' => true, 'strict_variables' => true]);
         static::$environment->addExtension(new TwigSpreadsheetExtension([
             'pre_calculate_formulas' => true,
             'cache' => [
@@ -63,18 +69,16 @@ abstract class BaseTwigTest extends TestCase
         static::$environment->setCache($cachePath.'/twig');
     }
 
-    /**
-     * @param string $templateName
-     * @param string $format
-     *
-     * @throws \Twig_Error_Syntax
-     * @throws \Twig_Error_Loader
-     * @throws \Symfony\Component\Filesystem\Exception\IOException
-     *
-     * @return Spreadsheet|string
-     * @throws \Twig_Error_Runtime
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     */
+	/**
+	 * @param string $templateName
+	 * @param string $format
+	 *
+	 * @return Spreadsheet|string
+	 * @throws Exception
+	 * @throws Twig_Error_Loader
+	 * @throws RuntimeError
+	 * @throws SyntaxError
+	 */
     protected function getDocument($templateName, $format)
     {
         $format = strtolower($format);

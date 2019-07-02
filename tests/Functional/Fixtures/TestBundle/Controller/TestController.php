@@ -1,8 +1,9 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle\Controller;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use InvalidArgumentException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,7 @@ class TestController extends Controller
     /**
      * @param $templateName
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/default/{templateName}.{_format}", name="test_default", defaults={"templateName" = "simple", "_format" = "xlsx"})
      */
@@ -54,11 +55,11 @@ class TestController extends Controller
     /**
      * @param $templateName
      *
-     * @throws \InvalidArgumentException
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/custom-response/{templateName}.{_format}", name="test_custom_response", defaults={"templateName" = "simple", "_format" = "xlsx"})
+     *@throws InvalidArgumentException
+     *
      */
     public function customResponseAction($templateName): Response
     {

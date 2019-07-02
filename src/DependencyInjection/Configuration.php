@@ -1,7 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\DependencyInjection;
+namespace Erelke\TwigSpreadsheetBundle\DependencyInjection;
 
+use RuntimeException;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -13,12 +14,12 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mewes_k_twig_spreadsheet');
+	    $treeBuilder = new TreeBuilder('erelke_twig_spreadsheet');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()

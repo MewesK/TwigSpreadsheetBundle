@@ -1,11 +1,11 @@
 services:
-    mewes_k_twig_spreadsheet.add_request_formats_listener:
-        class: MewesK\TwigSpreadsheetBundle\EventListener\AddRequestFormatsListener
+    erelke_twig_spreadsheet.add_request_formats_listener:
+        class: Erelke\TwigSpreadsheetBundle\EventListener\AddRequestFormatsListener
         tags:
             - { name: kernel.event_subscriber }
 
-    mewes_k_twig_spreadsheet.twig_spreadsheet_extension:
-        class: MewesK\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension
+    erelke_twig_spreadsheet.twig_spreadsheet_extension:
+        class: Erelke\TwigSpreadsheetBundle\Twig\TwigSpreadsheetExtension
         public: true
         arguments: [ null ] # config placeholder
         tags:

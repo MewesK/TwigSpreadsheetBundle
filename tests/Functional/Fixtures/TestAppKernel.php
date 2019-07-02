@@ -1,7 +1,13 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures;
+namespace Erelke\TwigSpreadsheetBundle\Tests\Functional\Fixtures;
 
+use Erelke\TwigSpreadsheetBundle\ErelkeTwigSpreadsheetBundle;
+use Erelke\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle\TestBundle;
+use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -26,18 +32,18 @@ class TestAppKernel extends Kernel
     public function registerBundles()
     {
         return [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\TwigBundle\TwigBundle(),
-            new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new \MewesK\TwigSpreadsheetBundle\MewesKTwigSpreadsheetBundle(),
-            new \MewesK\TwigSpreadsheetBundle\Tests\Functional\Fixtures\TestBundle\TestBundle(),
+            new FrameworkBundle(),
+	        new TwigBundle(),
+	        new SensioFrameworkExtraBundle(),
+	        new ErelkeTwigSpreadsheetBundle(),
+	        new TestBundle(),
         ];
     }
 
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

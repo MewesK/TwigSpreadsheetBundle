@@ -1,6 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Helper;
+namespace Erelke\TwigSpreadsheetBundle\Helper;
+
+use function is_array;
 
 /**
  * Class Arrays.
@@ -19,7 +21,7 @@ class Arrays
     public static function mergeRecursive(array &$array1, array &$array2): array
     {
         foreach ($array2 as $key => &$value) {
-            $array1[$key] = \is_array($value) && isset($array1[$key]) && \is_array($array1[$key]) ?
+            $array1[$key] = is_array($value) && isset($array1[$key]) && is_array($array1[$key]) ?
                 self::mergeRecursive($array1[$key], $value) :
                 $value;
         }

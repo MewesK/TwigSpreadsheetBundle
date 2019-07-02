@@ -1,6 +1,8 @@
 <?php
 
-namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
+namespace Erelke\TwigSpreadsheetBundle\Twig\Node;
+
+use Twig\Compiler as Twig_Compiler;
 
 /**
  * Class RowNode.
@@ -8,9 +10,9 @@ namespace MewesK\TwigSpreadsheetBundle\Twig\Node;
 class RowNode extends BaseNode
 {
     /**
-     * @param \Twig_Compiler $compiler
+     * @param Twig_Compiler $compiler
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)
             ->write(self::CODE_FIX_CONTEXT)
