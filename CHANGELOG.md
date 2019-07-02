@@ -1,3 +1,9 @@
+## 1.3
+* Improve test
+* Update namespace
+* fix deprecations
+* Update to phpspreadsheet 1.8.1
+
 ## 1.1
 
  * Fixed issue #13 'Incorrect cache directory for images' (technetium)
