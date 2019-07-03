@@ -5,6 +5,7 @@ namespace Erelke\TwigSpreadsheetBundle\DependencyInjection;
 use RuntimeException;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Class Configuration.
@@ -18,8 +19,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-	    $treeBuilder = new TreeBuilder('erelke_twig_spreadsheet');
-        $rootNode = $treeBuilder->getRootNode();
+    	if (version_compare(Kernel::VERSION, '4.3.0', '>=')) {
+		    $treeBuilder = new TreeBuilder('erelke_twig_spreadsheet');
+		    $rootNode = $treeBuilder->getRootNode();
+	    } else {
+		    $treeBuilder = new TreeBuilder();
+		    $rootNode = $treeBuilder->root('erelke_twig_spreadsheet');
+	    }
 
         $rootNode
             ->children()

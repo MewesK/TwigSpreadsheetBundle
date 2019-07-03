@@ -33,7 +33,6 @@ class XlsxTwigTest extends BaseTwigTest
         $document = $this->getDocument('cellProperties', $format);
         $sheet = $document->getSheetByName('Test');
         $cell = $sheet->getCell('A1');
-        print_r($cell->getValue());
         $dataValidation = $cell->getDataValidation();
 
         static::assertTrue($dataValidation->getAllowBlank(), 'Unexpected value in allowBlank');
