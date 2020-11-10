@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mewes_k_twig_spreadsheet');
+        $treeBuilder = new TreeBuilder('mewes_k_twig_spreadsheet');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
