@@ -1,5 +1,5 @@
 {
-    "name": "erelke/twig-spreadsheet-bundle",
+    "name": "gerben/twig-spreadsheet-bundle",
     "type": "symfony-bundle",
     "description": "This Symfony bundle integrates PhpSpreadsheet into Symfony using Twig.",
     "keywords": ["excel","phpexcel","spreadsheet","phpspreadsheet","twig","symfony"],
@@ -7,8 +7,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Elemér Erőss",
-            "email": "eross@korona.info.hu"
+            "name": "Gerben Bol",
+            "email": "contact@gerbenbol.com"
         },
         {
             "name": "Community Contributors",
