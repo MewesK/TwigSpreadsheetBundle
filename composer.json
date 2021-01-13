@@ -12,7 +12,7 @@
         },
         {
             "name": "Community Contributors",
-            "homepage": "https://github.com/erelke/TwigSpreadsheetBundle/graphs/contributors"
+            "homepage": "https://github.com/Gerben321/TwigSpreadsheetBundle/graphs/contributors"
         }
     ],
     "require": {
